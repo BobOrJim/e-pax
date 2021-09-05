@@ -17,5 +17,13 @@ namespace API1.Controllers
             return "secret message from api1";
         }
 
+        [Route("/policy")]
+        [Authorize(Policy = "EmployeeOnly")]
+        //[Authorize(AuthenticationSchemes = "")]
+        public string Test1()
+        {
+            //var claims = User.Claims.ToList();
+            return "secret policy message from api1";
+        }
     }
 }

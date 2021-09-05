@@ -18,9 +18,16 @@ namespace API1
                 .AddJwtBearer("Bearer", config =>
                 {
                     config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
-                    config.Audience = "api1"; //apiOne identifierar sig själv när vi validering av token.
+                    config.Audience = "api1"; //apiOne identifierar sig själv när denna önskar validera token.
                 });
-            
+
+            services.AddAuthorization(options =>
+            {
+                //options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("big.api.cookie"));
+                //options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("apelsin"));
+                options.AddPolicy("EmployeeOnly", builder => builder.RequireClaim("claimname", "claimvalue"));
+            });
+
             services.AddControllers(); //Inga views här, bara controller.
         }
 

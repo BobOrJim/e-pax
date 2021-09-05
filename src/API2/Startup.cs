@@ -21,6 +21,8 @@ namespace API2
                     config.Audience = "api2"; //API2 identifierar sig själv när vi validering av token.
                 });
 
+
+
             services.AddHttpClient();
 
             services.AddControllers(); //Inga views här, bara controller.

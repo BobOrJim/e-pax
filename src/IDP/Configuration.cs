@@ -35,9 +35,9 @@ namespace IDP
             };
 
         public static IEnumerable<ApiResource> GetApis() =>
-            //Här mappar vi till AccessToken.
+            //Här anges tillåtna claims i AccessToken.
             new List<ApiResource>{
-                new ApiResource("api1", new string[]{ "rc.api.garndma" }), //Note, denna claim kan användas av både api1 o api2, dvs den är inte unik för api1
+                new ApiResource("api1", new string[]{ "rc.api.garndma", "claimname" }), //Note, denna claim kan användas av både api1 o api2, dvs den är inte unik för api1
                 new ApiResource("api2"),
             };
 

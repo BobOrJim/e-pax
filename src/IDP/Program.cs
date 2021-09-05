@@ -25,16 +25,29 @@ namespace IDP
                 var user = new IdentityUser("bob");
                 userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
 
-                //Denna är adderad till identity token
-                userManager.AddClaimAsync(user,
-                    new Claim("rc.garndma", "big.cookie"))
-                    .GetAwaiter().GetResult();
 
-                //Denna vill vi lägga till accessToken, för då kan vi senare konvertera en claim till en policy. och en policy kan vi dekorera endpoints med.
-                userManager.AddClaimAsync(user,
-                    new Claim("rc.api.garndma", "big.api.cookie"))
-                    .GetAwaiter().GetResult();
 
+                userManager.AddClaimAsync(user, new Claim("rc.garndma", "big.cookie")).GetAwaiter().GetResult();
+
+                userManager.AddClaimAsync(user, new Claim("rc.api.garndma", "big.api.cookie")).GetAwaiter().GetResult();
+                userManager.AddClaimAsync(user, new Claim("claimname", "claimvalue")).GetAwaiter().GetResult();
+                
+                
+                //userManager.AddClaimAsync(user, new Claim("asdf", "qwerty")).GetAwaiter().GetResult();
+
+
+                ////Denna är adderad till identity token
+                //userManager.AddClaimAsync(user,
+                //    new Claim("rc.garndma", "big.cookie"))
+                //    .GetAwaiter().GetResult();
+
+                ////Denna vill vi lägga till accessToken, för då kan vi senare konvertera en claim till en policy. och en policy kan vi dekorera endpoints med.
+                //userManager.AddClaimAsync(user,
+                //    new Claim("rc.api.garndma", "big.api.cookie"))
+                //    .GetAwaiter().GetResult();
+
+                //userManager.AddClaimAsync(user,
+                //    new Claim("Claim", "apelsin")).GetAwaiter().GetResult();
 
 
             }

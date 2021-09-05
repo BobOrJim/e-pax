@@ -41,12 +41,15 @@ namespace API2.Controllers
             CallAPI1Client.SetBearerToken(TokenResponse.AccessToken);
             var SecretResponse = await CallAPI1Client.GetAsync("https://localhost:44383/secret");
             var SecretMessage = await SecretResponse.Content.ReadAsStringAsync();
-
+            //Feltänk av mig nedan, en client har inte olika rättigheter, bara users, duh.
+            //var SecretResponse2 = await CallAPI1Client.GetAsync("https://localhost:44383/policy");
+            //var SecretMessage2 = await SecretResponse2.Content.ReadAsStringAsync();
 
             return Ok(new
             {
                 access_token = TokenResponse.AccessToken, //Endast för att still anyfikenhet
                 secret_message = SecretMessage,
+                //secret_messagePolicy = SecretMessage2,
             });
         }
 

@@ -35,23 +35,36 @@ namespace MVC_client.Controllers
 
             var claims = User.Claims.ToList();
             var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
+            var cookieClaimsIsh = _accessToken.Claims;
             var _idToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
 
-            var result = await GetSecretFromApi2(accessToken);
+            var result = await GetSecretFromApi1(accessToken);
+            var result2 = await GetSecretFromURLWithAccessToken("https://localhost:44383/policy", accessToken);
 
             return View();
         }
 
-        //mvc_client, access the api2 resorce
-        public async Task<string> GetSecretFromApi2(string accessToken)
+        public async Task<string> GetSecretFromURLWithAccessToken(string url, string accessToken)
+        {
+            var httpClient = _httpClientFactory.CreateClient();
+            httpClient.SetBearerToken(accessToken);
+            var SecretResponse = await httpClient.GetAsync(url);
+            return await SecretResponse.Content.ReadAsStringAsync();
+        }
+
+        //mvc_client, access the api1 resorce
+        public async Task<string> GetSecretFromApi1(string accessToken)
         {
             //Use token, and get secret data from API1. Dvs vi bygger en http request, med en attatchad bearer token.
-            var CallAPI2Client = _httpClientFactory.CreateClient();
-            CallAPI2Client.SetBearerToken(accessToken);
-            var SecretResponse = await CallAPI2Client.GetAsync("https://localhost:44383/secret");
+            var CallAPIClient = _httpClientFactory.CreateClient();
+            CallAPIClient.SetBearerToken(accessToken);
+            var SecretResponse = await CallAPIClient.GetAsync("https://localhost:44383/secret");
             var SecretMessage = await SecretResponse.Content.ReadAsStringAsync();
             return SecretMessage;
         }
+
+
+
 
 
     }

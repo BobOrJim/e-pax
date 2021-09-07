@@ -34,6 +34,7 @@ namespace MVC_client
                     config.ClaimActions.DeleteClaim("amr");
                     config.ClaimActions.DeleteClaim("s_hash");
                     config.ClaimActions.MapUniqueJsonKey("RawCoding.Grandma", "rc.garndma");
+                    config.ClaimActions.MapJsonKey("role", "role");
 
                     // two trips to load claims in to the cookie
                     // but the id token is smaller !

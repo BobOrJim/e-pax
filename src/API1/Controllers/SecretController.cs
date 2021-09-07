@@ -25,5 +25,14 @@ namespace API1.Controllers
             //var claims = User.Claims.ToList();
             return "secret policy message from api1";
         }
+
+        [Route("/rolepolicy")]
+        [Authorize(Roles = "ASDF")]
+        public string Test2()
+        {
+            return "secret rolepolicy message from api1";
+        }
+
+
     }
 }

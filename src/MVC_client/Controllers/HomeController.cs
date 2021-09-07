@@ -40,6 +40,8 @@ namespace MVC_client.Controllers
 
             var result = await GetSecretFromApi1(accessToken);
             var result2 = await GetSecretFromURLWithAccessToken("https://localhost:44383/policy", accessToken);
+            var result3 = await GetSecretFromURLWithAccessToken("https://localhost:44383/rolepolicy", accessToken);
+
 
             return View();
         }

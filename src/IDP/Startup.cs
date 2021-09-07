@@ -23,6 +23,7 @@ namespace IDP
             {
                 config.UseInMemoryDatabase("Memory");
             });
+
             services.AddIdentity<IdentityUser, IdentityRole>(config =>
             {
                 config.Password.RequiredLength = 4;
@@ -33,6 +34,8 @@ namespace IDP
             })
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+            
+            //Cookie settings
             services.ConfigureApplicationCookie(config =>
             {
                 config.Cookie.Name = "IDP.Cookie";

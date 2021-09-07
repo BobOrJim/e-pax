@@ -18,21 +18,39 @@ namespace IDP
         {
             //Syftet med denna uppdeling är att få access till DI services, använda dem, och sedan starta host.
             var host = CreateHostBuilder(args).Build();
-                
+
+            //NOTE: Claims and/or Roles can be used with Core-Identity becouse is4 can work with both.
+            //As a personal preference ive decided to use only roles.
             using (var scope = host.Services.CreateScope())
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var user = new IdentityUser("bob");
                 userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
 
-
-
                 userManager.AddClaimAsync(user, new Claim("rc.garndma", "big.cookie")).GetAwaiter().GetResult();
-
                 userManager.AddClaimAsync(user, new Claim("rc.api.garndma", "big.api.cookie")).GetAwaiter().GetResult();
                 userManager.AddClaimAsync(user, new Claim("claimname", "claimvalue")).GetAwaiter().GetResult();
-                
-                
+
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                //var result = await roleManager.CreateAsync(new IdentityRole("Somevalue"));
+
+                IdentityRole role = new IdentityRole("ASDF");
+                roleManager.CreateAsync(role).GetAwaiter().GetResult();
+                userManager.AddToRoleAsync(user, "ASDF").GetAwaiter().GetResult();
+
+                IdentityRole role2 = new IdentityRole("ASDF2");
+                roleManager.CreateAsync(role2).GetAwaiter().GetResult();
+                userManager.AddToRoleAsync(user, "ASDF2").GetAwaiter().GetResult();
+
+                // add the extra role
+                //principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, SomeRole));
+
+                //                modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole { Id = "1", Name = "User", NormalizedName = "USER" });
+
+
+
+
                 //userManager.AddClaimAsync(user, new Claim("asdf", "qwerty")).GetAwaiter().GetResult();
 
 

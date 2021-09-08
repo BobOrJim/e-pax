@@ -1,0 +1,97 @@
+﻿@model IDP.ViewModels.Roles.RolesViewModel
+
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h1>Roles management page</h1>
+<h2>Message: @Model.Message</h2>
+
+
+<form asp-controller="Roles" asp-action="SearchFilter" method="post">
+    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfRoles))" />
+    <input asp-for="SearchPhrase" />
+    <button type="submit">Search</button>
+</form>
+
+<br>
+<br>
+
+<!-- The form that remove buttons will use -->
+<form id="remove" asp-controller="Roles" asp-action="RemoveRole" method="post"></form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">
+                <form asp-controller="People" asp-action="Sort" method="post">
+                    <input type="submit" class="form-control btn btn-primary mb-2" name="PLACEHOLDER" value="Name" />
+                </form>
+            </th>
+            <th scope="col">Role name</th>
+            <th scope="col">PLACEHOLDER</th>
+            <th scope="col">PLACEHOLDER</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.ListOfRoles.Count; i++)
+        {
+            <tr>
+                <th scope="row">@i</th>
+                <td>@Model.ListOfRoles[i].Name</td>
+                <td>
+                    <span class="table-remove">
+                        <button type="submit"
+                                name="Id"
+                                value="@Model.ListOfRoles[i].Id"
+                                form="remove"
+                                @*asp-page-handler="Remove"*@
+                                class="form-control btn btn-danger mb-2">
+                            Remove
+                        </button>
+                    </span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br>
+<br>
+
+<form asp-controller="Roles" asp-action="AddRole" method="post">
+    <input type="hidden" asp-for="ListOfRoles" />
+    <div>
+
+        <label>New role name:</label>
+        <input asp-for="NewRoleName" />
+        <span asp-validation-for="NewRoleName"></span>
+    </div>
+    <div>
+        <button type="submit">Add role</button>
+    </div>
+</form>
+
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+
+
+
+
+@*<form asp-controller="People" asp-action="AddPerson" method="post">
+        <input asp-for="NewPersonName" />
+        <input asp-for="NewPersonPhoneNumber" />
+        <input asp-for="NewPersonCity" /> <br>
+        <button type="submit">Add person</button>
+    </form>*@
+
+
+
+

@@ -8,7 +8,7 @@ using IdentityModel;
 
 namespace IDP
 {
-    public static class Configuration
+    public static class MyConfiguration
     {
         public static IEnumerable<IdentityResource> GetIdentityResources() =>
             //Här mappar vi till IdentityToken, med ApiResorce nedan mappar vi till accessToken.

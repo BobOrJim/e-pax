@@ -1,3 +1,4 @@
+using IDP.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -23,30 +24,27 @@ namespace IDP
             //As a personal preference ive decided to use only roles.
             using (var scope = host.Services.CreateScope())
             {
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-                var user = new IdentityUser("bob");
-                userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
+                //var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                //var user = new ApplicationUser { UserName = "bob", NormalizedEmail = "bob", EmailConfirmed = true };
+                ////var user = new ApplicationUser("bob");
+                //userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
 
-                userManager.AddClaimAsync(user, new Claim("rc.garndma", "big.cookie")).GetAwaiter().GetResult();
-                userManager.AddClaimAsync(user, new Claim("rc.api.garndma", "big.api.cookie")).GetAwaiter().GetResult();
-                userManager.AddClaimAsync(user, new Claim("claimname", "claimvalue")).GetAwaiter().GetResult();
+                //userManager.AddClaimAsync(user, new Claim("rc.garndma", "big.cookie")).GetAwaiter().GetResult();
+                //userManager.AddClaimAsync(user, new Claim("rc.api.garndma", "big.api.cookie")).GetAwaiter().GetResult();
+                //userManager.AddClaimAsync(user, new Claim("claimname", "claimvalue")).GetAwaiter().GetResult();
 
-                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                //var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
-                //var result = await roleManager.CreateAsync(new IdentityRole("Somevalue"));
 
-                IdentityRole role = new IdentityRole("ASDF");
-                roleManager.CreateAsync(role).GetAwaiter().GetResult();
-                userManager.AddToRoleAsync(user, "ASDF").GetAwaiter().GetResult();
+                //Seeding some more stuff
+                //ApplicationRole role = new ApplicationRole { Id = "20", Name = "ASDF", NormalizedName = "ASDF", ConcurrencyStamp = "cf1ac99a-9b57-44d7-9e0f-a33f3bf61a47"};
+                //roleManager.CreateAsync(role).GetAwaiter().GetResult();
+                //userManager.AddToRoleAsync(user, "ASDF").GetAwaiter().GetResult();
 
-                IdentityRole role2 = new IdentityRole("ASDF2");
-                roleManager.CreateAsync(role2).GetAwaiter().GetResult();
-                userManager.AddToRoleAsync(user, "ASDF2").GetAwaiter().GetResult();
+                //ApplicationRole role2 = new ApplicationRole { Id = "21", Name = "ASDF2", NormalizedName = "ASDF2" };
+                //roleManager.CreateAsync(role2).GetAwaiter().GetResult();
+                //userManager.AddToRoleAsync(user, "ASDF2").GetAwaiter().GetResult();
 
-                // add the extra role
-                //principal.Identities.First().AddClaim(new Claim(ClaimTypes.Role, SomeRole));
-
-                //                modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole { Id = "1", Name = "User", NormalizedName = "USER" });
 
 
 

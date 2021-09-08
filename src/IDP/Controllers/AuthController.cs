@@ -1,18 +1,20 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using IDP.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IDP.ViewModels.Auth;
 
 namespace IDP.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -54,7 +56,7 @@ namespace IDP.Controllers
                 return View(vm);
             }
 
-            var user = new IdentityUser(vm.Username);
+            var user = new ApplicationUser { UserName = vm.Username, NormalizedEmail = vm.Username, EmailConfirmed = true };
             var result = await _userManager.CreateAsync(user, vm.Password);
 
             if (result.Succeeded)

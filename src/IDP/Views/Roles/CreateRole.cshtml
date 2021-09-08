@@ -1,0 +1,22 @@
+﻿@model RolesViewModel
+
+<form asp-controller="Roles" asp-action="CreateRole" method="post">
+
+    <div>
+        <label>New role name:</label>
+        <input asp-for="NewRoleName" />
+        <span asp-validation-for="NewRoleName"></span>
+    </div>
+
+    <div>
+        <button type="submit">Add role</button>
+    </div>
+</form>
+
+
+<!--
+<div>
+    <a asp-controller="Auth" asp-action="Login"
+       asp-route-returnUrl="ATModel.ReturnUrl">Back to Login</a>
+</div>
+    -->

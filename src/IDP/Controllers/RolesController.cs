@@ -7,39 +7,34 @@ using System.Linq;
 using System.Threading.Tasks;
 using IDP.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using IDP.ViewModels.Roles;
 using IDP.Model;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace IDP.Controllers
 {
     public class RolesController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private Int64 ThisObjectCreatedTimeStamp;
 
-        public RolesController(SignInManager<ApplicationUser> signInManager, 
-            UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        public RolesController(RoleManager<ApplicationRole> roleManager)
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
             _roleManager = roleManager;
             ThisObjectCreatedTimeStamp = DateTime.Now.Ticks;
         }
 
         [HttpGet]
-        public async Task<IActionResult> RolesAsync()
+        public async Task<IActionResult> Roles()
         {
             RolesViewModel rolesViewModel = await RolesViewModelFactoryWithRolesLoaded();
-            rolesViewModel.Message = "Hello from Roles-endpoint in RolesController" + "Object created = " + ThisObjectCreatedTimeStamp.ToString();
             return View("Roles", rolesViewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddRole(RolesViewModel rolesViewModel)
         {
+            rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
             string guid = Guid.NewGuid().ToString();
             ApplicationRole applicationRole = new ApplicationRole
             {
@@ -48,15 +43,13 @@ namespace IDP.Controllers
                 NormalizedName = rolesViewModel.NewRoleName
             };
             var result = await _roleManager.CreateAsync(applicationRole);
-            rolesViewModel = await RolesViewModelFactoryWithRolesLoaded();
+            rolesViewModel.ListOfRoles.Add(new RoleModel { Id = applicationRole.Id, Name = applicationRole.Name });
             if (result.Succeeded) 
             {
-                rolesViewModel.Message = "await _roleManager.CreateAsync(applicationRole)  =>  SUCCESS" + "Object created = " + ThisObjectCreatedTimeStamp.ToString();
                 return View("Roles", rolesViewModel);
             }
             else
             {
-                rolesViewModel.Message = "await _roleManager.CreateAsync(applicationRole)  =>  FAIL" + "Object created = " + ThisObjectCreatedTimeStamp.ToString();
                 return View("Roles", rolesViewModel);
             }
         }
@@ -64,40 +57,35 @@ namespace IDP.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveRole(RolesViewModel rolesViewModel, string Id)
         {
-            var role = _roleManager.FindByIdAsync(Id).GetAwaiter().GetResult();
-            bool exists = await _roleManager.RoleExistsAsync(role.Name);
+            rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
+            ApplicationRole applicationRoleToRemove = _roleManager.FindByIdAsync(Id).GetAwaiter().GetResult();
+            RoleModel roleModelToRemove = rolesViewModel.ListOfRoles.Find(o => o.Id == Id);
+            bool exists = await _roleManager.RoleExistsAsync(applicationRoleToRemove.Name);
             if (exists)
             {
-                _roleManager.DeleteAsync(role).GetAwaiter().GetResult();
+                _roleManager.DeleteAsync(applicationRoleToRemove).GetAwaiter().GetResult();
+                rolesViewModel.ListOfRoles.Remove(roleModelToRemove);
             }
-            rolesViewModel = await RolesViewModelFactoryWithRolesLoaded();
             rolesViewModel.Message = "Hello from RemoveRole-endpoint in RolesController" + "Object created = " + ThisObjectCreatedTimeStamp.ToString();
             return View("Roles", rolesViewModel);
         }
 
         [HttpPost]
-        public IActionResult Sort(PeopleViewModel peopleViewModel)
+        public async Task<IActionResult> Sort(RolesViewModel rolesViewModel)
         {
-            Debug.WriteLine($" Du tryckte på Sort knappen, på People sidan ");
-
-            //Öppnar. Skriver. Sparar.
-            peopleViewModel = JsonConvert.DeserializeObject<PeopleViewModel>(HttpContext.Session.GetString(peopleViewModelKey));
-            peopleViewModel.SortAlphabetically = !peopleViewModel.SortAlphabetically;
-            if (peopleViewModel.SortAlphabetically)
+            rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
+            rolesViewModel.SortAlphabetically = !rolesViewModel.SortAlphabetically;
+            if (rolesViewModel.SortAlphabetically)
             {
-                peopleViewModel.ListOfPeople = peopleViewModel.ListOfPeople.OrderBy(o => o.Name).ToList();
+                rolesViewModel.ListOfRoles = rolesViewModel.ListOfRoles.OrderBy(o => o.Name).ToList();
             }
             else
             {
-                peopleViewModel.ListOfPeople = peopleViewModel.ListOfPeople.OrderByDescending(o => o.Name).ToList();
+                rolesViewModel.ListOfRoles = rolesViewModel.ListOfRoles.OrderByDescending(o => o.Name).ToList();
             }
-            HttpContext.Session.SetString(peopleViewModelKey, JsonConvert.SerializeObject(peopleViewModel));
-
-            //Debug.WriteLine($"peopleViewModel.SortAlphabetically= {peopleViewModel.SortAlphabetically}");
-            //Debug.WriteLine($"peopleViewModel.ListOfPeople.Count= {peopleViewModel.ListOfPeople.Count}");
-            return View("People", peopleViewModel);
+            await Task.FromResult(0);
+            return View("Roles", rolesViewModel);
         }
-
 
         [HttpPost]
         public IActionResult SearchFilter(RolesViewModel rolesViewModel)
@@ -110,26 +98,21 @@ namespace IDP.Controllers
                 return View("Roles", rolesViewModel);
             }
             rolesViewModel.ListOfRoles = rolesViewModel.ListOfRoles.Where(x => x.Name.Contains(searchPhrase)).ToList();
-            rolesViewModel.Message = "Hello from SearchFilter-endpoint in RolesController" + "Object created = " + ThisObjectCreatedTimeStamp.ToString();
             return View("Roles", rolesViewModel);
         }
 
         public async Task<RolesViewModel> RolesViewModelFactoryWithRolesLoaded() //Good or bad or ugly?
         {
-            //Populate the list
             var rolesViewModel = new RolesViewModel();
-            //IQueryable<ApplicationRole> roles;
-
             var rolesList = _roleManager.Roles;
-            
-            //var rolesList = roles.ToList();
-            foreach (var item in rolesList) //CodeSmell använd automapper.
+            foreach (var item in rolesList) //CodeSmell use automapper.
             {
                 RoleModel roleModel = new RoleModel();
                 roleModel.Id = item.Id;
                 roleModel.Name = item.Name;
                 rolesViewModel.ListOfRoles.Add(roleModel);
             }
+            await Task.FromResult(0);
             return rolesViewModel;
         }
     }

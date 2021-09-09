@@ -1,15 +1,15 @@
-﻿@model IDP.ViewModels.RolesViewModel
+﻿@model IDP.ViewModels.UsersViewModel
 
 @{
-    ViewData["Title"] = "Roles";
+    ViewData["Title"] = "Users";
 }
 
-<h1>Roles management page</h1>
+<h1>Users management page</h1>
 <h2>@Model.Message</h2>
 
 
-<form asp-controller="Roles" asp-action="SearchFilter" method="post">
-    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfRoles))" />
+<form asp-controller="Users" asp-action="SearchFilter" method="post">
+    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfUsers))" />
     <input asp-for="SearchPhrase" />
     <button type="submit">Search</button>
 </form>
@@ -18,8 +18,8 @@
 <br>
 
 <!-- The form that remove buttons will use -->
-<form id="remove" asp-controller="Roles" asp-action="RemoveRole" method="post">
-    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfRoles))" />
+<form id="remove" asp-controller="Users" asp-action="RemoveRole" method="post">
+    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfUsers))" />
 </form>
 
 <table class="table table-bordered">
@@ -27,8 +27,8 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">
-                <form asp-controller="Roles" asp-action="Sort" method="post">
-                    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfRoles))" />
+                <form asp-controller="Users" asp-action="Sort" method="post">
+                    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfUsers))" />
                     <input type="hidden" asp-for="SortAlphabetically" value="@Model.SortAlphabetically" checked />
                     <button type="submit">Role name</button>
                 </form>
@@ -36,16 +36,16 @@
         </tr>
     </thead>
     <tbody>
-        @for (int i = 0; i < Model.ListOfRoles.Count; i++)
+        @for (int i = 0; i < Model.ListOfUsers.Count; i++)
         {
             <tr>
                 <th scope="row">@i</th>
-                <td>@Model.ListOfRoles[i].Name</td>
+                <td>@Model.ListOfUsers[i].Name</td>
                 <td>
                     <span class="table-remove">
                         <button type="submit"
                                 name="Id"
-                                value="@Model.ListOfRoles[i].Id"
+                                value="@Model.ListOfUsers[i].Id"
                                 form="remove"
                                 @*asp-page-handler="Remove"*@
                                 class="form-control btn btn-danger mb-2">
@@ -62,11 +62,11 @@
 <br>
 
 <form asp-controller="Roles" asp-action="AddRole" method="post">
-    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfRoles))" />
+    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfUsers))" />
     <div>
         <label>Create role:</label>
-        <input asp-for="NewRoleName" />
-        <span asp-validation-for="NewRoleName"></span>
+        <input asp-for="NewUserName" />
+        <span asp-validation-for="NewUserName"></span>
         <button type="submit">Add role</button>
     </div>
 </form>

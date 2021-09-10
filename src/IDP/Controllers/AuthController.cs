@@ -23,7 +23,7 @@ namespace IDP.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl)
         {
-            return View("Login", new LoginViewModel { ReturnUrl = returnUrl});
+            return View("Login", new LoginViewModel { ReturnUrl = returnUrl ?? "https://localhost:44327/" });
         }
 
         //[IgnoreAntiforgeryToken], per default används antiForgeryToken
@@ -36,7 +36,7 @@ namespace IDP.Controllers
 
             if (result.Succeeded)
             {
-                return Redirect(vm.ReturnUrl);
+                return Redirect(vm.ReturnUrl ?? "https://localhost:44327/");
             }
             return View();
         }
@@ -44,7 +44,7 @@ namespace IDP.Controllers
         [HttpGet]
         public IActionResult Register(string returnUrl)
         {
-            return View("Register", new RegisterViewModel { ReturnUrl = returnUrl });
+            return View("Register", new RegisterViewModel { ReturnUrl = returnUrl ?? "https://localhost:44327/" });
         }
 
         [HttpPost]
@@ -62,7 +62,7 @@ namespace IDP.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-                return Redirect(vm.ReturnUrl);
+                return Redirect(vm.ReturnUrl ?? "https://localhost:44327/");
             }
 
             return View();

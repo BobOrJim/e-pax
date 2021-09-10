@@ -39,8 +39,8 @@ namespace IDP.Controllers
             ApplicationRole applicationRole = new ApplicationRole
             {
                 Id = guid,
-                Name = rolesViewModel.NewRoleName,
-                NormalizedName = rolesViewModel.NewRoleName
+                Name = rolesViewModel.NewRoleName.Normalize(),
+                NormalizedName = rolesViewModel.NewRoleName.Normalize(),
             };
             var result = await _roleManager.CreateAsync(applicationRole);
             rolesViewModel.ListOfRoles.Add(new RoleModel { Id = applicationRole.Id, Name = applicationRole.Name });
@@ -60,13 +60,14 @@ namespace IDP.Controllers
             rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
             ApplicationRole applicationRoleToRemove = _roleManager.FindByIdAsync(Id).GetAwaiter().GetResult();
             RoleModel roleModelToRemove = rolesViewModel.ListOfRoles.Find(o => o.Id == Id);
-            bool exists = await _roleManager.RoleExistsAsync(applicationRoleToRemove.Name);
-            if (exists)
+
+            if (_roleManager.RoleExistsAsync(applicationRoleToRemove.Name).GetAwaiter().GetResult())
             {
                 _roleManager.DeleteAsync(applicationRoleToRemove).GetAwaiter().GetResult();
                 rolesViewModel.ListOfRoles.Remove(roleModelToRemove);
             }
             rolesViewModel.Message = "Hello from RemoveRole-endpoint in RolesController" + "Object created = " + ThisObjectCreatedTimeStamp.ToString();
+            await Task.FromResult(0);
             return View("Roles", rolesViewModel);
         }
 
@@ -88,7 +89,7 @@ namespace IDP.Controllers
         }
 
         [HttpPost]
-        public IActionResult SearchFilter(RolesViewModel rolesViewModel)
+        public async Task<IActionResult> SearchFilter(RolesViewModel rolesViewModel)
         {
             string searchPhrase = rolesViewModel.SearchPhrase;
             //rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
@@ -98,6 +99,7 @@ namespace IDP.Controllers
                 return View("Roles", rolesViewModel);
             }
             rolesViewModel.ListOfRoles = rolesViewModel.ListOfRoles.Where(x => x.Name.Contains(searchPhrase)).ToList();
+            await Task.FromResult(0);
             return View("Roles", rolesViewModel);
         }
 

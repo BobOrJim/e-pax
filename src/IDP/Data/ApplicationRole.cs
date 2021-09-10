@@ -9,9 +9,7 @@ namespace IDP.Data
     // Extending IdentityRole
     public class ApplicationRole : IdentityRole
     {
-        //public ApplicationRole(string roleName) : base(roleName)
-        //{
-        //}
+        //Im free to add props here
     }
 }
 

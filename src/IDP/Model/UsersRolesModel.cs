@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace IDP.Model
 {
-    public class RoleModel
+    public class UsersRolesModel
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public string RoleName { get; set; }
+        public bool UserHasThisRole { get; set; }
     }
 }
+
+

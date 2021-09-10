@@ -1,0 +1,29 @@
+﻿@model IDP.ViewModels.DetailedUserViewModel
+
+@{
+    ViewData["Title"] = "DetailedUser";
+}
+
+<h1>Detailed user management page</h1>
+<h2>@Model.Message</h2>
+<h2>User: @Model.UserName</h2>
+
+
+
+<form asp-controller="DetailedUser" asp-action="WriteRolesToUser" method="post">
+    @for (int i = 0; i < Model.UsersRoles.Count; i++)
+    {
+        @Html.HiddenFor(m => m.UsersRoles[i].RoleName)
+        @Html.CheckBoxFor(m => m.UsersRoles[i].UserHasThisRole)
+        @Html.DisplayFor(m => m.UsersRoles[i].RoleName)
+        <br>
+    }
+    <input type="hidden" asp-for="UserName" value="@Model.UserName" />
+    <button type="submit">Save Changes</button>
+</form>
+
+
+
+
+
+

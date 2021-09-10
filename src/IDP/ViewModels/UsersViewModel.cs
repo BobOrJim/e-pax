@@ -9,6 +9,8 @@ namespace IDP.ViewModels
         public string jsonSerializeStringPlaceholder1 { get; set; }
         public string jsonSerializeStringPlaceholder2 { get; set; }
         public string NewUserName { get; set; }
+        public string NewPassword { get; set; }
+
         public string SearchPhrase { get; set; }
         public bool SortAlphabetically { get; set; }
         public List<UserModel> ListOfUsers { get; set; } = new List<UserModel>();

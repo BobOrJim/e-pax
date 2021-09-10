@@ -9,9 +9,7 @@ namespace IDP.Data
     // Extending IdentityUser
     public class ApplicationUser : IdentityUser
     {
-        //public ApplicationUser(string userName) : base(userName)
-        //{
-        //}
+        //Im free to add props here
     }
 }
 

@@ -32,7 +32,5 @@ namespace API1.Controllers
         {
             return "secret rolepolicy message from api1";
         }
-
-
     }
 }

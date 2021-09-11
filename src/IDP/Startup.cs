@@ -81,6 +81,8 @@ namespace IDP
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles(); //To Use bootstrap etc.
+
             app.UseRouting();
 
             app.UseIdentityServer(); //IdentityServer4 Nuget

@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+</head>
+<body>
+    <header>
+        <ul>
+            <li>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Index</a>
+            </li>
+            <li>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Roles">Roles</a>
+            </li>
+            <li>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Users">Users</a>
+            </li>
+            <li>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+            </li>
+            <li>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Register">Register</a>
+            </li>
+        </ul>
+    </header>
+
+    <div >
+        <main >
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer >
+        <div >
+            <p>&copy; Jimmy Nordin</p>
+            <p>@DateTime.Now</p>
+        </div>
+    </footer>
+
+</body>
+</html>

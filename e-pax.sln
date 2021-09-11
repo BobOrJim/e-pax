@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDP", "src\IDP\IDP.csproj",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2DE31D98-F176-4D4B-ACFD-632CC29F44C9}"
 	ProjectSection(SolutionItems) = preProject
-		Notes.txt = Notes.txt
+		ZombieCode.txt = ZombieCode.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC_client", "src\MVC_client\MVC_client.csproj", "{E629FD08-33AC-461E-87AC-7071D16255F0}"

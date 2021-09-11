@@ -44,23 +44,17 @@ namespace IDP.Controllers
         [HttpPost]
         public async Task<IActionResult> WriteRolesToUser(DetailedUserViewModel detailedUserViewModel)
         {
-            //Clear alla roles for user
+            //Remove all roles from user
             ApplicationUser user = _userManager.FindByNameAsync(detailedUserViewModel.UserName).GetAwaiter().GetResult();
-            List<string> allRoles = _roleManager.Roles.Select(e => e.Name).ToList();
-            var slask = await _userManager.RemoveFromRolesAsync(user, allRoles);
+            List<string> rolesToRemove = _userManager.GetRolesAsync(user).GetAwaiter().GetResult().ToList();
+            await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
 
-            int i = 1;
-
-            //Write list of roles fron selected checkboxes
+            //Write selected checkboxes roles to user. 
             IEnumerable<UsersRolesModel> selectedUserRolesModels = detailedUserViewModel.UsersRoles.Where(u => u.UserHasThisRole == true);
-            List<string> selectedRoles = selectedUserRolesModels.Select(r => r.RoleName).ToList();
+            IEnumerable<string> selectedRoles = selectedUserRolesModels.Select(r => r.RoleName).ToList();
             var result = await _userManager.AddToRolesAsync(user, selectedRoles);
 
-            i = 2;
 
-            var test = _userManager.GetRolesAsync(user);
-
-            i = 2;
 
 
             await Task.FromResult(0);

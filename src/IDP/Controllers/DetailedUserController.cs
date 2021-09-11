@@ -37,7 +37,7 @@ namespace IDP.Controllers
             {
                 detailedUserViewModel.UsersRoles.Add(new UsersRolesModel { RoleName = role, UserHasThisRole = usersRoles.Contains(role) });
             }
-            await Task.FromResult(0);
+            await Task.CompletedTask;
             return View("DetailedUser", detailedUserViewModel);
         }
 
@@ -55,9 +55,7 @@ namespace IDP.Controllers
             var result = await _userManager.AddToRolesAsync(user, selectedRoles);
 
 
-
-
-            await Task.FromResult(0);
+            await Task.CompletedTask;
             return LocalRedirect("/Users/Users");
         }
 

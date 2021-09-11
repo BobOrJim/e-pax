@@ -67,7 +67,7 @@ namespace IDP.Controllers
                 usersViewModel.ListOfUsers.Remove(userModelToRemove);
             }
             usersViewModel.Message = "Hello from RemoveRole-endpoint in RolesController" + "Object created = " + ThisObjectCreatedTimeStamp.ToString();
-            await Task.FromResult(0);
+            await Task.CompletedTask;
             return View("Users", usersViewModel);
         }
 
@@ -84,7 +84,7 @@ namespace IDP.Controllers
             {
                 usersViewModel.ListOfUsers = usersViewModel.ListOfUsers.OrderByDescending(o => o.Name).ToList();
             }
-            await Task.FromResult(0);
+            await Task.CompletedTask;
             return View("Users", usersViewModel);
         }
 
@@ -99,7 +99,7 @@ namespace IDP.Controllers
                 return View("Users", usersViewModel);
             }
             usersViewModel.ListOfUsers = usersViewModel.ListOfUsers.Where(x => x.Name.Contains(searchPhrase)).ToList();
-            await Task.FromResult(0);
+            await Task.CompletedTask;
             return View("Users", usersViewModel);
         }
 
@@ -114,7 +114,7 @@ namespace IDP.Controllers
                 userModel.Name = item.UserName;
                 usersViewModel.ListOfUsers.Add(userModel);
             }
-            await Task.FromResult(0);
+            await Task.CompletedTask;
             return usersViewModel;
         }
     }

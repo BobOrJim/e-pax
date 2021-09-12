@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IDP.Migrations
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    [Migration("20210907135248_V01")]
-    partial class V01
+    [Migration("20210912103939_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,15 +90,15 @@ namespace IDP.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2d969ac8-9abf-4003-94cd-ee65ecee264d",
+                            ConcurrencyStamp = "79e37e33-008e-4042-86cc-341b96a06af0",
                             Email = "ADMIN@ADMIN.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.com",
                             NormalizedUserName = "ADMIN@ADMIN.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGvUSpCNjQFAOKWrJALW3a+awygDRfNYCweDkZeh7aZI9VfsqCLauOtrM9xVxjA/og==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKOf8Dvh8rF8lRIVesbwNL6Q0dV+Al/3fHHnendUqnBOkZeFDGvkjIx+tgyGykIRHg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2b84eaf3-a300-49f7-9a97-ba575ce9a4f3",
+                            SecurityStamp = "d08b5b70-c7d7-46b4-b0e2-e069c06c3837",
                             TwoFactorEnabled = false,
                             UserName = "ADMIN@ADMIN.com"
                         },
@@ -106,15 +106,15 @@ namespace IDP.Migrations
                         {
                             Id = "2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4db441f1-9ccd-4159-9345-0147b0fd22fd",
+                            ConcurrencyStamp = "8af3f493-7917-4fa9-82a5-3d10cd30740e",
                             Email = "ROOT@ROOT.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ROOT@ROOT.com",
                             NormalizedUserName = "ROOT@ROOT.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKAJDAd7dn/jhGL2Wl511meudvVriRNqaZ7q9DHTvgUHQ+zcJ1R9mNx+Lm/pHUsQSQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKchfWiIuK5p9JDSy8ZVo74cUZH3xFrN5uHQiHB2YHv3tQawN69Kwlz97moSzYgcTw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b24914e9-a705-43b9-b403-4075cb3595f9",
+                            SecurityStamp = "84822ab6-c596-48f8-9685-53a740fc5bbb",
                             TwoFactorEnabled = false,
                             UserName = "ROOT@ROOT.com"
                         },
@@ -122,15 +122,15 @@ namespace IDP.Migrations
                         {
                             Id = "3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "241a33ae-cfe9-4b3c-a7ee-949186df06b4",
+                            ConcurrencyStamp = "b136ce59-9230-448c-a629-15ce9f18a01f",
                             Email = "USER@USER.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@USER.com",
                             NormalizedUserName = "USER@USER.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAENiDd33W6ZVW5j6R7b6S6WY0EfPu+iYX/XeQYATNgKCa3ZbvEC4/erR4r5zeHmkQnw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBOoLXa2ZWZZ00p0lrTXVT75aypjSR+6FzMGKGE+FFp7383DGC9twknFBXqA5BUnhw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d25969bd-9d63-4d1d-a5fe-e8df9b0d143e",
+                            SecurityStamp = "1efb2462-b104-4108-ac1f-64aebca8d58a",
                             TwoFactorEnabled = false,
                             UserName = "USER@USER.com"
                         });
@@ -310,42 +310,42 @@ namespace IDP.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "cf1ac99a-9b57-44d7-9e0f-a33f3bf61a46",
+                            ConcurrencyStamp = "ca3c764b-0af5-4b05-b837-2c663b2eb0e5",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "af93e1f4-8fc6-4706-b32f-c773fd08ecff",
+                            ConcurrencyStamp = "90b99979-d82d-4fcc-9881-decf1924037e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "034b5c16-b1e9-4dd2-b2c2-18f92c406c6f",
+                            ConcurrencyStamp = "11563f68-4920-4983-a134-a788277c8f10",
                             Name = "Root",
                             NormalizedName = "ROOT"
                         },
                         new
                         {
                             Id = "4",
-                            ConcurrencyStamp = "3a4a0052-109f-449c-afd9-184b727fe8aa",
+                            ConcurrencyStamp = "afdd5255-d8b0-4fd2-9482-f373c5df101d",
                             Name = "Spare1",
                             NormalizedName = "SPARE1"
                         },
                         new
                         {
                             Id = "5",
-                            ConcurrencyStamp = "96cde1e6-9a73-4375-882d-4d2c42159c18",
+                            ConcurrencyStamp = "3932c0ed-0bba-4fcc-abc9-1ef6d5f494cf",
                             Name = "Spare2",
                             NormalizedName = "SPARE2"
                         },
                         new
                         {
                             Id = "6",
-                            ConcurrencyStamp = "670b18cb-db7c-45dc-981a-8db286aa99a7",
+                            ConcurrencyStamp = "67cfb7ec-3e09-4581-9966-ec3f482aa669",
                             Name = "slask",
                             NormalizedName = "slask"
                         });

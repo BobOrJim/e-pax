@@ -66,7 +66,6 @@ namespace IDP.Controllers
                 _roleManager.DeleteAsync(applicationRoleToRemove).GetAwaiter().GetResult();
                 rolesViewModel.ListOfRoles.Remove(roleModelToRemove);
             }
-            rolesViewModel.Message = "Hello from RemoveRole-endpoint in RolesController" + "Object created = " + ThisObjectCreatedTimeStamp.ToString();
             await Task.CompletedTask;
             return View("Roles", rolesViewModel);
         }

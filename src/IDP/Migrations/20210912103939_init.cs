@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IDP.Migrations
 {
-    public partial class V01 : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -158,12 +158,12 @@ namespace IDP.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "cf1ac99a-9b57-44d7-9e0f-a33f3bf61a46", "ApplicationRole", "User", "USER" },
-                    { "2", "af93e1f4-8fc6-4706-b32f-c773fd08ecff", "ApplicationRole", "Admin", "ADMIN" },
-                    { "3", "034b5c16-b1e9-4dd2-b2c2-18f92c406c6f", "ApplicationRole", "Root", "ROOT" },
-                    { "4", "3a4a0052-109f-449c-afd9-184b727fe8aa", "ApplicationRole", "Spare1", "SPARE1" },
-                    { "5", "96cde1e6-9a73-4375-882d-4d2c42159c18", "ApplicationRole", "Spare2", "SPARE2" },
-                    { "6", "670b18cb-db7c-45dc-981a-8db286aa99a7", "ApplicationRole", "slask", "slask" }
+                    { "1", "ca3c764b-0af5-4b05-b837-2c663b2eb0e5", "ApplicationRole", "User", "USER" },
+                    { "2", "90b99979-d82d-4fcc-9881-decf1924037e", "ApplicationRole", "Admin", "ADMIN" },
+                    { "3", "11563f68-4920-4983-a134-a788277c8f10", "ApplicationRole", "Root", "ROOT" },
+                    { "4", "afdd5255-d8b0-4fd2-9482-f373c5df101d", "ApplicationRole", "Spare1", "SPARE1" },
+                    { "5", "3932c0ed-0bba-4fcc-abc9-1ef6d5f494cf", "ApplicationRole", "Spare2", "SPARE2" },
+                    { "6", "67cfb7ec-3e09-4581-9966-ec3f482aa669", "ApplicationRole", "slask", "slask" }
                 });
 
             migrationBuilder.InsertData(
@@ -171,9 +171,9 @@ namespace IDP.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "2d969ac8-9abf-4003-94cd-ee65ecee264d", "ADMIN@ADMIN.com", true, false, null, "ADMIN@ADMIN.com", "ADMIN@ADMIN.com", "AQAAAAEAACcQAAAAEGvUSpCNjQFAOKWrJALW3a+awygDRfNYCweDkZeh7aZI9VfsqCLauOtrM9xVxjA/og==", null, false, "2b84eaf3-a300-49f7-9a97-ba575ce9a4f3", false, "ADMIN@ADMIN.com" },
-                    { "2", 0, "4db441f1-9ccd-4159-9345-0147b0fd22fd", "ROOT@ROOT.com", true, false, null, "ROOT@ROOT.com", "ROOT@ROOT.com", "AQAAAAEAACcQAAAAEKAJDAd7dn/jhGL2Wl511meudvVriRNqaZ7q9DHTvgUHQ+zcJ1R9mNx+Lm/pHUsQSQ==", null, false, "b24914e9-a705-43b9-b403-4075cb3595f9", false, "ROOT@ROOT.com" },
-                    { "3", 0, "241a33ae-cfe9-4b3c-a7ee-949186df06b4", "USER@USER.com", true, false, null, "USER@USER.com", "USER@USER.com", "AQAAAAEAACcQAAAAENiDd33W6ZVW5j6R7b6S6WY0EfPu+iYX/XeQYATNgKCa3ZbvEC4/erR4r5zeHmkQnw==", null, false, "d25969bd-9d63-4d1d-a5fe-e8df9b0d143e", false, "USER@USER.com" }
+                    { "1", 0, "79e37e33-008e-4042-86cc-341b96a06af0", "ADMIN@ADMIN.com", true, false, null, "ADMIN@ADMIN.com", "ADMIN@ADMIN.com", "AQAAAAEAACcQAAAAEKOf8Dvh8rF8lRIVesbwNL6Q0dV+Al/3fHHnendUqnBOkZeFDGvkjIx+tgyGykIRHg==", null, false, "d08b5b70-c7d7-46b4-b0e2-e069c06c3837", false, "ADMIN@ADMIN.com" },
+                    { "2", 0, "8af3f493-7917-4fa9-82a5-3d10cd30740e", "ROOT@ROOT.com", true, false, null, "ROOT@ROOT.com", "ROOT@ROOT.com", "AQAAAAEAACcQAAAAEKchfWiIuK5p9JDSy8ZVo74cUZH3xFrN5uHQiHB2YHv3tQawN69Kwlz97moSzYgcTw==", null, false, "84822ab6-c596-48f8-9685-53a740fc5bbb", false, "ROOT@ROOT.com" },
+                    { "3", 0, "b136ce59-9230-448c-a629-15ce9f18a01f", "USER@USER.com", true, false, null, "USER@USER.com", "USER@USER.com", "AQAAAAEAACcQAAAAEBOoLXa2ZWZZ00p0lrTXVT75aypjSR+6FzMGKGE+FFp7383DGC9twknFBXqA5BUnhw==", null, false, "1efb2462-b104-4108-ac1f-64aebca8d58a", false, "USER@USER.com" }
                 });
 
             migrationBuilder.InsertData(

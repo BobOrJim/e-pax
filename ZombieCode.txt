@@ -1,3 +1,39 @@
+
+<div>
+    <a asp-controller="Auth" asp-action="Register"
+       asp-route-returnUrl="@Model.ReturnUrl">Register</a>
+</div>
+
+
+<form asp-controller="Auth" asp-action="Register" method="post">
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div class="mb-3">
+        <label>Username</label>
+        <input asp-for="Username" />
+        <span asp-validation-for="Username"></span>
+    </div>
+    <div>
+        <label>Password</label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label>Password</label>
+        <input asp-for="ConfirmPassword" />
+        <span asp-validation-for="ConfirmPassword"></span>
+    </div>
+    <div>
+        <button type="submit">Sign Up</button>
+    </div>
+</form>
+<div>
+    <a asp-route-returnUrl="@Model.ReturnUrl"></a>
+</div>
+
+        //        protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+
+
 @using (@Html.BeginForm("WriteRolesToUser", "DetailedUser", FormMethod.Post))
 {
 
@@ -25,4 +61,34 @@
     }
     <button type="submit">Save Changes</button>
 </form>
+
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddUser(UsersViewModel usersViewModel)
+        {
+            usersViewModel.ListOfUsers = JsonConvert.DeserializeObject<List<UserModel>>(usersViewModel.jsonSerializeStringPlaceholder1);
+            string guid = Guid.NewGuid().ToString();
+            ApplicationUser applicationUser = new ApplicationUser
+            {
+                Id = guid,
+                UserName = usersViewModel.NewUserName.Normalize(),
+                NormalizedUserName = usersViewModel.NewUserName.Normalize(),
+            };
+            var result = await _userManager.CreateAsync(applicationUser);
+            usersViewModel.ListOfUsers.Add(new UserModel { Id = applicationUser.Id, Name = applicationUser.UserName });
+            if (result.Succeeded)
+            {
+                return View("Users", usersViewModel);
+            }
+            else
+            {
+                return View("Users", usersViewModel);
+            }
+        }
+
+
+
 

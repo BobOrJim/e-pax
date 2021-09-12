@@ -1,16 +1,20 @@
 ﻿@model IDP.ViewModels.UsersViewModel
 
 @{
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = "";
 }
 
-<h1>Users management page</h1>
 <h2>@Model.Message</h2>
 
+<br>
+<br>
+
 <form asp-controller="Users" asp-action="SearchFilter" method="post">
-    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfUsers))" />
-    <input asp-for="SearchPhrase" />
-    <button type="submit">Search</button>
+    <div class="mb-3">
+        <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfUsers))" />
+        <input class="form-control" asp-for="SearchPhrase" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
 <br>
@@ -30,21 +34,24 @@
             <th scope="col">#</th>
             <th scope="col">
                 <form asp-controller="Users" asp-action="Sort" method="post">
-                    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfUsers))" />
-                    <input type="hidden" asp-for="SortAlphabetically" value="@Model.SortAlphabetically" checked />
-                    <button type="submit">User name</button>
+                    <div class="mb-3">
+                        <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfUsers))" />
+                        <input type="hidden" asp-for="SortAlphabetically" value="@Model.SortAlphabetically" checked />
+                        <button type="submit" class="btn btn-primary">Sort</button>
+                    </div>
                 </form>
             </th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
         @for (int i = 0; i < Model.ListOfUsers.Count; i++)
         {
-        <tr>
-            <th scope="row">@i</th>
-            <td>@Model.ListOfUsers[i].Name</td>
-            <td>
-                <span class="table-remove">
+            <tr>
+                <th scope="row">@i</th>
+                <td>@Model.ListOfUsers[i].Name</td>
+                <td>
                     <button type="submit"
                             name="Id"
                             value="@Model.ListOfUsers[i].Id"
@@ -52,38 +59,20 @@
                             class="form-control btn btn-primary mb-2">
                         Edit
                     </button>
-                </span>
-                <span class="table-remove">
+                </td>
+                <td>
                     <button type="submit"
                             name="Id"
                             value="@Model.ListOfUsers[i].Id"
                             form="remove"
-                            @*asp-page-handler="Remove"*@
                             class="form-control btn btn-danger mb-2">
                         Remove
                     </button>
-                </span>
-            </td>
-        </tr>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
-
-<br>
-<br>
-
-<form asp-controller="Users" asp-action="AddUser" method="post">
-    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfUsers))" />
-    <div>
-        <label>Username:</label>
-        <input asp-for="NewUserName" />
-        <label>Password:</label>
-        <input asp-for="NewPassword" />
-        <span asp-validation-for="NewUserName"></span>
-        <span asp-validation-for="NewPassword"></span>
-        <button type="submit">Create user</button>
-    </div>
-</form>
 
 <br>
 <br>

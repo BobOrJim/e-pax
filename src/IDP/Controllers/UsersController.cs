@@ -32,29 +32,6 @@ namespace IDP.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUser(UsersViewModel usersViewModel)
-        {
-            usersViewModel.ListOfUsers = JsonConvert.DeserializeObject<List<UserModel>>(usersViewModel.jsonSerializeStringPlaceholder1);
-            string guid = Guid.NewGuid().ToString();
-            ApplicationUser applicationUser = new ApplicationUser
-            {
-                Id = guid,
-                UserName = usersViewModel.NewUserName.Normalize(),
-                NormalizedUserName = usersViewModel.NewUserName.Normalize(),
-            };
-            var result = await _userManager.CreateAsync(applicationUser);
-            usersViewModel.ListOfUsers.Add(new UserModel { Id = applicationUser.Id, Name = applicationUser.UserName });
-            if (result.Succeeded)
-            {
-                return View("Users", usersViewModel);
-            }
-            else
-            {
-                return View("Users", usersViewModel);
-            }
-        }
-
-        [HttpPost]
         public async Task<IActionResult> RemoveUser(UsersViewModel usersViewModel, string Id)
         {
             usersViewModel.ListOfUsers = JsonConvert.DeserializeObject<List<UserModel>>(usersViewModel.jsonSerializeStringPlaceholder1);
@@ -66,7 +43,6 @@ namespace IDP.Controllers
                 _userManager.DeleteAsync(applicationUserToRemove).GetAwaiter().GetResult();
                 usersViewModel.ListOfUsers.Remove(userModelToRemove);
             }
-            usersViewModel.Message = "Hello from RemoveRole-endpoint in RolesController" + "Object created = " + ThisObjectCreatedTimeStamp.ToString();
             await Task.CompletedTask;
             return View("Users", usersViewModel);
         }
@@ -107,7 +83,7 @@ namespace IDP.Controllers
         {
             var usersViewModel = new UsersViewModel();
             var usersList = _userManager.Users;
-            foreach (var item in usersList) //CodeSmell use automapper.
+            foreach (var item in usersList) //CodeSmell use automapper, maybe not worth it for only one place
             {
                 UserModel userModel = new UserModel();
                 userModel.Id = item.Id;

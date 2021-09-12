@@ -1,17 +1,20 @@
 ﻿@model IDP.ViewModels.RolesViewModel
 
 @{
-    ViewData["Title"] = "Roles";
+    ViewData["Title"] = "";
 }
 
-<h1>Roles management page</h1>
 <h2>@Model.Message</h2>
 
+<br>
+<br>
 
 <form asp-controller="Roles" asp-action="SearchFilter" method="post">
-    <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfRoles))" />
-    <input asp-for="SearchPhrase" />
-    <button type="submit">Search</button>
+    <div class="mb-3">
+        <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfRoles))" />
+        <input class="form-control" asp-for="SearchPhrase" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
 <br>
@@ -30,9 +33,10 @@
                 <form asp-controller="Roles" asp-action="Sort" method="post">
                     <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfRoles))" />
                     <input type="hidden" asp-for="SortAlphabetically" value="@Model.SortAlphabetically" checked />
-                    <button type="submit">Role name</button>
+                    <button type="submit" class="btn btn-primary">Sort</button>
                 </form>
             </th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -47,7 +51,6 @@
                                 name="Id"
                                 value="@Model.ListOfRoles[i].Id"
                                 form="remove"
-                                @*asp-page-handler="Remove"*@
                                 class="form-control btn btn-danger mb-2">
                             Remove
                         </button>
@@ -63,12 +66,12 @@
 
 <form asp-controller="Roles" asp-action="AddRole" method="post">
     <input type="hidden" asp-for="jsonSerializeStringPlaceholder1" value="@Html.Raw(Json.Serialize(Model.ListOfRoles))" />
-    <div>
-        <label>Create role:</label>
-        <input asp-for="NewRoleName" />
+    <div class="mb-3">
+        <label class="form-label">Create role:</label>
+        <input class="form-control" asp-for="NewRoleName" />
         <span asp-validation-for="NewRoleName"></span>
-        <button type="submit">Add role</button>
     </div>
+    <button type="submit" class="btn btn-primary">Add role</button>
 </form>
 
 <br>

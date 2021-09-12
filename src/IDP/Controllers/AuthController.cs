@@ -30,7 +30,10 @@ namespace IDP.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel vm)
         {
-            //Check if the model is valid. and add anti forgery token.
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
 
             var result = await _signInManager.PasswordSignInAsync(vm.Username, vm.Password, false, false);
 
@@ -38,7 +41,7 @@ namespace IDP.Controllers
             {
                 return Redirect(vm.ReturnUrl ?? "https://localhost:44327/");
             }
-            return View();
+            return View("Login", new LoginViewModel { ReturnUrl = vm.ReturnUrl ?? "https://localhost:44327/" });
         }
 
         [HttpGet]
@@ -50,7 +53,6 @@ namespace IDP.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel vm)
         {
-            //Check if the model is valid. and add anti forgery token.
             if (!ModelState.IsValid)
             {
                 return View(vm);
@@ -62,10 +64,10 @@ namespace IDP.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-                return Redirect(vm.ReturnUrl ?? "https://localhost:44327/");
+                return View("Register", new RegisterViewModel { ReturnUrl = vm.ReturnUrl ?? "https://localhost:44327/" });
             }
 
-            return View();
+            return View("Register", new RegisterViewModel { ReturnUrl = vm.ReturnUrl ?? "https://localhost:44327/" });
         }
     }
 }

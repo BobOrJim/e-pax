@@ -1,8 +1,11 @@
+API1 = 44383
+API2 = 44374
 
 
-When i login to the IDP, i get a cookie with a secret code. then im redirected back to the mvc client where the code is exchanged
+
+When i login to the IDP i get a cookie with a secret code. then im redirected back to the mvc client where the code is exchanged
 for an access cookie. this cookie has traveled on the back channel from the idp to the mvc client.
-I.E if i during dev, manually login to the ipd i will only get the code cookie, and the the process stops here.
+I.E if i during dev, manually login to the ipd i will only get the code cookie and the the process stops.
 
 
 

@@ -17,7 +17,21 @@ namespace API2.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        [Route("/")] //Detta är start url, dvs detta är här för att spara tid vid testning.
+        [Route("/Token")]
+        public IActionResult Token()
+        {
+            //string = InMemoryAccessTokenRepo.TimestampLastAccessTokenUpdate.
+            DateTime dt = new DateTime(InMemoryAccessTokenRepo.TimestampLastAccessTokenUpdate);
+            string TimestampLastAccessTokenUpdate = dt.ToString("yyyy-MM-dd HH:mm:ss");
+            return Ok(new
+            {
+                InMemoryAccessTokenRepo.AccessToken,
+                TimestampLastAccessTokenUpdate,
+            });
+        }
+
+
+        [Route("/callapi1secret")] //Detta är start url, dvs detta är här för att spara tid vid testning.
         public async Task<IActionResult> Index()
         {
             //Retrive Access token
@@ -38,6 +52,7 @@ namespace API2.Controllers
 
             //Use token, and get secret data from API1. Dvs vi bygger en http request, med en attatchad bearer token.
             var CallAPI1Client = _httpClientFactory.CreateClient();
+            InMemoryAccessTokenRepo.SetAccessToken(TokenResponse.AccessToken);
             CallAPI1Client.SetBearerToken(TokenResponse.AccessToken);
             var SecretResponse = await CallAPI1Client.GetAsync("https://localhost:44383/secret");
             var SecretMessage = await SecretResponse.Content.ReadAsStringAsync();
@@ -45,12 +60,7 @@ namespace API2.Controllers
             //var SecretResponse2 = await CallAPI1Client.GetAsync("https://localhost:44383/policy");
             //var SecretMessage2 = await SecretResponse2.Content.ReadAsStringAsync();
 
-            return Ok(new
-            {
-                access_token = TokenResponse.AccessToken, //Endast för att still anyfikenhet
-                secret_message = SecretMessage,
-                //secret_messagePolicy = SecretMessage2,
-            });
+            return Ok(SecretMessage);
         }
 
 

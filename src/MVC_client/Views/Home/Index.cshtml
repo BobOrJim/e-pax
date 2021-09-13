@@ -1,2 +1,110 @@
-﻿<h1> Home page </h1>
+﻿@{ViewData["Title"] = "";}
+
+<br>
+
+<h1> Demo/Tests </h1>
+<h4>This solution has 4 project, below are the endpoints with some tests.</h4>
+<h5>Tests involving postman are marked with *. Postman file can be found in root of this repo. </h5>
+<br>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">Project</th>
+            <th scope="col">Link</th>
+            <th scope="col">Endpoint decorator</th>
+            <th scope="col">Reply without bearer token</th>
+            <th scope="col">Reply with bearer token</th>
+            <th scope="col">Reply with bearer token + login in IDP</th>
+            <th scope="col">Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>API1</th>
+            <td><a href="https://localhost:44383/notsecret" class="link-warning">/notsecret</a></td>
+            <td></td>
+            <td>not secret message from api1</td>
+            <td>not secret message from api1</td>
+            <td>not secret message from api1</td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>API1</th>
+            <td><a href="https://localhost:44383/secret" class="link-warning">/secret</a></td>
+            <td>[Authorize]</td>
+            <td>401 Unauthorized</td>
+            <td>?*</td>
+            <td>?*</td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>API2</th>
+            <td><a href="https://localhost:44374/callapi1secret" class="link-warning">/calltoapi1secret</a></td>
+            <td></td>
+            <td>secret message from api1</td>
+            <td>secret message from api1</td>
+            <td>secret message from api1</td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>API2</th>
+            <td><a href="https://localhost:44374/Token" class="link-warning">/Token</a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Dev endpoint: Show latest API2 accesstoken + timestamp</td>
+        </tr>
+        <tr>
+            <th>IDP</th>
+            <td><a href="https://localhost:44327/Login" class="link-warning">/Auth/Login</a></td>
+            <td></td>
+            <td>Login page rendered</td>
+            <td>?</td>
+            <td>?</td>
+            <td>If we login, we are not redirected back to the MVC_client, and thus we dont exchange the code token for the access token.</td>
+        </tr>
+        <tr>
+            <th>IDP</th>
+            <td><a href="https://localhost:44327/Auth/Register" class="link-warning">/Auth/Register</a></td>
+            <td></td>
+            <td>Register page rendered</td>
+            <td>?</td>
+            <td>?</td>
+            <td>Can register as normal, but without any redirection.</td>
+        </tr>
+        <tr>
+            <th>MVC</th>
+            <td><a href="https://localhost:44345/home/Secret" class="link-primary">/home/Secret</a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>MVC</th>
+            <td><a href="https://localhost:44345/home/token" class="link-warning">/home/Token</a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Dev endpoint: Show latest MVC accesstoken + timestamp</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+07 IDP: https://localhost:44327/Users/Users
+
+08 IDP: https://localhost:44327/DetailedUser/DetailedUser
+
+09 IDP: https://localhost:44327/Roles/Roles
+
+
+ 
 

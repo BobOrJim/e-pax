@@ -13,6 +13,7 @@ using System.Diagnostics;
 
 namespace IDP.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

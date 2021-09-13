@@ -25,11 +25,24 @@ namespace MVC_client.Controllers
             return View();
         }
 
+        public IActionResult Token()
+        {
+            //string = InMemoryAccessTokenRepo.TimestampLastAccessTokenUpdate.
+            DateTime dt = new DateTime(InMemoryAccessTokenRepo.TimestampLastAccessTokenUpdate);
+            string TimestampLastAccessTokenUpdate = dt.ToString("yyyy-MM-dd HH:mm:ss");
+            return Ok(new
+            {
+                InMemoryAccessTokenRepo.AccessToken,
+                TimestampLastAccessTokenUpdate,
+            });
+        }
+
         //[Authorize(Policy="rc.scope")]
         [Authorize]
         public async Task<IActionResult> Secret()
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
+            InMemoryAccessTokenRepo.SetAccessToken(accessToken);
             var idToken = await HttpContext.GetTokenAsync("id_token"); //Används "internt" i is4
             var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
 
@@ -39,8 +52,8 @@ namespace MVC_client.Controllers
             var _idToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
 
             var result = await GetSecretFromApi1(accessToken);
-            var result2 = await GetSecretFromURLWithAccessToken("https://localhost:44383/policy", accessToken);
-            var result3 = await GetSecretFromURLWithAccessToken("https://localhost:44383/rolepolicy", accessToken);
+            //var result2 = await GetSecretFromURLWithAccessToken("https://localhost:44383/policy", accessToken);
+            //var result3 = await GetSecretFromURLWithAccessToken("https://localhost:44383/rolepolicy", accessToken);
 
 
             return View();

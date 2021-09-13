@@ -74,6 +74,8 @@ namespace IDP
                     //put all the claims in the id token
                     //AlwaysIncludeUserClaimsInIdToken = true,
 
+                    //AllowOfflineAccess = true,
+                    AccessTokenLifetime = 1,
                     RequireConsent = false,
                 }
             };

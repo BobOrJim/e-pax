@@ -62,6 +62,8 @@ namespace MVC_client
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles(); //To Use bootstrap etc.
+
             app.UseRouting();
 
             app.UseAuthentication();

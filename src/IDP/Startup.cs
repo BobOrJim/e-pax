@@ -85,6 +85,8 @@ namespace IDP
 
             app.UseRouting();
 
+            app.UseAuthorization(); //jim
+
             app.UseIdentityServer(); //IdentityServer4 Nuget
 
             app.UseEndpoints(endpoints =>

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MVC_client.ViewModels;
+using MVC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +14,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Hosting;
 
-namespace MVC_client.Controllers
+namespace MVC.Controllers
 {
     public class HomeController : Controller
     {
@@ -33,38 +33,49 @@ namespace MVC_client.Controllers
             return View();
         }
 
-        public IActionResult Token()
+        public IActionResult Logout()
+        {
+            return SignOut("mvc_client_cookie", "oidc"); //
+        }
+
+        public async Task<IActionResult> Token()
         {
             if (_environment.IsDevelopment())
             {
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                InMemoryTokenRepo.SetAccessToken(accessToken);
+                var idToken = await HttpContext.GetTokenAsync("id_token"); //Används "internt" i is4
+                InMemoryTokenRepo.SetIdToken(idToken);
+                var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
+                InMemoryTokenRepo.SetRefreshToken(refreshToken);
 
                 TokenViewModel tokenViewModel = new TokenViewModel();
                 tokenViewModel.TimeStampLatestUpdate = new DateTime(InMemoryTokenRepo.TimestampLastAccessTokenUpdate).ToString("yyyy-MM-dd HH:mm:ss");
 
-                var jwtAccessToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.AccessToken);
-                tokenViewModel.AccessTokenHeader = JValue.Parse(jwtAccessToken.Header.SerializeToJson()).ToString(Formatting.Indented);
-                tokenViewModel.AccessTokenPayload = JValue.Parse(jwtAccessToken.Payload.SerializeToJson()).ToString(Formatting.Indented);
-                tokenViewModel.AccessToken_nbf = jwtAccessToken.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss");
-                tokenViewModel.AccessToken_exp = jwtAccessToken.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
-                tokenViewModel.AccessToken_auth_time = jwtAccessToken.IssuedAt.ToString("yyyy-MM-dd HH:mm:ss");
+                if (!string.IsNullOrEmpty(InMemoryTokenRepo.AccessToken))
+                {
+                    var jwtAccessToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.AccessToken);
+                    tokenViewModel.AccessTokenHeader = JValue.Parse(jwtAccessToken.Header.SerializeToJson()).ToString(Formatting.Indented);
+                    tokenViewModel.AccessTokenPayload = JValue.Parse(jwtAccessToken.Payload.SerializeToJson()).ToString(Formatting.Indented);
+                    tokenViewModel.AccessToken_nbf = jwtAccessToken.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss");
+                    tokenViewModel.AccessToken_exp = jwtAccessToken.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
+                    tokenViewModel.AccessToken_auth_time = jwtAccessToken.IssuedAt.ToString("yyyy-MM-dd HH:mm:ss");
+                }
 
-                var jwtIdToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.IdToken);
-                tokenViewModel.IdTokenHeader = JValue.Parse(jwtIdToken.Header.SerializeToJson()).ToString(Formatting.Indented);
-                tokenViewModel.IdTokenPayload = JValue.Parse(jwtIdToken.Payload.SerializeToJson()).ToString(Formatting.Indented);
-                tokenViewModel.IdToken_nbf = jwtIdToken.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss");
-                tokenViewModel.IdToken_exp = jwtIdToken.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
-                tokenViewModel.IdToken_auth_time = jwtIdToken.IssuedAt.ToString("yyyy-MM-dd HH:mm:ss");
+                if (!string.IsNullOrEmpty(InMemoryTokenRepo.IdToken)) 
+                { 
+                    var jwtIdToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.IdToken);
+                    tokenViewModel.IdTokenHeader = JValue.Parse(jwtIdToken.Header.SerializeToJson()).ToString(Formatting.Indented);
+                    tokenViewModel.IdTokenPayload = JValue.Parse(jwtIdToken.Payload.SerializeToJson()).ToString(Formatting.Indented);
+                    tokenViewModel.IdToken_nbf = jwtIdToken.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss");
+                    tokenViewModel.IdToken_exp = jwtIdToken.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
+                    tokenViewModel.IdToken_auth_time = jwtIdToken.IssuedAt.ToString("yyyy-MM-dd HH:mm:ss");
+                }
 
                 if (!string.IsNullOrEmpty(InMemoryTokenRepo.RefreshToken))
                 {
                     var jwtRefreshToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.RefreshToken);
                 }
-
-
-
-
-
-
 
 
                 return View("Token", tokenViewModel);
@@ -78,11 +89,11 @@ namespace MVC_client.Controllers
         public async Task<IActionResult> Secret()
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
-            InMemoryTokenRepo.SetAccessToken(accessToken);
+            //InMemoryTokenRepo.SetAccessToken(accessToken);
             var idToken = await HttpContext.GetTokenAsync("id_token"); //Används "internt" i is4
-            InMemoryTokenRepo.SetIdToken(idToken);
+            //InMemoryTokenRepo.SetIdToken(idToken);
             var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
-            InMemoryTokenRepo.SetRefreshToken(refreshToken);
+            //InMemoryTokenRepo.SetRefreshToken(refreshToken);
 
             //var claims = User.Claims.ToList();
             //var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);

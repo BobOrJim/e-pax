@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IDP.ViewModels.Auth;
+using IdentityServer4.Services;
 
 namespace IDP.Controllers
 {
@@ -13,11 +14,13 @@ namespace IDP.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IIdentityServerInteractionService _identityServerInteractionService;
 
-        public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IIdentityServerInteractionService identityServerInteractionService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _identityServerInteractionService = identityServerInteractionService;
         }
 
         [HttpGet]
@@ -25,6 +28,23 @@ namespace IDP.Controllers
         {
             return View("Login", new LoginViewModel { ReturnUrl = returnUrl ?? "https://localhost:44327/" });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout(string logoutId)
+        {
+            await _signInManager.SignOutAsync();
+
+            var logoutRequest = await _identityServerInteractionService.GetLogoutContextAsync(logoutId); //Context that do the logout process
+
+            if (string.IsNullOrEmpty(logoutRequest.PostLogoutRedirectUri))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            return Redirect(logoutRequest.PostLogoutRedirectUri);
+        }
+
+
 
         //[IgnoreAntiforgeryToken], per default används antiForgeryToken
         [HttpPost]

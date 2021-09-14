@@ -61,7 +61,8 @@ namespace IDP
                     ClientId = "client_mvc",
                     ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
                     AllowedGrantTypes = GrantTypes.Code,           //Flow. dvs "human" to machine
-                    RedirectUris = { "https://localhost:44345/signin-oidc" },
+                    RedirectUris = { "https://localhost:44345/signin-oidc" }, //MVC. We send the client back, so they can exchange the code for a token.
+                    PostLogoutRedirectUris = { "https://localhost:44345/Home/Index" }, //MVC. Redirect user back home
                     AllowedScopes = { 
                         "api1", 
                         "api2", 

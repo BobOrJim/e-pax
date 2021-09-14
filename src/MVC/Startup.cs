@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MVC_client
+namespace MVC
 {
     public class Startup
     {
@@ -29,6 +29,7 @@ namespace MVC_client
                     config.SaveTokens = true;
                     config.ResponseType = "code";  //Detta (code = authorization code flow) gör att vi får en code tillbacks av IDP, denna code används sedan för att byta till oss en id och access token. Troligen sker byte hos mvc backend.
                                                    //Om vi använder implicit flow får vi id/access tokens direkt, dessa har lägre säkerhet och är på väg bort från marknaden.
+                    config.SignedOutCallbackPath = "/Home/Index";
 
                     // configure cookie claim mapping
                     config.ClaimActions.DeleteClaim("amr");

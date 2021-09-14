@@ -59,6 +59,7 @@ namespace IDP
             {
                 config.Cookie.Name = "IDP.Cookie";
                 config.LoginPath = "/Auth/Login";
+                config.LogoutPath = "/Auth/Logout";
             });
 
 

@@ -2,12 +2,17 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MVC_client.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Hosting;
 
 namespace MVC_client.Controllers
 {
@@ -15,9 +20,12 @@ namespace MVC_client.Controllers
     {
 
         private readonly IHttpClientFactory _httpClientFactory;
-        public HomeController(IHttpClientFactory httpClientFactory)
+        private readonly IHostEnvironment _environment;
+
+        public HomeController(IHttpClientFactory httpClientFactory, IHostEnvironment environment)
         {
             _httpClientFactory = httpClientFactory;
+            _environment = environment;
         }
 
         public IActionResult Index()
@@ -27,14 +35,42 @@ namespace MVC_client.Controllers
 
         public IActionResult Token()
         {
-            //string = InMemoryAccessTokenRepo.TimestampLastAccessTokenUpdate.
-            DateTime dt = new DateTime(InMemoryAccessTokenRepo.TimestampLastAccessTokenUpdate);
-            string TimestampLastAccessTokenUpdate = dt.ToString("yyyy-MM-dd HH:mm:ss");
-            return Ok(new
+            if (_environment.IsDevelopment())
             {
-                InMemoryAccessTokenRepo.AccessToken,
-                TimestampLastAccessTokenUpdate,
-            });
+
+                TokenViewModel tokenViewModel = new TokenViewModel();
+                tokenViewModel.TimeStampLatestUpdate = new DateTime(InMemoryTokenRepo.TimestampLastAccessTokenUpdate).ToString("yyyy-MM-dd HH:mm:ss");
+
+                var jwtAccessToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.AccessToken);
+                tokenViewModel.AccessTokenHeader = JValue.Parse(jwtAccessToken.Header.SerializeToJson()).ToString(Formatting.Indented);
+                tokenViewModel.AccessTokenPayload = JValue.Parse(jwtAccessToken.Payload.SerializeToJson()).ToString(Formatting.Indented);
+                tokenViewModel.AccessToken_nbf = jwtAccessToken.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss");
+                tokenViewModel.AccessToken_exp = jwtAccessToken.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
+                tokenViewModel.AccessToken_auth_time = jwtAccessToken.IssuedAt.ToString("yyyy-MM-dd HH:mm:ss");
+
+                var jwtIdToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.IdToken);
+                tokenViewModel.IdTokenHeader = JValue.Parse(jwtIdToken.Header.SerializeToJson()).ToString(Formatting.Indented);
+                tokenViewModel.IdTokenPayload = JValue.Parse(jwtIdToken.Payload.SerializeToJson()).ToString(Formatting.Indented);
+                tokenViewModel.IdToken_nbf = jwtIdToken.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss");
+                tokenViewModel.IdToken_exp = jwtIdToken.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
+                tokenViewModel.IdToken_auth_time = jwtIdToken.IssuedAt.ToString("yyyy-MM-dd HH:mm:ss");
+
+                if (!string.IsNullOrEmpty(InMemoryTokenRepo.RefreshToken))
+                {
+                    var jwtRefreshToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.RefreshToken);
+                }
+
+
+
+
+
+
+
+
+                return View("Token", tokenViewModel);
+            }
+
+            return Ok("");
         }
 
         //[Authorize(Policy="rc.scope")]
@@ -42,14 +78,16 @@ namespace MVC_client.Controllers
         public async Task<IActionResult> Secret()
         {
             var accessToken = await HttpContext.GetTokenAsync("access_token");
-            InMemoryAccessTokenRepo.SetAccessToken(accessToken);
+            InMemoryTokenRepo.SetAccessToken(accessToken);
             var idToken = await HttpContext.GetTokenAsync("id_token"); //Används "internt" i is4
+            InMemoryTokenRepo.SetIdToken(idToken);
             var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
+            InMemoryTokenRepo.SetRefreshToken(refreshToken);
 
-            var claims = User.Claims.ToList();
-            var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
-            var cookieClaimsIsh = _accessToken.Claims;
-            var _idToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
+            //var claims = User.Claims.ToList();
+            //var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
+            //var cookieClaimsIsh = _accessToken.Claims;
+            //var _idToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
 
             var result = await GetSecretFromApi1(accessToken);
             //var result2 = await GetSecretFromURLWithAccessToken("https://localhost:44383/policy", accessToken);

@@ -1,0 +1,55 @@
+﻿@model MVC_client.ViewModels.TokenViewModel
+
+
+@{ViewData["Title"] = "";}
+
+<br>
+<h5>InMemoryTokenRepo last update:</h5>
+@Model.TimeStampLatestUpdate
+<br>
+<br>
+
+<h5>Access token header:</h5>
+<br>
+<pre>
+    @Html.Raw(Model.AccessTokenHeader)
+</pre>
+
+<h5>Access token payload:</h5>
+<br>
+<pre>
+    @Html.Raw(Model.AccessTokenPayload)
+</pre>
+
+<h5>Timestamps as datetime:</h5>
+<br>
+<p>nbf = @Model.AccessToken_nbf</p>
+<p>exp = @Model.AccessToken_exp</p>
+<p>auth_time = @Model.AccessToken_nbf</p>
+<br>
+<hr>
+
+@*              #########################                    *@
+
+<h5>Id token header:</h5>
+<br>
+<pre>
+    @Html.Raw(Model.IdTokenHeader)
+</pre>
+
+<h5>Id token payload:</h5>
+<br>
+<pre>
+    @Html.Raw(Model.IdTokenPayload)
+</pre>
+
+<h5>Timestamps as datetime:</h5>
+<br>
+<p>nbf = @Model.IdToken_nbf</p>
+<p>exp = @Model.IdToken_exp</p>
+<p>auth_time = @Model.IdToken_auth_time</p>
+<br>
+<hr>
+
+@*              #########################                    *@
+

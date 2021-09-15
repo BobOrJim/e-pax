@@ -3,11 +3,18 @@
 
 @{ViewData["Title"] = "";}
 
-<td><a href="https://localhost:44345/" class="link-warning">/</a></td>
+<a href="https://localhost:44345/" class="link-warning">/</a>
+
+<h5>Only cookies in this (browser) session can be read</h5>
 
 <br>
-<h5>InMemoryTokenRepo last update:</h5>
-@Model.TimeStampLatestUpdate
+<br>
+<h5>InMemoryTokenRepo latest update= @Model.TimeStampLatestUpdate </h5>
+<br>
+<br>
+<h5>AccessToken lifetime left (%) = @Model.AccessTokenLifeLeftPercent</h5>
+
+<h5>IdToken lifetime left (%) = @Model.IdTokenLifeLeftPercent</h5>
 <br>
 <br>
 
@@ -55,3 +62,8 @@
 
 @*              #########################                    *@
 
+<h5>Refresh token code:</h5>
+<br>
+<pre>
+    @Model.RefreshTokenCode
+</pre>

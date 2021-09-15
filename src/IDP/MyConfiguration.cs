@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityModel;
 
-
 namespace IDP
 {
     public static class MyConfiguration
@@ -57,15 +56,16 @@ namespace IDP
                     AllowedGrantTypes = GrantTypes.ClientCredentials,           //Flow. Dvs för machine to Machine
                     AllowedScopes = { "api1" }                                  //program som får access till API1, notera att detta kompleteras med finmaskinare nät baserat på users via Core Identity. Dvs två parallella system.
                 },
+
                 new Client { //Denna klient har en user, dvs vi önskar identity token + access token
                     ClientId = "client_mvc",
                     ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
                     AllowedGrantTypes = GrantTypes.Code,           //Flow. dvs "human" to machine
                     RedirectUris = { "https://localhost:44345/signin-oidc" }, //MVC. We send the client back, so they can exchange the code for a token.
-                    PostLogoutRedirectUris = { "https://localhost:44345/Home/Index" }, //MVC. Redirect user back home
+                    PostLogoutRedirectUris = { "https://localhost:44345/" }, //MVC. Redirect user back home
                     AllowedScopes = { 
                         "api1", 
-                        "api2", 
+                        "api2",
                         IdentityServer4.IdentityServerConstants.StandardScopes.OpenId, //Gör så vi får identity token också. Lägger på open id lager.
                         //IdentityServer4.IdentityServerConstants.StandardScopes.Profile, //Gör så vi får identity token också. Lägger på open id lager.
                         "rc.scope",
@@ -75,12 +75,13 @@ namespace IDP
                     //put all the claims in the id token
                     //AlwaysIncludeUserClaimsInIdToken = true,
 
-                    //AllowOfflineAccess = true,
-                    AccessTokenLifetime = 1,
+                    AllowOfflineAccess = true,
+                    AccessTokenLifetime = 1, //The final time is 5min + this setting.
                     RequireConsent = false,
+                    IdentityTokenLifetime = 1, //The final time is 5min + this setting.
+                    AbsoluteRefreshTokenLifetime = 3600,
+                    AuthorizationCodeLifetime = 300, //Time to exchange code for tokens
                 }
             };
-
-
     }
 }

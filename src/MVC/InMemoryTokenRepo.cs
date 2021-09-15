@@ -10,7 +10,8 @@ namespace MVC
         public static string AccessToken { get; private set; }
         public static string IdToken { get; private set; }
         public static string RefreshToken { get; private set; }
-
+        public static double AccessTokenLifeLeftPercent { get; set; }
+        public static double IdTokenLifeLeftPercent { get; set; }
         public static Int64 TimestampLastAccessTokenUpdate { get; set; }
 
         public static void SetAccessToken(string TokenString)

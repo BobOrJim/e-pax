@@ -32,29 +32,106 @@ namespace MVC.Controllers
         {
             return View();
         }
-
         public IActionResult Logout()
         {
             return SignOut("mvc_client_cookie", "oidc"); //
         }
-
         public async Task<IActionResult> Token()
+        {
+            await Task.CompletedTask;
+            return View("Token", TokenViewModelFactory());
+        }
+        [Authorize]
+        public async Task<IActionResult> MVCSecret()
+        {
+            CheckIfRefreshTokenShouldBeUsed().GetAwaiter().GetResult();
+            UpdateInMemoryTokenRepo();
+            await Task.CompletedTask;
+            return View("MVCSecret");
+        }
+
+
+        [Authorize]
+        public async Task<IActionResult> API1Secret()
+        {
+            UpdateInMemoryTokenRepo();
+            CheckIfRefreshTokenShouldBeUsed().GetAwaiter().GetResult();
+            
+            HttpResponseMessage httpResponseMessage = await CallURLWithAccessToken("https://localhost:44383/secret", await HttpContext.GetTokenAsync("access_token"));
+            var secret = await httpResponseMessage.Content.ReadAsStringAsync();
+            return View("API1Secret", new API1SecretViewModel { SecretMessage = secret, httpResponseMessage = httpResponseMessage });
+        }
+
+        public async Task<HttpResponseMessage> CallURLWithAccessToken(string url, string accessToken)
+        {
+            var httpClient = _httpClientFactory.CreateClient();
+            httpClient.SetBearerToken(accessToken);
+            return await httpClient.GetAsync(url);
+        }
+
+        private async Task CheckIfRefreshTokenShouldBeUsed()
+        {
+            if (InMemoryTokenRepo.AccessTokenLifeLeftPercent < 90.0)
+            {
+                var discoveryDocument = await _httpClientFactory.CreateClient().GetDiscoveryDocumentAsync("https://localhost:44327/");
+                var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
+
+                var tokenResponse = await _httpClientFactory.CreateClient().RequestRefreshTokenAsync(
+                    new RefreshTokenRequest
+                    {
+                        Address = discoveryDocument.TokenEndpoint,
+                        RefreshToken = refreshToken,
+                        ClientId = "client_id_mvc",
+                        ClientSecret = "client_secret_mvc"
+                    });
+
+                var authInfo = await HttpContext.AuthenticateAsync("mvc_client_cookie");
+                authInfo.Properties.UpdateTokenValue("access_token", tokenResponse.AccessToken);
+                authInfo.Properties.UpdateTokenValue("id_token", tokenResponse.IdentityToken);
+                authInfo.Properties.UpdateTokenValue("refresh_token", tokenResponse.RefreshToken);
+                await HttpContext.SignInAsync("mvc_client_cookie", authInfo.Principal, authInfo.Properties);
+                UpdateInMemoryTokenRepo();
+            }
+        }
+
+        public void UpdateInMemoryTokenRepo()
         {
             if (_environment.IsDevelopment())
             {
-                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var accessToken = HttpContext.GetTokenAsync("access_token").GetAwaiter().GetResult();
                 InMemoryTokenRepo.SetAccessToken(accessToken);
-                var idToken = await HttpContext.GetTokenAsync("id_token"); //Används "internt" i is4
+                var idToken = HttpContext.GetTokenAsync("id_token").GetAwaiter().GetResult();
                 InMemoryTokenRepo.SetIdToken(idToken);
-                var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
+                var refreshToken = HttpContext.GetTokenAsync("refresh_token").GetAwaiter().GetResult();
                 InMemoryTokenRepo.SetRefreshToken(refreshToken);
+            }
+        }
 
-                TokenViewModel tokenViewModel = new TokenViewModel();
+        public TokenViewModel TokenViewModelFactory()
+        {
+            TokenViewModel tokenViewModel = new TokenViewModel();
+            if (_environment.IsDevelopment())
+            {
+                var jwtAccessToken = new JwtSecurityTokenHandler().ReadJwtToken(HttpContext.GetTokenAsync("access_token").GetAwaiter().GetResult());
+                var jwtIdToken = new JwtSecurityTokenHandler().ReadJwtToken(HttpContext.GetTokenAsync("id_token").GetAwaiter().GetResult());
+
+                //Calculate accesstoken lifetime left. The 5 extra minutes is due to the default mintime in is4
+                var accessTokenLifetimeLeft = jwtAccessToken.ValidTo.AddMinutes(5) - DateTime.UtcNow;
+                var accessTokenTotalLifetime = jwtAccessToken.ValidTo.AddMinutes(5) - jwtAccessToken.ValidFrom;
+                InMemoryTokenRepo.AccessTokenLifeLeftPercent = accessTokenLifetimeLeft.TotalSeconds / accessTokenTotalLifetime.TotalSeconds;
+                tokenViewModel.AccessTokenLifeLeftPercent = InMemoryTokenRepo.AccessTokenLifeLeftPercent * 100.0;
+
+                //Calculate idtoken lifetime left. The 5 extra minutes is due to the default mintime in is4
+                var idTokenLifetimeLeft = jwtIdToken.ValidTo.AddMinutes(5) - DateTime.UtcNow;
+                var idTokenTotalLifetime = jwtIdToken.ValidTo.AddMinutes(5) - jwtIdToken.ValidFrom;
+                InMemoryTokenRepo.IdTokenLifeLeftPercent = idTokenLifetimeLeft.TotalSeconds / idTokenTotalLifetime.TotalSeconds;
+                tokenViewModel.IdTokenLifeLeftPercent = InMemoryTokenRepo.IdTokenLifeLeftPercent * 100.0;
+
                 tokenViewModel.TimeStampLatestUpdate = new DateTime(InMemoryTokenRepo.TimestampLastAccessTokenUpdate).ToString("yyyy-MM-dd HH:mm:ss");
 
                 if (!string.IsNullOrEmpty(InMemoryTokenRepo.AccessToken))
                 {
-                    var jwtAccessToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.AccessToken);
+                    //var jwtAccessToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.AccessToken);
                     tokenViewModel.AccessTokenHeader = JValue.Parse(jwtAccessToken.Header.SerializeToJson()).ToString(Formatting.Indented);
                     tokenViewModel.AccessTokenPayload = JValue.Parse(jwtAccessToken.Payload.SerializeToJson()).ToString(Formatting.Indented);
                     tokenViewModel.AccessToken_nbf = jwtAccessToken.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss");
@@ -62,74 +139,18 @@ namespace MVC.Controllers
                     tokenViewModel.AccessToken_auth_time = jwtAccessToken.IssuedAt.ToString("yyyy-MM-dd HH:mm:ss");
                 }
 
-                if (!string.IsNullOrEmpty(InMemoryTokenRepo.IdToken)) 
-                { 
-                    var jwtIdToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.IdToken);
+                if (!string.IsNullOrEmpty(InMemoryTokenRepo.IdToken))
+                {
+                    
                     tokenViewModel.IdTokenHeader = JValue.Parse(jwtIdToken.Header.SerializeToJson()).ToString(Formatting.Indented);
                     tokenViewModel.IdTokenPayload = JValue.Parse(jwtIdToken.Payload.SerializeToJson()).ToString(Formatting.Indented);
                     tokenViewModel.IdToken_nbf = jwtIdToken.ValidFrom.ToString("yyyy-MM-dd HH:mm:ss");
                     tokenViewModel.IdToken_exp = jwtIdToken.ValidTo.ToString("yyyy-MM-dd HH:mm:ss");
                     tokenViewModel.IdToken_auth_time = jwtIdToken.IssuedAt.ToString("yyyy-MM-dd HH:mm:ss");
                 }
-
-                if (!string.IsNullOrEmpty(InMemoryTokenRepo.RefreshToken))
-                {
-                    var jwtRefreshToken = new JwtSecurityTokenHandler().ReadJwtToken(InMemoryTokenRepo.RefreshToken);
-                }
-
-
-                return View("Token", tokenViewModel);
+                tokenViewModel.RefreshTokenCode = InMemoryTokenRepo.RefreshToken ?? "";
             }
-
-            return Ok("");
+            return tokenViewModel;
         }
-
-        //[Authorize(Policy="rc.scope")]
-        [Authorize]
-        public async Task<IActionResult> Secret()
-        {
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            //InMemoryTokenRepo.SetAccessToken(accessToken);
-            var idToken = await HttpContext.GetTokenAsync("id_token"); //Används "internt" i is4
-            //InMemoryTokenRepo.SetIdToken(idToken);
-            var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
-            //InMemoryTokenRepo.SetRefreshToken(refreshToken);
-
-            //var claims = User.Claims.ToList();
-            //var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
-            //var cookieClaimsIsh = _accessToken.Claims;
-            //var _idToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);
-
-            var result = await GetSecretFromApi1(accessToken);
-            //var result2 = await GetSecretFromURLWithAccessToken("https://localhost:44383/policy", accessToken);
-            //var result3 = await GetSecretFromURLWithAccessToken("https://localhost:44383/rolepolicy", accessToken);
-
-
-            return View();
-        }
-
-        public async Task<string> GetSecretFromURLWithAccessToken(string url, string accessToken)
-        {
-            var httpClient = _httpClientFactory.CreateClient();
-            httpClient.SetBearerToken(accessToken);
-            var SecretResponse = await httpClient.GetAsync(url);
-            return await SecretResponse.Content.ReadAsStringAsync();
-        }
-
-        //mvc_client, access the api1 resorce
-        public async Task<string> GetSecretFromApi1(string accessToken)
-        {
-            //Use token, and get secret data from API1. Dvs vi bygger en http request, med en attatchad bearer token.
-            var CallAPIClient = _httpClientFactory.CreateClient();
-            CallAPIClient.SetBearerToken(accessToken);
-            var SecretResponse = await CallAPIClient.GetAsync("https://localhost:44383/secret");
-            var SecretMessage = await SecretResponse.Content.ReadAsStringAsync();
-            return SecretMessage;
-        }
-
-
-
-
-
     }
 }

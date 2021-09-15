@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -47,7 +49,7 @@ namespace MVC
                     config.Scope.Add("rc.scope");
                     config.Scope.Add("api1");
                     config.Scope.Add("api2");
-
+                    config.Scope.Add("offline_access");
 
                 });
 
@@ -63,7 +65,22 @@ namespace MVC
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles(); //To Use bootstrap etc.
+            //Only thread: Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-GB");
+            //Below whole app.
+            //app.UseRequestLocalization(new RequestLocalizationOptions
+            //{
+            //    DefaultRequestCulture = new RequestCulture(new CultureInfo("en-gb")),
+            //    SupportedCultures = new List<CultureInfo>
+            //    {
+            //        new CultureInfo("en-gb")
+            //    },
+            //    SupportedUICultures = new List<CultureInfo>
+            //    {
+            //        new CultureInfo("en-gb")
+            //    }
+            //});
+
+            app.UseStaticFiles(); //Enable bootstrat etc
 
             app.UseRouting();
 

@@ -38,13 +38,12 @@ namespace IDP.Controllers
 
             if (string.IsNullOrEmpty(logoutRequest.PostLogoutRedirectUri))
             {
+                //return RedirectToAction("Login", "Auth");
                 return RedirectToAction("Login", "Auth");
             }
 
             return Redirect(logoutRequest.PostLogoutRedirectUri);
         }
-
-
 
         //[IgnoreAntiforgeryToken], per default används antiForgeryToken
         [HttpPost]

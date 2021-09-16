@@ -39,24 +39,28 @@ namespace MVC.Controllers
         public async Task<IActionResult> Token()
         {
             await Task.CompletedTask;
-            return View("Token", TokenViewModelFactory());
+            var token = TokenViewModelFactory();
+            if (token == null)
+            {
+                return View("Token", new TokenViewModel());
+            }
+
+            return View("Token", token);
+
         }
         [Authorize]
         public async Task<IActionResult> MVCSecret()
         {
-            CheckIfRefreshTokenShouldBeUsed().GetAwaiter().GetResult();
             UpdateInMemoryTokenRepo();
+            //await CheckIfRefreshTokenShouldBeUsed();
             await Task.CompletedTask;
             return View("MVCSecret");
         }
-
-
         [Authorize]
         public async Task<IActionResult> API1Secret()
         {
             UpdateInMemoryTokenRepo();
-            CheckIfRefreshTokenShouldBeUsed().GetAwaiter().GetResult();
-            
+            //await CheckIfRefreshTokenShouldBeUsed();
             HttpResponseMessage httpResponseMessage = await CallURLWithAccessToken("https://localhost:44383/secret", await HttpContext.GetTokenAsync("access_token"));
             var secret = await httpResponseMessage.Content.ReadAsStringAsync();
             return View("API1Secret", new API1SecretViewModel { SecretMessage = secret, httpResponseMessage = httpResponseMessage });
@@ -69,12 +73,47 @@ namespace MVC.Controllers
             return await httpClient.GetAsync(url);
         }
 
+        private async Task RefreshAccessToken()
+        {
+            var serverClient = _httpClientFactory.CreateClient();
+            var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync("https://localhost:44305/");
+
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var idToken = await HttpContext.GetTokenAsync("id_token");
+            var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
+            var refreshTokenClient = _httpClientFactory.CreateClient();
+
+            var tokenResponse = await refreshTokenClient.RequestRefreshTokenAsync(
+                new RefreshTokenRequest
+                {
+                    Address = discoveryDocument.TokenEndpoint,
+                    RefreshToken = refreshToken,
+                    ClientId = "client_id_mvc",
+                    ClientSecret = "client_secret_mvc"
+                });
+
+            var authInfo = await HttpContext.AuthenticateAsync("Cookie");
+
+            authInfo.Properties.UpdateTokenValue("access_token", tokenResponse.AccessToken);
+            authInfo.Properties.UpdateTokenValue("id_token", tokenResponse.IdentityToken);
+            authInfo.Properties.UpdateTokenValue("refresh_token", tokenResponse.RefreshToken);
+
+            await HttpContext.SignInAsync("Cookie", authInfo.Principal, authInfo.Properties);
+        }
+
         private async Task CheckIfRefreshTokenShouldBeUsed()
         {
             if (InMemoryTokenRepo.AccessTokenLifeLeftPercent < 90.0)
             {
-                var discoveryDocument = await _httpClientFactory.CreateClient().GetDiscoveryDocumentAsync("https://localhost:44327/");
+                var serverClient = _httpClientFactory.CreateClient();
+                var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync("https://localhost:44327/");
+
+                var accessToken = await HttpContext.GetTokenAsync("access_token");
+                var idToken = await HttpContext.GetTokenAsync("id_token");
                 var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
+                var refreshTokenClient = _httpClientFactory.CreateClient();
+                //var discoveryDocument = await _httpClientFactory.CreateClient().GetDiscoveryDocumentAsync("https://localhost:44327/");
+                //var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
 
                 var tokenResponse = await _httpClientFactory.CreateClient().RequestRefreshTokenAsync(
                     new RefreshTokenRequest
@@ -90,7 +129,7 @@ namespace MVC.Controllers
                 authInfo.Properties.UpdateTokenValue("id_token", tokenResponse.IdentityToken);
                 authInfo.Properties.UpdateTokenValue("refresh_token", tokenResponse.RefreshToken);
                 await HttpContext.SignInAsync("mvc_client_cookie", authInfo.Principal, authInfo.Properties);
-                UpdateInMemoryTokenRepo();
+                //UpdateInMemoryTokenRepo();
             }
         }
 

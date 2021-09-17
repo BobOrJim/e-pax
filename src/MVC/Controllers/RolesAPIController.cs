@@ -16,13 +16,13 @@ using Microsoft.Extensions.Hosting;
 
 namespace MVC.Controllers
 {
-    public class HomeController : Controller
+    public class RolesAPIController : Controller
     {
 
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IHostEnvironment _environment;
 
-        public HomeController(IHttpClientFactory httpClientFactory, IHostEnvironment environment)
+        public RolesAPIController(IHttpClientFactory httpClientFactory, IHostEnvironment environment)
         {
             _httpClientFactory = httpClientFactory;
             _environment = environment;

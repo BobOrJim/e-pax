@@ -8,6 +8,8 @@ using System.Net.Http;
 
 namespace API1.Controllers
 {
+    [ApiController]
+    //[Route("api/")]
     public class SecretController : ControllerBase //Note Controller have support for views, vi kör api och använder då endast ControllerBase
     {
 
@@ -17,6 +19,8 @@ namespace API1.Controllers
         {
             return Ok("not secret message from api1");
         }
+
+
 
         [Route("/secret")]
         [Authorize]

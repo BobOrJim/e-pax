@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using IDP.ViewModels.Auth;
 using IdentityServer4.Services;
 
+//Note, antiForgeryTokens are added per default.
 namespace IDP.Controllers
 {
     public class AuthController : Controller
@@ -30,22 +31,33 @@ namespace IDP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Logout(string logoutId)
+        public async Task<IActionResult> Logout(string returnUrl, string logoutId)
         {
             await _signInManager.SignOutAsync();
 
             var logoutRequest = await _identityServerInteractionService.GetLogoutContextAsync(logoutId); //Context that do the logout process
 
+            var a = 1;
+
             if (string.IsNullOrEmpty(logoutRequest.PostLogoutRedirectUri))
             {
                 //return RedirectToAction("Login", "Auth");
-                return RedirectToAction("Login", "Auth");
+                //return RedirectToAction("https://localhost:44345/");
+                var c = 1;
+                return Ok();
             }
+
+            var b = 1;
 
             return Redirect(logoutRequest.PostLogoutRedirectUri);
         }
 
-        //[IgnoreAntiforgeryToken], per default används antiForgeryToken
+        [HttpGet]
+        public IActionResult Register(string returnUrl)
+        {
+            return View("Register", new RegisterViewModel { ReturnUrl = returnUrl ?? "https://localhost:44327/" });
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel vm)
         {
@@ -61,12 +73,6 @@ namespace IDP.Controllers
                 return Redirect(vm.ReturnUrl ?? "https://localhost:44327/");
             }
             return View("Login", new LoginViewModel { ReturnUrl = vm.ReturnUrl ?? "https://localhost:44327/" });
-        }
-
-        [HttpGet]
-        public IActionResult Register(string returnUrl)
-        {
-            return View("Register", new RegisterViewModel { ReturnUrl = returnUrl ?? "https://localhost:44327/" });
         }
 
         [HttpPost]

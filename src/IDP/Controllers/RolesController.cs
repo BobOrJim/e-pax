@@ -27,12 +27,12 @@ namespace IDP.Controllers
         [HttpGet]
         public async Task<IActionResult> Roles()
         {
-            RolesViewModel rolesViewModel = await RolesViewModelFactoryWithRolesLoaded();
+            RolesViewModelDto rolesViewModel = await RolesViewModelFactoryWithRolesLoaded();
             return View("Roles", rolesViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRole(RolesViewModel rolesViewModel)
+        public async Task<IActionResult> AddRole(RolesViewModelDto rolesViewModel)
         {
             rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
             string guid = Guid.NewGuid().ToString();
@@ -55,7 +55,7 @@ namespace IDP.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveRole(RolesViewModel rolesViewModel, string Id)
+        public async Task<IActionResult> RemoveRole(RolesViewModelDto rolesViewModel, string Id)
         {
             rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
             ApplicationRole applicationRoleToRemove = _roleManager.FindByIdAsync(Id).GetAwaiter().GetResult();
@@ -71,7 +71,7 @@ namespace IDP.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Sort(RolesViewModel rolesViewModel)
+        public async Task<IActionResult> Sort(RolesViewModelDto rolesViewModel)
         {
             rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
             rolesViewModel.SortAlphabetically = !rolesViewModel.SortAlphabetically;
@@ -88,7 +88,7 @@ namespace IDP.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SearchFilter(RolesViewModel rolesViewModel)
+        public async Task<IActionResult> SearchFilter(RolesViewModelDto rolesViewModel)
         {
             string searchPhrase = rolesViewModel.SearchPhrase;
             //rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
@@ -102,9 +102,9 @@ namespace IDP.Controllers
             return View("Roles", rolesViewModel);
         }
 
-        public async Task<RolesViewModel> RolesViewModelFactoryWithRolesLoaded() //Good or bad or ugly?
+        public async Task<RolesViewModelDto> RolesViewModelFactoryWithRolesLoaded() //Good or bad or ugly?
         {
-            var rolesViewModel = new RolesViewModel();
+            var rolesViewModel = new RolesViewModelDto();
             var rolesList = _roleManager.Roles;
             foreach (var item in rolesList) //CodeSmell use automapper.
             {

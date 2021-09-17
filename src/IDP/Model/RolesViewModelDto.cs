@@ -1,7 +1,7 @@
 ﻿using IDP.Model;
 using System.Collections.Generic;
 
-namespace IDP.ViewModels
+namespace IDP.Models
 {
     public class RolesViewModelDto
     {

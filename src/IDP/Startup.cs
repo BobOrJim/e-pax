@@ -78,11 +78,13 @@ namespace IDP
                 .AddInMemoryClients(MyConfiguration.GetClients())
                 .AddDeveloperSigningCredential(); //Genererar certifikat för att signera tokens. Denna ersätter temporärt secretKey jag använde i det rena JWT projektet.
 
-            services.AddControllersWithViews(); //Skall framöver bli services.AddControllers();
+            //services.AddControllersWithViews(); //Skall framöver bli services.AddControllers();
+
+            services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "IAM", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "IDP", Version = "v1" });
             });
         }
 
@@ -92,7 +94,7 @@ namespace IDP
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "IAM v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "IDP v1"));
             }
 
             app.UseStaticFiles(); //To Use bootstrap etc.

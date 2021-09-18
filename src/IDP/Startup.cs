@@ -15,6 +15,12 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 
+
+
+using Microsoft.OpenApi.Models;
+
+
+
 namespace IDP
 {
     public class Startup
@@ -72,7 +78,12 @@ namespace IDP
                 .AddInMemoryClients(MyConfiguration.GetClients())
                 .AddDeveloperSigningCredential(); //Genererar certifikat för att signera tokens. Denna ersätter temporärt secretKey jag använde i det rena JWT projektet.
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(); //Skall framöver bli services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "IAM", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -80,6 +91,8 @@ namespace IDP
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "IAM v1"));
             }
 
             app.UseStaticFiles(); //To Use bootstrap etc.

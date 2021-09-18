@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IDP.ViewModels
 {
-    public class RolesViewModelDto
+    public class RolesViewModel
     {
         public string Message { get; set; } = ""; //Any random DEV message we want to show in the View
         public string jsonSerializeStringPlaceholder1 { get; set; }

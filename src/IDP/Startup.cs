@@ -78,7 +78,9 @@ namespace IDP
                 .AddInMemoryClients(MyConfiguration.GetClients())
                 .AddDeveloperSigningCredential(); //Genererar certifikat för att signera tokens. Denna ersätter temporärt secretKey jag använde i det rena JWT projektet.
 
-            services.AddControllersWithViews(); //Skall framöver bli services.AddControllers();
+            //services.AddControllersWithViews(); //Skall framöver bli services.AddControllers();
+
+            services.AddControllersWithViews();
 
             services.AddSwaggerGen(c =>
             {

@@ -1,10 +1,10 @@
-﻿using IDP.Models;
+﻿using MVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IDP.ViewModels
+namespace MVC.ViewModels
 {
     public class DetailedUserViewModel
     {
@@ -15,3 +15,5 @@ namespace IDP.ViewModels
         public List<UsersRolesModel> UsersRoles { get; set; } = new List<UsersRolesModel>();
     }
 }
+
+

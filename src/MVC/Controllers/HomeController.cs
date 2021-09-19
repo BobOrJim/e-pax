@@ -16,7 +16,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace MVC.Controllers
 {
-    //[Route("V01/[controller]")]
+    [Route("[controller]")]
     public class HomeController : Controller
     {
 
@@ -29,21 +29,29 @@ namespace MVC.Controllers
             _environment = environment;
         }
 
-
-
-
-
-
-
-
-
-
-        public IActionResult Index()
+        [HttpGet("Dev")]
+        public async Task<IActionResult> Dev()
         {
-            return View();
+
+            await Task.CompletedTask;
+            return View("Dev");
+        }
+
+        [HttpGet("Test")]
+        public async Task<IActionResult> Test()
+        {
+            await Task.CompletedTask;
+            return View("Register");
         }
 
 
+
+
+        //public async Task<IActionResult> TestButton()
+        //{
+        //    await CheckIfRefreshTokenShouldBeUsed();
+        //    return View("");
+        //}
 
 
 
@@ -57,11 +65,7 @@ namespace MVC.Controllers
         //    return SignOut("mvc_client_cookie", "oidc"); //
         //}
 
-        //public async Task<IActionResult> TestButton()
-        //{
-        //    await CheckIfRefreshTokenShouldBeUsed();
-        //    return View("");
-        //}
+
 
         //public async Task<IActionResult> Token()
         //{
@@ -133,7 +137,7 @@ namespace MVC.Controllers
 
         //private async Task CheckIfRefreshTokenShouldBeUsed()
         //{
-           
+
 
 
         //    if (InMemoryTokenRepo.AccessTokenLifeLeftPercent < 0.85) //if (InMemoryTokenRepo.AccessTokenLifeLeftPercent < 90.0)
@@ -239,7 +243,7 @@ namespace MVC.Controllers
         //        }
 
 
-                
+
 
 
 

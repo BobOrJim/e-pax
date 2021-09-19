@@ -1,7 +1,7 @@
 ﻿@model RegisterViewModel
 
 <form asp-controller="Auth" asp-action="Register" method="post">
-    <input type="hidden" asp-for="ReturnUrl" />
+    @*<input type="hidden" asp-for="ReturnUrl" />*@
     <div class="mb-3">
         <label for="Username" class="form-label">Username</label>
         <input class="form-control" asp-for="Username">
@@ -21,9 +21,9 @@
         <button type="submit" class="btn btn-primary">Register</button>
     </div>
 </form>
-<div>
+@*<div>
     <a asp-route-returnUrl="@Model.ReturnUrl"></a>
-</div>
+</div>*@
 
 
 

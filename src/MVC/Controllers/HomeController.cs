@@ -29,24 +29,9 @@ namespace MVC.Controllers
             _environment = environment;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Login()
-        {
-            return View("Login");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginCredentials loginCredentials)
-        {
 
 
-            var SecretResponse = await CallAPI1Client.GetAsync("https://localhost:44383/secret");
-            var SecretMessage = await SecretResponse.Content.ReadAsStringAsync();
-            //Feltänk av mig nedan, en client har inte olika rättigheter, bara users, duh.
-            //var SecretResponse2 = await CallAPI1Client.GetAsync("https://localhost:44383/policy");
-            //var SecretMessage2 = await SecretResponse2.Content.ReadAsStringAsync();
-            return View();
-        }
+
 
 
 

@@ -1,4 +1,4 @@
-﻿using IDP.Model;
+﻿using IDP.Models;
 using System.Collections.Generic;
 
 namespace IDP.Models

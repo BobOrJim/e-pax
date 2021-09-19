@@ -1,7 +1,7 @@
-﻿using MVC.Models;
+﻿using IDP.Models;
 using System.Collections.Generic;
 
-namespace MVC.ViewModels
+namespace IDP.ViewModels
 {
     public class RolesViewModel
     {

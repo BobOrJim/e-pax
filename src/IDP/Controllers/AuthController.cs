@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using IDP.ViewModels.Auth;
 using IdentityServer4.Services;
-using IDP.Contracts.V01.Requests;
+
 
 namespace IDP.Controllers.V01
 {
-    public class AuthController : ControllerBase
+    public class AuthController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -21,25 +21,33 @@ namespace IDP.Controllers.V01
         }
 
 
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+        [HttpGet]
+        public IActionResult Login(string returnUrl)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(vm);
-            //}
+            return View("Login", new LoginViewModel { ReturnUrl = returnUrl ?? "https://localhost:44327/" });
+        }
 
-            var result = await _signInManager.PasswordSignInAsync(loginRequest.Username, loginRequest.Password, false, false);
+
+        //[IgnoreAntiforgeryToken], per default används antiForgeryToken
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(vm.Username, vm.Password, false, false);
 
             if (result.Succeeded)
             {
-                return Ok("result.Succeeded.........hej från Login");
+                return Redirect(vm.ReturnUrl ?? "https://localhost:44327/");
             }
-            else
-            {
-                return Ok("result.Fail.........hej från Login");
-            }
+            return View("Login", new LoginViewModel { ReturnUrl = vm.ReturnUrl ?? "https://localhost:44327/" });
         }
+
+
+
     }
 }
 

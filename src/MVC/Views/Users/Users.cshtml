@@ -1,4 +1,4 @@
-﻿@model IDP.ViewModels.UsersViewModel
+﻿@model MVC.ViewModels.UsersViewModel
 
 @{
     ViewData["Title"] = "";
@@ -50,7 +50,7 @@
         {
             <tr>
                 <th scope="row">@i</th>
-                <td>@Model.ListOfUsers[i].Name</td>
+                <td>@Model.ListOfUsers[i].normalizedUserName</td>
                 <td>
                     <button type="submit"
                             name="Id"

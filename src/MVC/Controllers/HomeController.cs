@@ -16,7 +16,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace MVC.Controllers
 {
-
+    //[Route("V01/[controller]")]
     public class HomeController : Controller
     {
 

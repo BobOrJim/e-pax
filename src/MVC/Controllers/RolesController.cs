@@ -15,9 +15,9 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Hosting;
 using MVC.Models;
 
-namespace MVC.Controllers.V1
+namespace MVC.Controllers
 {
-    //[Route("V01/[controller]")]
+    [Route("[controller]")]
     public class RolesController : Controller
     {
 
@@ -126,7 +126,7 @@ namespace MVC.Controllers.V1
             var b = 1;
 
             var rolesList = SecretMessage;
-            foreach (var item in rolesList) 
+            foreach (var item in rolesList) //gör som anonymt objekt!!, och samma i UserController
             {
                 RoleModel roleModel = new RoleModel();
                 roleModel.Id = item.Id;

@@ -11,7 +11,7 @@ using IDP.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace IDP.Controllers
+namespace IDP.Controllers.API
 {
     [ApiController]
     [Route("api/V01/[controller]")]
@@ -49,7 +49,7 @@ namespace IDP.Controllers
         [HttpGet("Roles")]
         public async Task<IActionResult> Roles()
         {
-            var rolesList = _roleManager.Roles;
+            IQueryable<ApplicationRole> rolesList = _roleManager.Roles;
             return Ok(rolesList);
         }
 
@@ -68,6 +68,3 @@ namespace IDP.Controllers
         }
     }
 }
-
-
-

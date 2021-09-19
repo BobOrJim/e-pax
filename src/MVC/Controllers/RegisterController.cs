@@ -1,41 +1,49 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using MVC.ViewModels;
+using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 
 namespace MVC.Controllers
 {
+    [Route("[controller]")]
     public class RegisterController : Controller
     {
 
-        [HttpGet]
-        public IActionResult Register(string returnUrl)
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHostEnvironment _environment;
+
+        public RegisterController(IHttpClientFactory httpClientFactory, IHostEnvironment environment)
         {
-            return View("Register", new RegisterViewModel { ReturnUrl = returnUrl ?? "https://localhost:44327/" });
+            _httpClientFactory = httpClientFactory;
+            _environment = environment;
         }
 
 
-        [HttpPost]
+        [HttpGet("Register")]
+        public async Task<IActionResult> Register()
+        {
+            return View("Register");
+        }
+
+
+
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterViewModel vm)
         {
             if (!ModelState.IsValid)
             {
-                return View(vm);
+                return View("Register", vm);
             }
 
-            var user = new ApplicationUser { UserName = vm.Username, NormalizedEmail = vm.Username, EmailConfirmed = true };
-            var result = await _userManager.CreateAsync(user, vm.Password);
+            var IDPClient = _httpClientFactory.CreateClient();
+            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
+            await IDPClient.PostAsJsonAsync("api/V01/Register/Register", vm);
 
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
-                return View("Register", new RegisterViewModel { ReturnUrl = vm.ReturnUrl ?? "https://localhost:44327/" });
-            }
-
-            return View("Register", new RegisterViewModel { ReturnUrl = vm.ReturnUrl ?? "https://localhost:44327/" });
+            return Redirect("https://localhost:44345/Home/");
         }
-
-
 
     }
 }

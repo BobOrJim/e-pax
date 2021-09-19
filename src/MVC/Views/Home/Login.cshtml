@@ -1,0 +1,20 @@
+﻿@model LoginViewModel
+
+<form asp-controller="Auth" asp-action="Login" method="post">
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div class="mb-3">
+        <label for="Username" class="form-label">Username</label>
+        <input class="form-control" asp-for="Username">
+        <span asp-validation-for="Username"></span>
+    </div>
+    <div class="mb-3">
+        <label for="Password" class="form-label">Password</label>
+        <input type="password" class="form-control" asp-for="Password">
+        <span asp-validation-for="Password"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Sign In</button>
+</form>
+
+<div>
+    <a asp-route-returnUrl="@Model.ReturnUrl"></a>
+</div>

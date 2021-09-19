@@ -45,9 +45,10 @@ namespace IDP.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("WriteRolesToUser")]
         public async Task<IActionResult> WriteRolesToUser([FromBody] DetailedUserViewModel detailedUserViewModel)
         {
+
             //Remove all roles from user
             ApplicationUser user = _userManager.FindByNameAsync(detailedUserViewModel.UserName).GetAwaiter().GetResult();
             List<string> rolesToRemove = _userManager.GetRolesAsync(user).GetAwaiter().GetResult().ToList();
@@ -60,9 +61,8 @@ namespace IDP.Controllers
 
 
             await Task.CompletedTask;
-            return LocalRedirect("/Users/Users");
+            return Ok();
         }
-
     }
 }
 

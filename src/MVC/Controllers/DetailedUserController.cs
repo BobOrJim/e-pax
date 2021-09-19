@@ -60,15 +60,10 @@ namespace MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> WriteRolesToUser(DetailedUserViewModel detailedUserViewModel)
         {
-            //Remove all roles from user
-            ApplicationUser user = _userManager.FindByNameAsync(detailedUserViewModel.UserName).GetAwaiter().GetResult();
-            List<string> rolesToRemove = _userManager.GetRolesAsync(user).GetAwaiter().GetResult().ToList();
-            await _userManager.RemoveFromRolesAsync(user, rolesToRemove);
-            //Write selected checkboxes roles to user. 
-            IEnumerable<UsersRolesModel> selectedUserRolesModels = detailedUserViewModel.UsersRoles.Where(u => u.UserHasThisRole == true);
-            IEnumerable<string> selectedRoles = selectedUserRolesModels.Select(r => r.RoleName).ToList();
-            var result = await _userManager.AddToRolesAsync(user, selectedRoles);
-            await Task.CompletedTask;
+            var IDPClient = _httpClientFactory.CreateClient();
+            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
+            //IDPClient.SetBearerToken(TokenResponse.AccessToken);
+            await IDPClient.PostAsJsonAsync("api/V01/DetailedUser/WriteRolesToUser", detailedUserViewModel);
             return LocalRedirect("/Users/Users");
         }
 

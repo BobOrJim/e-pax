@@ -19,7 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
+    <Folder Include="ModelsDto\" />
+    <Folder Include="Profiles\" />
   </ItemGroup>
 
 </Project>

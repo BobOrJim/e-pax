@@ -1,4 +1,4 @@
-﻿using IDP.Data;
+﻿using IDP.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,7 +11,7 @@ using IDP.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace IDP.Controllers.API
+namespace IDP.Controllers.API.V01
 {
     [ApiController]
     [Route("api/V01/[controller]")]

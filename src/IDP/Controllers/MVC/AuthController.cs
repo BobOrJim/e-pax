@@ -1,4 +1,4 @@
-﻿using IDP.Data;
+﻿using IDP.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -6,8 +6,9 @@ using IDP.ViewModels.Auth;
 using IdentityServer4.Services;
 
 
-namespace IDP.Controllers.V01
+namespace IDP.Controllers.MVC
 {
+    [Route("[controller]")]
     public class AuthController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -21,7 +22,7 @@ namespace IDP.Controllers.V01
         }
 
 
-        [HttpGet]
+        [HttpGet("Login")]
         public IActionResult Login(string returnUrl)
         {
             return View("Login", new LoginViewModel { ReturnUrl = returnUrl ?? "https://localhost:44327/" });
@@ -29,7 +30,7 @@ namespace IDP.Controllers.V01
 
 
         //[IgnoreAntiforgeryToken], per default används antiForgeryToken
-        [HttpPost]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginViewModel vm)
         {
             if (!ModelState.IsValid)

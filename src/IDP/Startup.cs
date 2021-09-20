@@ -1,4 +1,5 @@
-using IDP.Data;
+using IDP.Entities;
+using IDP.DBContexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +15,7 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
-
+using IDP.Repos;
 
 
 using Microsoft.OpenApi.Models;
@@ -73,9 +74,9 @@ namespace IDP
             //Registrerar APIs och Clients, som tillåts accessa denna IDP
             services.AddIdentityServer()
                 .AddAspNetIdentity<ApplicationUser>()      //Detta limmar ihop is4 med core Identity.
-                .AddInMemoryApiResources(MyConfiguration.GetApis())
-                .AddInMemoryIdentityResources(MyConfiguration.GetIdentityResources())
-                .AddInMemoryClients(MyConfiguration.GetClients())
+                .AddInMemoryApiResources(IdentityResourcesInMemoryRepo.GetApis())
+                .AddInMemoryIdentityResources(IdentityResourcesInMemoryRepo.GetIdentityResources())
+                .AddInMemoryClients(IdentityResourcesInMemoryRepo.GetClients())
                 .AddDeveloperSigningCredential(); //Genererar certifikat för att signera tokens. Denna ersätter temporärt secretKey jag använde i det rena JWT projektet.
 
             //services.AddControllersWithViews(); //Skall framöver bli services.AddControllers();

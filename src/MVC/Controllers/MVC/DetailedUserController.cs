@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace MVC.Controllers
 {
+    [Route("[controller]")]
     public class DetailedUserController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;

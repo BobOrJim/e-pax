@@ -158,12 +158,12 @@ namespace IDP.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", "ca3c764b-0af5-4b05-b837-2c663b2eb0e5", "ApplicationRole", "User", "USER" },
-                    { "2", "90b99979-d82d-4fcc-9881-decf1924037e", "ApplicationRole", "Admin", "ADMIN" },
-                    { "3", "11563f68-4920-4983-a134-a788277c8f10", "ApplicationRole", "Root", "ROOT" },
-                    { "4", "afdd5255-d8b0-4fd2-9482-f373c5df101d", "ApplicationRole", "Spare1", "SPARE1" },
-                    { "5", "3932c0ed-0bba-4fcc-abc9-1ef6d5f494cf", "ApplicationRole", "Spare2", "SPARE2" },
-                    { "6", "67cfb7ec-3e09-4581-9966-ec3f482aa669", "ApplicationRole", "slask", "slask" }
+                    { "1", "3a42ce3b-e53e-44b0-87c0-cdd80f742007", "ApplicationRole", "User", "USER" },
+                    { "2", "889eb0ce-833c-4967-a3dd-c9b8b45d68b4", "ApplicationRole", "Admin", "ADMIN" },
+                    { "3", "6080a92c-9af9-4eeb-b3ea-1acb6b099cd6", "ApplicationRole", "Root", "ROOT" },
+                    { "4", "4af7a64e-c617-4757-a047-ce3bccdebb41", "ApplicationRole", "Spare1", "SPARE1" },
+                    { "5", "9ac1f4c7-514f-4c3a-b786-38617289c49e", "ApplicationRole", "Spare2", "SPARE2" },
+                    { "6", "915a29cc-36bd-4cdc-b3bb-c8f3a3aa286d", "ApplicationRole", "slask", "slask" }
                 });
 
             migrationBuilder.InsertData(
@@ -171,9 +171,9 @@ namespace IDP.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "79e37e33-008e-4042-86cc-341b96a06af0", "ADMIN@ADMIN.com", true, false, null, "ADMIN@ADMIN.com", "ADMIN@ADMIN.com", "AQAAAAEAACcQAAAAEKOf8Dvh8rF8lRIVesbwNL6Q0dV+Al/3fHHnendUqnBOkZeFDGvkjIx+tgyGykIRHg==", null, false, "d08b5b70-c7d7-46b4-b0e2-e069c06c3837", false, "ADMIN@ADMIN.com" },
-                    { "2", 0, "8af3f493-7917-4fa9-82a5-3d10cd30740e", "ROOT@ROOT.com", true, false, null, "ROOT@ROOT.com", "ROOT@ROOT.com", "AQAAAAEAACcQAAAAEKchfWiIuK5p9JDSy8ZVo74cUZH3xFrN5uHQiHB2YHv3tQawN69Kwlz97moSzYgcTw==", null, false, "84822ab6-c596-48f8-9685-53a740fc5bbb", false, "ROOT@ROOT.com" },
-                    { "3", 0, "b136ce59-9230-448c-a629-15ce9f18a01f", "USER@USER.com", true, false, null, "USER@USER.com", "USER@USER.com", "AQAAAAEAACcQAAAAEBOoLXa2ZWZZ00p0lrTXVT75aypjSR+6FzMGKGE+FFp7383DGC9twknFBXqA5BUnhw==", null, false, "1efb2462-b104-4108-ac1f-64aebca8d58a", false, "USER@USER.com" }
+                    { "1", 0, "10eed7fb-7b0d-4d6e-8047-adfeaf1562b0", "ADMIN@ADMIN.com", true, false, null, "ADMIN@ADMIN.com", "ADMIN@ADMIN.com", "AQAAAAEAACcQAAAAEAdfa7nI8qeZwFoheeXjPS3x8dfmBMySrI89QGzb7thM/HNlkKsmoLn2MM+ezjYn+w==", null, false, "ee301b26-f870-42d3-abff-34d7200a961f", false, "ADMIN@ADMIN.com" },
+                    { "2", 0, "29509aef-d504-48cc-9ab1-c3fcc2c1e67c", "ROOT@ROOT.com", true, false, null, "ROOT@ROOT.com", "ROOT@ROOT.com", "AQAAAAEAACcQAAAAEB0jm0F0YOESZRM8s8aQwkBtqsu9BWiGK0e6uDWpK32jtarc+VipYv6/JVFHjU12XA==", null, false, "eb9ec0b0-1b40-4481-94d4-93b4bbba9d6c", false, "ROOT@ROOT.com" },
+                    { "3", 0, "2de6be56-64f1-402c-81b7-adf05d6c3c7d", "USER@USER.com", true, false, null, "USER@USER.com", "USER@USER.com", "AQAAAAEAACcQAAAAEMVHmEVKeEEZsSq/Fd2u+K884fHQELZQwiQfM1yIgao4CkW7a8nyFmVG8QWU9BkMFw==", null, false, "c39d4585-36a1-40db-a052-cdc93fd0ccdc", false, "USER@USER.com" }
                 });
 
             migrationBuilder.InsertData(

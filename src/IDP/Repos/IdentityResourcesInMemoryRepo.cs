@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityModel;
 
-namespace IDP
+namespace IDP.Repos
 {
-    public static class MyConfiguration
+    public static class IdentityResourcesInMemoryRepo
     {
         public static IEnumerable<IdentityResource> GetIdentityResources() =>
             //Här mappar vi till IdentityToken, med ApiResorce nedan mappar vi till accessToken.

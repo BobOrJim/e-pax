@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Hosting;
+using MVC.Repos;
 
 namespace MVC.Controllers
 {
@@ -32,6 +33,16 @@ namespace MVC.Controllers
         [HttpGet("DevPage")]
         public async Task<IActionResult> Dev()
         {
+            //Hmm, bad solution...
+            //if (Request.Cookies["mvc_client_cookie"] != null)
+            //{
+            //    var c = new HttpCookie("MyCookie")
+            //    {
+            //        Expires = DateTime.Now.AddDays(-1)
+            //    };
+            //    Response.Cookies.Add(c);
+            //}
+
             await Task.CompletedTask;
             return View("DevPage");
         }

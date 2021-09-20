@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using IDP.Entities;
 
-namespace IDP.Data
+namespace IDP.DBContexts
 {
     public class ApplicationIdentityDbContext : IdentityDbContext<ApplicationUser>
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Gateway1
+namespace API3
 {
     public class WeatherForecast
     {

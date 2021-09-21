@@ -54,8 +54,8 @@ namespace MVC.Controllers
             var secret = await httpResponseMessage.Content.ReadAsStringAsync();
 
 
-            HttpResponseMessage httpResponseMessage2 = await CallURLWithAccessToken("https://localhost:44383/secret", token);
-            var secret2 = await httpResponseMessage2.Content.ReadAsStringAsync();
+            //HttpResponseMessage httpResponseMessage2 = await CallURLWithAccessToken("https://localhost:44383/secret", token);
+            //var secret2 = await httpResponseMessage2.Content.ReadAsStringAsync();
             //return View("API1Secret", new API1SecretViewModel { SecretMessage = secret, httpResponseMessage = httpResponseMessage });
 
 

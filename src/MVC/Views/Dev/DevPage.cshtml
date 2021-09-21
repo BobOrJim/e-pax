@@ -6,15 +6,6 @@
 <a href="https://localhost:44345/Dev/TestButton" class="link-warning">/TestButton</a>
 <br>
 <br>
-<a href="https://localhost:44345/Roles/Roles" class="link-warning">/Roles/Roles</a>
-<br>
-<br>
-<a href="https://localhost:44345/Users/Users" class="link-warning">/Users/Users</a>
-<br>
-<br>
-<a href="https://localhost:44345/Register/Register" class="link-warning">/Register/Register</a>
-<br>
-<br>
 
 <h1> Dev page </h1>
 <h5>Endpoints to different projects in this solution.</h5>
@@ -30,59 +21,77 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th>API1</th>
-            <td><a href="https://localhost:44383/notsecret" class="link-warning">/notsecret</a></td>
-            <td>None</td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>API1</th>
-            <td><a href="https://localhost:44383/secret" class="link-warning">/secret</a></td>
-            <td>[Authorize]</td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>API2</th>
-            <td><a href="https://localhost:44374/callapi1secret" class="link-warning">/calltoapi1secret</a></td>
-            <td>None</td>
-            <td></td>
-        </tr>
-        <tr>
-            <th>API2</th>
-            <td><a href="https://localhost:44374/Token" class="link-warning">/Token</a></td>
-            <td>None</td>
-            <td>Dev endpoint: Show latest API2 accesstoken + timestamp</td>
-        </tr>
+        @*<tr>
+                <th>API1</th>
+                <td><a href="https://localhost:44383/notsecret" class="link-warning">/notsecret</a></td>
+                <td>None</td>
+                <td></td>
+            </tr>*@
+        @*<tr>
+                <th>API1</th>
+                <td><a href="https://localhost:44383/secret" class="link-warning">/secret</a></td>
+                <td>[Authorize]</td>
+                <td></td>
+            </tr>*@
+        @*<tr>
+                <th>API2</th>
+                <td><a href="https://localhost:44374/callapi1secret" class="link-warning">/calltoapi1secret</a></td>
+                <td>None</td>
+                <td></td>
+            </tr>*@
+        @*<tr>
+                <th>API2</th>
+                <td><a href="https://localhost:44374/Token" class="link-warning">/Token</a></td>
+                <td>None</td>
+                <td>Dev endpoint: Show latest API2 accesstoken + timestamp</td>
+            </tr>*@
         <tr>
             <th>IDP</th>
             <td><a href="https://localhost:44327/Auth/Login" class="link-warning">/Auth/Login</a></td>
             <td>None</td>
-            <td>If we login, we are not redirected back to the MVC_client, and thus we dont exchange the code token for the access token.</td>
+            <td>If we login using this link instead of beaing redirected here after hitting an [Autorize] endpoint -> We are not redirected back to the MVC_client -> Thus we dont exchange the code token for the access token. THIS IS A DEV TEST, AND THE ENDUSER SHOULD NOT USE THIS.</td>
         </tr>
         <tr>
-            <th>IDP</th>
-            <td><a href="https://localhost:44327/Auth/Register" class="link-warning">/Auth/Register</a></td>
+            <th>MVC</th>
+            <td><a href="https://localhost:44345/Register/Register" class="link-primary">/Register/Register</a></td>
             <td>None</td>
-            <td>Can register as normal, but without any redirection.</td>
+            <td>Will call an API in IDP</td>
+        </tr>
+        <tr>
+            <th>MVC</th>
+            <td><a href="https://localhost:44345/Users/Users" class="link-primary">/Users/Users</a></td>
+            <td>[Authorize]</td>
+            <td>Will call an API in IDP</td>
+        </tr>
+        <tr>
+            <th>MVC</th>
+            <td><a href="https://localhost:44345/Roles/Roles" class="link-primary">/Roles/Roles</a></td>
+            <td>[Authorize]</td>
+            <td>Will call an API in IDP</td>
+        </tr>
+        <tr>
+            <th>MVC</th>
+            <td><a href="https://localhost:44345/dev/AskGateway1_GetSecretForestInEurope" class="link-primary">/Dev/AskGateway1_GetSecretForestInEurope</a></td>
+            <td>[Authorize]</td>
+            <td>Will call an API in Gateway1. Gateway1 will then get Auth as machine-to-machine to the API in API_Forest</td>
         </tr>
         <tr>
             <th>MVC</th>
             <td><a href="https://localhost:44345/dev/MVCSecret" class="link-primary">/dev/MVCSecret</a></td>
             <td>[Authorize]</td>
-            <td></td>
+            <td>This endpoint does not call another [Authorize] taged API. Only an [Authorize] endpoint in MVC. Note that "local" calls will be accepted with valid Id-token and unvalid Access-tokens. Perhaps a best practise is to have identical lifetimes on these tokens.</td>
         </tr>
-        <tr>
+        @*<tr>
             <th>MVC</th>
             <td><a href="https://localhost:44345/dev/API1Secret" class="link-primary">/dev/API1Secret</a></td>
             <td>[Authorize]</td>
             <td></td>
-        </tr>
+        </tr>*@
         <tr>
             <th>MVC</th>
             <td><a href="https://localhost:44345/Dev/Token" class="link-warning">/Dev/Token</a></td>
             <td>None</td>
-            <td>Show Access+Id+Refresh token. Not that only cookies/tookens in this browser session can be loaded.</td>
+            <td>Show Access+Id+Refresh token. Not that only cookies/tookens in this browser session can be loaded. Close all browsers if encoutering problems.</td>
         </tr>
         <tr>
             <th>MVC</th>

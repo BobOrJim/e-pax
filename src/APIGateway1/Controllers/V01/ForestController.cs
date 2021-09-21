@@ -47,13 +47,11 @@ namespace APIGateway1.Controllers.V01
 
             var a = 1;
 
-            //Här skall det ske ett anrop till ForestService, via ett interface, där API3Service använder en httpClient
-            //Och anropar mikrotjänst API3.
-            //return Ok();
+
             
             
             await Task.CompletedTask;
-            return Ok("Temporary secret message from API_Forest, secret forest in Europe is Ardennes");
+            return Ok(SecretMessage);
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API3
+namespace API_Forest
 {
     public class Startup
     {
@@ -23,14 +23,24 @@ namespace API3
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", config =>
+                {
+                    config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
+                    config.Audience = "API_Forest"; //API_Forest identifierar sig själv när vi validering av token.
+                });
+
+
+            //services.AddHttpClient();
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API3", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API_Forest", Version = "v1" });
             });
         }
 
@@ -41,12 +51,14 @@ namespace API3
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API3 v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API_Forest v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

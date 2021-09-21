@@ -39,6 +39,9 @@ namespace IDP.Repos
             new List<ApiResource>{
                 new ApiResource("api1", new string[]{ "rc.api.garndma", "claimname", "role" } ), //Note, denna claim kan användas av både api1 o api2, dvs den är inte unik för api1
                 new ApiResource("api2"),
+                new ApiResource("APIGateway1", new string[]{ "rc.api.garndma", "claimname", "role" }),
+                new ApiResource("API_Forest"),
+
             };
 
         //Krävs för is4.1.x, laborera senare. Nu kör jag is3.xxx
@@ -50,6 +53,13 @@ namespace IDP.Repos
         public static IEnumerable<Client> GetClients() =>
             new List<Client>
             {
+                 new Client {
+                    ClientId = "APIGateway1",
+                    ClientSecrets = { new Secret("APIGateway1_secret".ToSha256()) },
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,           //Flow. Dvs för machine to Machine
+                    AllowedScopes = { "API_Forest" }                                  //program som får access till API1, notera att detta kompleteras med finmaskinare nät baserat på users via Core Identity. Dvs två parallella system.
+                },
+
                 new Client { 
                     ClientId = "client_api2",
                     ClientSecrets = { new Secret("client_secret".ToSha256()) },

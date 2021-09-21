@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIGatewayDomain", "src\API
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIGateway1", "src\APIGateway1\APIGateway1.csproj", "{1CA871FC-37AA-4AB4-A5B8-1079BF2B6FDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API3", "src\API3\API3.csproj", "{57F706BC-BD3D-4E5B-AC4B-14049F918FF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_Forest", "src\API3\API_Forest.csproj", "{57F706BC-BD3D-4E5B-AC4B-14049F918FF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

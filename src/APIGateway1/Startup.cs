@@ -26,8 +26,17 @@ namespace Gateway1
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("Bearer")
+            .AddJwtBearer("Bearer", config =>
+            {
+            config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
+                    config.Audience = "APIGateway1"; //APIGateway1 identifierar sig själv när vi validering av token.
+            });
+
+            services.AddHttpClient();
 
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gateway1", Version = "v1" });

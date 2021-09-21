@@ -43,11 +43,16 @@ namespace MVC.Controllers
 
 
         [HttpGet("TestButton")]
+        [Authorize]
         public async Task<IActionResult> TestButton()
         {
-            //Dev code test area.
 
-            //var test2 = Request.Cookies[".aspnetcore.mvc_client_cookie"];
+
+            //Här vill jag kontakta APIGateway1, och hämta den hemliga skogen.
+            HttpResponseMessage httpResponseMessage = await CallURLWithAccessToken("https://localhost:44370/api/V01/Forest", await HttpContext.GetTokenAsync("access_token"));
+            var secret = await httpResponseMessage.Content.ReadAsStringAsync();
+            //return View("API1Secret", new API1SecretViewModel { SecretMessage = secret, httpResponseMessage = httpResponseMessage });
+
 
 
 

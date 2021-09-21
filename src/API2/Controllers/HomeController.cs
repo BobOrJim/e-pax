@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityModel.Client;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API2.Controllers
 {
@@ -32,6 +33,7 @@ namespace API2.Controllers
 
 
         [Route("/callapi1secret")] //Detta är start url, dvs detta är här för att spara tid vid testning.
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             //Retrive Access token

@@ -19,8 +19,11 @@ namespace IDP
     {
         public static void Main(string[] args)
         {
-            //Syftet med denna uppdeling är att få access till DI services, använda dem, och sedan starta host.
+            //Hi. First thing first weary traveler and friend. I hope you drop me an email so i can buy you a cold beer in Borås. Jimmy.Nordin.1979@gmail.com
+
+            //To get access to DI services before the host is started.
             var host = CreateHostBuilder(args).Build();
+
 
             //NOTE: Claims and/or Roles can be used with Core-Identity becouse is4 can work with both.
             //As a personal preference ive decided to use only roles.

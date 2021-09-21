@@ -39,8 +39,8 @@ namespace IDP.Repos
             new List<ApiResource>{
                 new ApiResource("api1", new string[]{ "rc.api.garndma", "claimname", "role" } ), //Note, denna claim kan användas av både api1 o api2, dvs den är inte unik för api1
                 new ApiResource("api2"),
-                new ApiResource("APIGateway1", new string[]{ "rc.api.garndma", "claimname", "role" }),
-                new ApiResource("API_Forest"),
+                new ApiResource("apigateway1"),
+                new ApiResource("API_Forest", new string[]{ "rc.api.garndma", "claimname", "role" }),
 
             };
 
@@ -54,8 +54,8 @@ namespace IDP.Repos
             new List<Client>
             {
                  new Client {
-                    ClientId = "APIGateway1",
-                    ClientSecrets = { new Secret("APIGateway1_secret".ToSha256()) },
+                    ClientId = "client_apigateway1",
+                    ClientSecrets = { new Secret("apigateway1_secret".ToSha256()) },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,           //Flow. Dvs för machine to Machine
                     AllowedScopes = { "API_Forest" }                                  //program som får access till API1, notera att detta kompleteras med finmaskinare nät baserat på users via Core Identity. Dvs två parallella system.
                 },
@@ -76,6 +76,7 @@ namespace IDP.Repos
                     AllowedScopes = { 
                         "api1", 
                         "api2",
+                        "apigateway1",
                         IdentityServer4.IdentityServerConstants.StandardScopes.OpenId, //Gör så vi får identity token också. Lägger på open id lager.
                         //IdentityServer4.IdentityServerConstants.StandardScopes.Profile, //Gör så vi får identity token också. Lägger på open id lager.
                         "rc.scope",

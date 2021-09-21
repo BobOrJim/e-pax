@@ -46,8 +46,19 @@ namespace MVC.Controllers
         [Authorize]
         public async Task<IActionResult> AskGateway1_GetSecretForestInEurope()
         {
-            HttpResponseMessage httpResponseMessage = await CallURLWithAccessToken("https://localhost:44370/api/V01/Forest", await HttpContext.GetTokenAsync("access_token"));
+
+            var token = await HttpContext.GetTokenAsync("access_token");
+
+            //var token = await HttpContext.GetTokenAsync("access_token");
+            HttpResponseMessage httpResponseMessage = await CallURLWithAccessToken("https://localhost:44370/api/V01/Forest/GetSecretForestInEurope", token);
             var secret = await httpResponseMessage.Content.ReadAsStringAsync();
+
+
+            HttpResponseMessage httpResponseMessage2 = await CallURLWithAccessToken("https://localhost:44383/secret", token);
+            var secret2 = await httpResponseMessage2.Content.ReadAsStringAsync();
+            //return View("API1Secret", new API1SecretViewModel { SecretMessage = secret, httpResponseMessage = httpResponseMessage });
+
+
             await Task.CompletedTask;
             return Ok(secret);
         }
@@ -60,10 +71,6 @@ namespace MVC.Controllers
         {
 
 
-            //Här vill jag kontakta APIGateway1, och hämta den hemliga skogen.
-            HttpResponseMessage httpResponseMessage = await CallURLWithAccessToken("https://localhost:44370/api/V01/Forest", await HttpContext.GetTokenAsync("access_token"));
-            var secret = await httpResponseMessage.Content.ReadAsStringAsync();
-            //return View("API1Secret", new API1SecretViewModel { SecretMessage = secret, httpResponseMessage = httpResponseMessage });
 
 
 

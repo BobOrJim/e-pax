@@ -1,3 +1,4 @@
+using APIGateway1.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,13 +30,19 @@ namespace Gateway1
             services.AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", config =>
             {
-            config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
-                    config.Audience = "APIGateway1"; //APIGateway1 identifierar sig själv när vi validering av token.
+                config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
+                config.Audience = "apigateway1"; //APIGateway1 identifierar sig själv när vi validering av token.
             });
+
+
 
             services.AddHttpClient();
 
             services.AddControllers();
+
+            services.AddScoped<IForestService, ForestService>(); //Scoped objects are the same within a request, but different across different requests :)
+
+            services.AddScoped<ITokenFactory, TokenFactory>();
 
             services.AddSwaggerGen(c =>
             {
@@ -56,6 +63,8 @@ namespace Gateway1
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

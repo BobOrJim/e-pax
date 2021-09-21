@@ -9,6 +9,5 @@ namespace APIGateway1.Constants
     {
         public static string SecretForestInEurope { get; set; } = "https://localhost:44380/api/V01/EuropeForests/SecretForestInEurope";
 
-
     }
 }

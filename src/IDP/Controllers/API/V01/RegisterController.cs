@@ -19,22 +19,27 @@ namespace IDP.Controllers.API.V01
     public class RegisterController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public RegisterController(UserManager<ApplicationUser> userManager)
+        public RegisterController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterViewModel vm)
+        public async Task<IActionResult> Register(RegisterViewModel vm) //All new Users, get the Userrole by default.
         {
             var b = 1;
 
             var user = new ApplicationUser { UserName = vm.Username, NormalizedEmail = vm.Username, EmailConfirmed = true };
             var result = await _userManager.CreateAsync(user, vm.Password);
 
+            await _userManager.AddToRoleAsync(user, "User"); //New users get "User" role by default
+
             var a = 1;
 
+            //return Redirect("https://localhost:44345/Dev/Devpage");
             return Ok();
         }
 

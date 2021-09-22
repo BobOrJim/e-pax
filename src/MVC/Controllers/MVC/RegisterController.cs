@@ -42,7 +42,7 @@ namespace MVC.Controllers
             IDPClient.BaseAddress = new Uri("https://localhost:44327/");
             await IDPClient.PostAsJsonAsync("api/V01/Register/Register", vm);
 
-            return Redirect("https://localhost:44345/Home/");
+            return Redirect("https://localhost:44345/Dev/Devpage");
         }
 
     }

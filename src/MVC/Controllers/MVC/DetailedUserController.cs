@@ -26,7 +26,7 @@ namespace MVC.Controllers
             _environment = environment;
         }
 
-        [HttpPost]
+        [HttpPost("DetailedUser")]
         public async Task<IActionResult> DetailedUser(string Id)
         {
             DetailedUserViewModel detailedUserViewModel = new DetailedUserViewModel();
@@ -58,7 +58,7 @@ namespace MVC.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("WriteRolesToUser")]
         public async Task<IActionResult> WriteRolesToUser(DetailedUserViewModel detailedUserViewModel)
         {
             var IDPClient = _httpClientFactory.CreateClient();

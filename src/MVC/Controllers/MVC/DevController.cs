@@ -59,10 +59,7 @@ namespace MVC.Controllers
         [Authorize]
         public async Task<IActionResult> TestButton()
         {
-
-
-
-
+            //Dev test area, ready for anything.
 
             await Task.CompletedTask;
             return View("DevPage");

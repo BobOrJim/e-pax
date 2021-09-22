@@ -66,7 +66,7 @@ namespace IDP
             {
                 config.Cookie.Name = "IDP.Cookie";
                 config.LoginPath = "/Auth/Login";
-                config.LogoutPath = "/Auth/Logout";
+                config.LogoutPath = "/api/V01/Logout/Logout"; //ToDo. Perhaps the first reroute must be to this service. double Reroute??
             });
 
 
@@ -99,6 +99,8 @@ namespace IDP
             }
 
             app.UseStaticFiles(); //To Use bootstrap etc.
+
+            app.UseHttpsRedirection(); //JN
 
             app.UseRouting();
 

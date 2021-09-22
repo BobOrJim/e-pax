@@ -64,7 +64,8 @@ namespace IDP
             //Cookie settings
             services.ConfigureApplicationCookie(config =>
             {
-                config.Cookie.Name = "IDP.Cookie";
+                config.Cookie.Name = ".AspNetCore.IDP_Cookie"; //This name must start with .AspNetCore. => This way the MCV project can find it, and delete it when logout.
+                //config.Cookie.Name = "IDP.Cookie";
                 config.LoginPath = "/Auth/Login";
                 config.LogoutPath = "/api/V01/Logout/Logout"; //ToDo. Perhaps the first reroute must be to this service. double Reroute??
             });

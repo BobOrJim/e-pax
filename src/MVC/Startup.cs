@@ -21,8 +21,10 @@ namespace MVC
             services.AddAuthentication(config => {
                 config.DefaultScheme = "mvc_client_cookie"; //Vi kör aspnet default förutom utmaningen nedan
                 config.DefaultChallengeScheme = "oidc"; //Här kör vi oicd
-
             })
+                .AddCookie("mvc_client_cookieC1") //JN trying to remove this cookie when logout
+                .AddCookie("mvc_client_cookieC2") //JN trying to remove this cookie when logout
+                .AddCookie("IDP_Cookie") //JN trying to remove this cookie when logout
                 .AddCookie("mvc_client_cookie")
                 .AddOpenIdConnect("oidc", config => { //denna accessar discovery document. 
                     config.Authority = "https://localhost:44327/";

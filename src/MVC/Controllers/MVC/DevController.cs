@@ -70,7 +70,10 @@ namespace MVC.Controllers
         public async Task<IActionResult> Logout()
         {
             await Task.CompletedTask;
-            return SignOut("mvc_client_cookie", "oidc");
+            return SignOut("mvc_client_cookie", "mvc_client_cookieC1", "mvc_client_cookieC2", "IDP_Cookie", "oidc");
+            ///IDP.Cookie
+            //             .AspNetCore.IDP_Cookie
+
         }
 
 

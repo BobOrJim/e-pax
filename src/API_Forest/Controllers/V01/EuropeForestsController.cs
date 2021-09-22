@@ -14,8 +14,7 @@ namespace API_Forest.Controllers.V01
     {
 
         [HttpGet("SecretForestInEurope")]
-        //[Authorize]
-        [Authorize(Roles = "Admin, Masters_Degree_In_Forestry")]
+        [Authorize]
         public async Task<IActionResult> SecretForestInEurope()
         {
             await Task.CompletedTask;

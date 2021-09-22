@@ -23,7 +23,8 @@ namespace APIGateway1.Controllers.V01
         }
 
         [HttpGet("GetSecretForestInEurope")]
-        [Authorize]
+        //[Authorize]
+        [Authorize(Roles = "Admin, Masters_Degree_In_Forestry")]
         public async Task<IActionResult> GetSecretForestInEurope()
         {
             var SecretMessage = await _forestService.CallEndpoint(API_Forest_Endpoint.SecretForestInEurope);

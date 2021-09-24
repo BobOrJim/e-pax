@@ -21,30 +21,6 @@
         </tr>
     </thead>
     <tbody>
-        @*<tr>
-            <th>API1</th>
-            <td><a href="https://localhost:44383/notsecret" class="link-warning">/notsecret</a></td>
-            <td>None</td>
-            <td></td>
-        </tr>*@
-        @*<tr>
-            <th>API1</th>
-            <td><a href="https://localhost:44383/secret" class="link-warning">/secret</a></td>
-            <td>[Authorize]</td>
-            <td></td>
-        </tr>*@
-        @*<tr>
-            <th>API2</th>
-            <td><a href="https://localhost:44374/callapi1secret" class="link-warning">/calltoapi1secret</a></td>
-            <td>None</td>
-            <td></td>
-        </tr>*@
-        @*<tr>
-            <th>API2</th>
-            <td><a href="https://localhost:44374/Token" class="link-warning">/Token</a></td>
-            <td>None</td>
-            <td>Dev endpoint: Show latest API2 accesstoken + timestamp</td>
-        </tr>*@
         <tr>
             <th>IDP</th>
             <td><a href="https://localhost:44327/Auth/Login" class="link-warning">/Auth/Login</a></td>
@@ -92,12 +68,6 @@
             <td><a href="https://localhost:44345/dev/MVCSecret" class="link-primary">/dev/MVCSecret</a></td>
             <td>[Authorize]</td>
             <td>This endpoint does not call another [Authorize] taged API. Only an [Authorize] endpoint in MVC. Note that "local" calls will be accepted with valid Id-token and unvalid Access-tokens. Perhaps a best practise is to have identical lifetimes on these tokens.</td>
-        </tr>
-        <tr>
-            <th>MVC</th>
-            <td><a href="https://localhost:44345/dev/API1Secret" class="link-primary">/dev/API1Secret</a></td>
-            <td>[Authorize]</td>
-            <td></td>
         </tr>
         <tr>
             <th>MVC</th>

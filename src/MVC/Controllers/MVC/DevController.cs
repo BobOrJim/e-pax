@@ -96,22 +96,6 @@ namespace MVC.Controllers
         }
 
 
-        [HttpGet("API1Secret")]
-        [Authorize]
-        public async Task<IActionResult> API1Secret()
-        {
-            var a = 1;
-
-            HttpResponseMessage httpResponseMessage = await CallURLWithAccessToken("https://localhost:44383/secret", await HttpContext.GetTokenAsync("access_token"));
-            var secret = await httpResponseMessage.Content.ReadAsStringAsync();
-            return View("API1Secret", new API1SecretViewModel { SecretMessage = secret, httpResponseMessage = httpResponseMessage });
-
-            //var IDPClient = _httpClientFactory.CreateClient();
-            //IDPClient.BaseAddress = new Uri("https://localhost:44327/");
-            //HttpResponseMessage response = await IDPClient.PostAsJsonAsync("api/V01/Roles/AddRole", rolesViewModel);
-
-        }
-
 
         [HttpGet("Token")]
         public async Task<IActionResult> Token()

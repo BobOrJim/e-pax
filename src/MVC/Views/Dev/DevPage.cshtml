@@ -22,29 +22,29 @@
     </thead>
     <tbody>
         @*<tr>
-                <th>API1</th>
-                <td><a href="https://localhost:44383/notsecret" class="link-warning">/notsecret</a></td>
-                <td>None</td>
-                <td></td>
-            </tr>*@
+            <th>API1</th>
+            <td><a href="https://localhost:44383/notsecret" class="link-warning">/notsecret</a></td>
+            <td>None</td>
+            <td></td>
+        </tr>*@
         @*<tr>
-                <th>API1</th>
-                <td><a href="https://localhost:44383/secret" class="link-warning">/secret</a></td>
-                <td>[Authorize]</td>
-                <td></td>
-            </tr>*@
+            <th>API1</th>
+            <td><a href="https://localhost:44383/secret" class="link-warning">/secret</a></td>
+            <td>[Authorize]</td>
+            <td></td>
+        </tr>*@
         @*<tr>
-                <th>API2</th>
-                <td><a href="https://localhost:44374/callapi1secret" class="link-warning">/calltoapi1secret</a></td>
-                <td>None</td>
-                <td></td>
-            </tr>*@
+            <th>API2</th>
+            <td><a href="https://localhost:44374/callapi1secret" class="link-warning">/calltoapi1secret</a></td>
+            <td>None</td>
+            <td></td>
+        </tr>*@
         @*<tr>
-                <th>API2</th>
-                <td><a href="https://localhost:44374/Token" class="link-warning">/Token</a></td>
-                <td>None</td>
-                <td>Dev endpoint: Show latest API2 accesstoken + timestamp</td>
-            </tr>*@
+            <th>API2</th>
+            <td><a href="https://localhost:44374/Token" class="link-warning">/Token</a></td>
+            <td>None</td>
+            <td>Dev endpoint: Show latest API2 accesstoken + timestamp</td>
+        </tr>*@
         <tr>
             <th>IDP</th>
             <td><a href="https://localhost:44327/Auth/Login" class="link-warning">/Auth/Login</a></td>
@@ -71,9 +71,21 @@
         </tr>
         <tr>
             <th>MVC</th>
-            <td><a href="https://localhost:44345/dev/AskGateway1_GetSecretForestInEurope" class="link-primary">/Dev/AskGateway1_GetSecretForestInEurope</a></td>
+            <td><a href="https://localhost:44345/dev/AskGateway1_GetSecretForestInEurope" class="link-primary">/Dev/GetSecretForestInEurope</a></td>
             <td>[Authorize]</td>
             <td>Will call an API in Gateway1. Gateway1 will then get Auth as machine-to-machine to the API in API_Forest</td>
+        </tr>
+        <tr>
+            <th>MVC</th>
+            <td><a href="https://localhost:44345/dev/AskGateway1_GetSecretMountainInEurope" class="link-primary">/Dev/GetSecretMountainInEurope</a></td>
+            <td>[Authorize]</td>
+            <td>Will call an API in Gateway1. Gateway1 will then get Auth as machine-to-machine to the API in API_Mountain</td>
+        </tr>
+        <tr>
+            <th>MVC</th>
+            <td><a href="https://localhost:44345/dev/AskGateway2_GetSecretDesertInEurope" class="link-primary">/Dev/GetSecretDesertInEurope</a></td>
+            <td>[Authorize]</td>
+            <td>Will call an API in Gateway1. Gateway1 will then get Auth as machine-to-machine to the API in API_Mountain</td>
         </tr>
         <tr>
             <th>MVC</th>

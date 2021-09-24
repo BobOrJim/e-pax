@@ -40,13 +40,13 @@ namespace Gateway1
 
             services.AddControllers();
 
-            services.AddScoped<IForestService, ForestService>(); //Scoped objects are the same within a request, but different across different requests :)
+            services.AddScoped<ICallAPIEndpoint, CallAPIEndpoint>(); //Scoped objects are the same within a request, but different across different requests :)
 
             services.AddScoped<ITokenFactory, TokenFactory>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gateway1", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "APIGateway1", Version = "v1" });
             });
         }
 
@@ -57,7 +57,7 @@ namespace Gateway1
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gateway1 v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "APIGateway1 v1"));
             }
 
             app.UseHttpsRedirection();

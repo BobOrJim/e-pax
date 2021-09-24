@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace APIGateway1.Services
+namespace APIGateway2.Services
 {
-    public interface IForestService
+    public interface ICallAPIEndpoint
     {
         Task<string> CallEndpoint(string url);
     }

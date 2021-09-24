@@ -52,6 +52,7 @@ namespace MVC
                     config.Scope.Add("api1");
                     config.Scope.Add("api2");
                     config.Scope.Add("apigateway1");
+                    config.Scope.Add("APIGateway2");
                     config.Scope.Add("offline_access"); //Token refresh
 
                 });

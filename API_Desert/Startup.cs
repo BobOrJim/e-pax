@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API_Forest
+namespace API_Desert
 {
     public class Startup
     {
@@ -30,7 +30,7 @@ namespace API_Forest
                 .AddJwtBearer("Bearer", config =>
                 {
                     config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
-                    config.Audience = "API_Forest"; //API_Forest identifierar sig själv när vi validering av token.
+                    config.Audience = "API_Desert"; //API_Forest identifierar sig själv när vi validering av token.
                 });
 
 
@@ -40,7 +40,7 @@ namespace API_Forest
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API_Forest", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API_Desert", Version = "v1" });
             });
         }
 
@@ -50,7 +50,7 @@ namespace API_Forest
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API_Forest v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API_Desert v1"));
             }
 
             app.UseHttpsRedirection();

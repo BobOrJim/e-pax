@@ -13,20 +13,20 @@ namespace APIGateway1.Controllers.V01
 {
     [ApiController]
     [Route("api/V01/[controller]")]
-    public class ForestController : ControllerBase
+    public class MountainController : ControllerBase
     {
         private readonly ICallAPIEndpoint _callAPIEndpoint;
 
-        public ForestController(ICallAPIEndpoint callAPIEndpoint)
+        public MountainController(ICallAPIEndpoint callAPIEndpoint)
         {
             _callAPIEndpoint = callAPIEndpoint;
         }
 
-        [HttpGet("GetSecretForestInEurope")]
-        [Authorize(Roles = "Admin, Masters_Degree_In_Forestry")]
-        public async Task<IActionResult> GetSecretForestInEurope()
+        [HttpGet("GetSecretMountainInEurope")]
+        [Authorize(Roles = "Admin, Masters_Degree_In_Mining")]
+        public async Task<IActionResult> GetSecretMountainInEurope()
         {
-            var SecretMessage = await _callAPIEndpoint.CallEndpoint(API_Endpoint.SecretForestInEurope);
+            var SecretMessage = await _callAPIEndpoint.CallEndpoint(API_Endpoint.SecretMountainInEurope);
             return Ok(SecretMessage);
         }
     }

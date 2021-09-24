@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace APIGateway1.Services
+namespace APIGateway2.Services
 {
     public class TokenFactory : ITokenFactory
     {
@@ -25,9 +25,9 @@ namespace APIGateway1.Services
                 new ClientCredentialsTokenRequest //Flow = ClientCredentials, aka machine to machine
                 {
                     Address = discoveryDocument.TokenEndpoint,
-                    ClientId = "client_apigateway1",
-                    ClientSecret = "apigateway1_secret", 
-                    Scope = "API_Mountain API_Forest"
+                    ClientId = "client_APIGateway2",
+                    ClientSecret = "APIGateway2_secret", 
+                    Scope = "API_Desert"
                 });
 
             return TokenResponse.AccessToken;

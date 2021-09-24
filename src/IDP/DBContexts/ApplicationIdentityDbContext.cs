@@ -31,12 +31,12 @@ namespace IDP.DBContexts
                 modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole { Id = "3", Name = "Root", NormalizedName = "ROOT" });
                 modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole { Id = "4", Name = "Spare1", NormalizedName = "SPARE1" });
                 modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole { Id = "5", Name = "Spare2", NormalizedName = "SPARE2" });
-                modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole { Id = "6", Name = "slask", NormalizedName = "slask" });
                 modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole { Id = "7", Name = "Masters_Degree_In_Forestry", NormalizedName = "Masters_Degree_In_Forestry" });
-
+                modelBuilder.Entity<ApplicationRole>().HasData(new ApplicationRole { Id = "8", Name = "Masters_Degree_In_Forestry", NormalizedName = "Masters_Degree_In_Mining" });
 
 
                 
+
                 //Seeding AspNetUsers
                 var hasher = new PasswordHasher<ApplicationRole>(); //a hasher to hash the password before seeding the user to the db
                 string tmp = "ADMIN@ADMIN.com";

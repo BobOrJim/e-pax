@@ -7,13 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MVC
+namespace API_Mountain
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            //Hi. First thing first weary traveler and friend. I hope you drop me an email so i can buy you a cold beer in Borås. Jimmy.Nordin.1979@gmail.com
             CreateHostBuilder(args).Build().Run();
         }
 

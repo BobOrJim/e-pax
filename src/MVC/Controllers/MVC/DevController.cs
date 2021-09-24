@@ -32,6 +32,7 @@ namespace MVC.Controllers
             _environment = environment;
         }
 
+
         [HttpGet("DevPage")]
         public async Task<IActionResult> Dev()
         {
@@ -40,7 +41,6 @@ namespace MVC.Controllers
             await Task.CompletedTask;
             return View("DevPage");
         }
-
 
 
         [HttpGet("AskGateway1_GetSecretForestInEurope")]
@@ -54,6 +54,28 @@ namespace MVC.Controllers
         }
 
 
+        [HttpGet("AskGateway1_GetSecretMountainInEurope")]
+        [Authorize]
+        public async Task<IActionResult> AskGateway1_GetSecretMountainInEurope()
+        {
+            SecretMessageViewModel secretMessageViewModel = new();
+            secretMessageViewModel.httpResponseMessage = await CallURLWithAccessToken("https://localhost:44370/api/V01/Mountain/GetSecretMountainInEurope", await HttpContext.GetTokenAsync("access_token"));
+            secretMessageViewModel.SecretMessage = await secretMessageViewModel.httpResponseMessage.Content.ReadAsStringAsync();
+            return View("SecretMessage", secretMessageViewModel);
+        }
+
+        [HttpGet("AskGateway2_GetSecretDesertInEurope")]
+        [Authorize]
+        public async Task<IActionResult> AskGateway1_GetSecretDesertInEurope()
+        {
+            SecretMessageViewModel secretMessageViewModel = new();
+            secretMessageViewModel.httpResponseMessage = await CallURLWithAccessToken("https://localhost:44378/api/V01/Desert/GetSecretDesertInEurope", await HttpContext.GetTokenAsync("access_token"));
+            secretMessageViewModel.SecretMessage = await secretMessageViewModel.httpResponseMessage.Content.ReadAsStringAsync();
+            return View("SecretMessage", secretMessageViewModel);
+        }
+
+
+        
 
         [HttpGet("TestButton")]
         [Authorize]
@@ -71,9 +93,6 @@ namespace MVC.Controllers
         {
             await Task.CompletedTask;
             return SignOut("mvc_client_cookie", "mvc_client_cookieC1", "mvc_client_cookieC2", "IDP_Cookie", "oidc");
-            ///IDP.Cookie
-            //             .AspNetCore.IDP_Cookie
-
         }
 
 

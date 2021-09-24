@@ -6,22 +6,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API_Forest.Controllers.V01
+namespace API_Desert.Controllers.V01
 {
     [ApiController]
     [Route("api/V01/[controller]")]
-    public class EuropeForestsController : ControllerBase
+    public class DesertsController : ControllerBase
     {
 
-        [HttpGet("SecretForestInEurope")]
+        [HttpGet("SecretDesertInEurope")]
         [Authorize]
-        public async Task<IActionResult> SecretForestInEurope()
+        public async Task<IActionResult> SecretDesertInEurope()
         {
             await Task.CompletedTask;
-            return Ok("Origin = API_Forest. A secret forest in eurpoe is Ardennes");
+            return Ok("Origin = API_Desert. Settra does not serve, and no secret message you shalt recieve");
         }
     }
 }
-
 
 

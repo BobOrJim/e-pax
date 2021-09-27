@@ -38,7 +38,7 @@ namespace MVC
                     // configure cookie claim mapping
                     config.ClaimActions.DeleteClaim("amr");
                     config.ClaimActions.DeleteClaim("s_hash");
-                    config.ClaimActions.MapUniqueJsonKey("RawCoding.Grandma", "rc.garndma");
+                    //config.ClaimActions.MapUniqueJsonKey("RawCoding.Grandma", "rc.garndma");
                     config.ClaimActions.MapJsonKey("role", "role");
 
                     // two trips to load claims in to the cookie
@@ -48,7 +48,7 @@ namespace MVC
                     //Configre scope
                     config.Scope.Clear();
                     config.Scope.Add("openid");
-                    config.Scope.Add("rc.scope");
+                    //config.Scope.Add("rc.scope");
                     config.Scope.Add("APIGateway1");
                     config.Scope.Add("APIGateway2");
                     config.Scope.Add("offline_access"); //Token refresh

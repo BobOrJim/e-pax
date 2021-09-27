@@ -37,7 +37,7 @@ namespace IDP.Repos
         public static IEnumerable<ApiResource> GetApis() =>
             //Här anges tillåtna claims i AccessToken.
             new List<ApiResource>{
-                new ApiResource("apigateway1", new string[]{ "role" }),
+                new ApiResource("APIGateway1", new string[]{ "role" }),
                 new ApiResource("APIGateway2"),
                 new ApiResource("API_Forest", new string[]{ "role" }), //Fortsätt här.
                 new ApiResource("API_Mountain", new string[]{ "role" }),
@@ -61,8 +61,8 @@ namespace IDP.Repos
             new List<Client>
             {
                  new Client {
-                    ClientId = "client_apigateway1",
-                    ClientSecrets = { new Secret("apigateway1_secret".ToSha256()) },
+                    ClientId = "client_APIGateway1",
+                    ClientSecrets = { new Secret("APIGateway1_secret".ToSha256()) },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,           //Flow. Dvs för machine to Machine
                     AllowedScopes = { "API_Forest", "API_Mountain" },                                  //program som får access till  notera att detta kompleteras med finmaskinare nät baserat på users via Core Identity. Dvs två parallella system.
                 },
@@ -80,8 +80,8 @@ namespace IDP.Repos
                     AllowedGrantTypes = GrantTypes.Code,           //Flow. dvs "human" to machine
                     RedirectUris = { "https://localhost:44345/signin-oidc" }, //MVC. We send the client back, so they can exchange the code for a token.
                     PostLogoutRedirectUris = { "https://localhost:44345/" }, //MVC. Redirect user back home
-                    AllowedScopes = { 
-                        "apigateway1",
+                    AllowedScopes = {
+                        "APIGateway1",
                         "APIGateway2",
                         IdentityServer4.IdentityServerConstants.StandardScopes.OpenId, //Gör så vi får identity token också. Lägger på open id lager.
                         //IdentityServer4.IdentityServerConstants.StandardScopes.Profile, //Gör så vi får identity token också. Lägger på open id lager.

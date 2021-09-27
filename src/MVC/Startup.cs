@@ -49,10 +49,9 @@ namespace MVC
                     config.Scope.Clear();
                     config.Scope.Add("openid");
                     config.Scope.Add("rc.scope");
-                    config.Scope.Add("apigateway1");
+                    config.Scope.Add("APIGateway1");
                     config.Scope.Add("APIGateway2");
                     config.Scope.Add("offline_access"); //Token refresh
-
                 });
 
             services.AddHttpClient();

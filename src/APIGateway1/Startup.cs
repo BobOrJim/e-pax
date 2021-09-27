@@ -31,7 +31,7 @@ namespace Gateway1
             .AddJwtBearer("Bearer", config =>
             {
                 config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
-                config.Audience = "apigateway1"; //APIGateway1 identifierar sig själv när vi validering av token.
+                config.Audience = "APIGateway1"; //APIGateway1 identifierar sig själv när vi validering av token.
             });
 
             services.AddHttpClient();

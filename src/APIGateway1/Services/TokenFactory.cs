@@ -25,8 +25,8 @@ namespace APIGateway1.Services
                 new ClientCredentialsTokenRequest //Flow = ClientCredentials, aka machine to machine
                 {
                     Address = discoveryDocument.TokenEndpoint,
-                    ClientId = "client_apigateway1",
-                    ClientSecret = "apigateway1_secret", 
+                    ClientId = "client_APIGateway1",
+                    ClientSecret = "APIGateway1_secret", 
                     Scope = "API_Mountain API_Forest"
                 });
 

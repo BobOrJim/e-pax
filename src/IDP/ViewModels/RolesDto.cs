@@ -1,11 +1,11 @@
 ﻿using IDP.Models;
 using System.Collections.Generic;
 
-namespace IDP.Models
+namespace IDP.ViewModels
 {
-    public class RolesViewModelDto
+    public class RolesDto
     {
-        public string Message { get; set; } = ""; //Any random DEV message we want to show in the View
+        public string Message { get; set; } = ""; 
         public string jsonSerializeStringPlaceholder1 { get; set; }
         public string jsonSerializeStringPlaceholder2 { get; set; }
         public string NewRoleName { get; set; }

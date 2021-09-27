@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using IDP.ViewModels.Auth;
 using IdentityServer4.Services;
 
-
 namespace IDP.Controllers.MVC
 {
     [Route("[controller]")]
@@ -29,7 +28,6 @@ namespace IDP.Controllers.MVC
         }
 
 
-        //[IgnoreAntiforgeryToken], per default används antiForgeryToken
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginViewModel vm)
         {
@@ -46,9 +44,6 @@ namespace IDP.Controllers.MVC
             }
             return View("Login", new LoginViewModel { ReturnUrl = vm.ReturnUrl ?? "https://localhost:44327/" });
         }
-
-
-
     }
 }
 

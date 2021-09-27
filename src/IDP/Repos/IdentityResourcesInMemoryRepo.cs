@@ -4,54 +4,39 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityModel;
+using IdentityServer4;
 
 namespace IDP.Repos
 {
     public static class IdentityResourcesInMemoryRepo
     {
         public static IEnumerable<IdentityResource> GetIdentityResources() =>
-            //Här mappar vi till IdentityToken, med ApiResorce nedan mappar vi till accessToken.
+            //Map things to IdentityToken
             new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                //new IdentityResources.Profile(),
-                new IdentityResource
-                {
-                    Name = "rc.scope",
-                    UserClaims =
-                    {
-                        "rc.garndma"
-                    }
-                },
-                //new IdentityResource("roles", new[] { "role" }),
-                //new IdentityResource //Vi deklarerar att detta är ett möjligt scope som andra program kan requesta
+                //new IdentityResource
                 //{
-                //    //Name = "IDP.Configuration.GetIdentityResources.Scope",
-                //    //UserClaims = 
-                //    //{
-                //    //    "IDP.Configuration.GetIdentityResources.UserClaims"
-                //    //}
+                //    Name = "rc.scope",
+                //    UserClaims =
+                //    {
+                //        "rc.garndma"
+                //    }
                 //}
+
             };
 
         public static IEnumerable<ApiResource> GetApis() =>
-            //Här anges tillåtna claims i AccessToken.
+            //Map things to accesstoken
             new List<ApiResource>{
                 new ApiResource("APIGateway1", new string[]{ "role" }),
-                new ApiResource("APIGateway2"),
-                new ApiResource("API_Forest", new string[]{ "role" }), //Fortsätt här.
+                new ApiResource("APIGateway2", new string[]{ "role" }),
+                new ApiResource("API_Forest", new string[]{ "role" }),
                 new ApiResource("API_Mountain", new string[]{ "role" }),
                 new ApiResource("API_Desert", new string[]{ "role" }),
-
-                //new ApiResource("apigateway1", new string[]{ "rc.api.garndma", "claimname", "role" }),
-                //new ApiResource("APIGateway2"),
-                //new ApiResource("API_Forest", new string[]{ "rc.api.garndma", "claimname", "role" }),
-                //new ApiResource("API_Mountain", new string[]{ "rc.api.garndma", "claimname", "role" }),
-                //new ApiResource("API_Desert", new string[]{ "rc.api.garndma", "claimname", "role" }),
-
             };
 
-        //Krävs för is4.1.x, laborera senare. Nu kör jag is3.xxx
+        //For is4.1.x, laborera senare. Nu kör jag is3.xxx
         //public static IEnumerable<ApiScope> GetApiScopes() =>
         //    new List<ApiScope> {
         //        new ApiScope("ApiOne")
@@ -63,41 +48,39 @@ namespace IDP.Repos
                  new Client {
                     ClientId = "client_APIGateway1",
                     ClientSecrets = { new Secret("APIGateway1_secret".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,           //Flow. Dvs för machine to Machine
-                    AllowedScopes = { "API_Forest", "API_Mountain" },                                  //program som får access till  notera att detta kompleteras med finmaskinare nät baserat på users via Core Identity. Dvs två parallella system.
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,           //Flow. Machine to Machine
+                    AllowedScopes = { "API_Forest", "API_Mountain" },           //client_APIGateway1 are allowed to acces these scopes.
                 },
 
                  new Client {
                     ClientId = "client_APIGateway2",
                     ClientSecrets = { new Secret("APIGateway2_secret".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,           //Flow. Dvs för machine to Machine
-                    AllowedScopes = { "API_Desert" },                                  //program som får access till , notera att detta kompleteras med finmaskinare nät baserat på users via Core Identity. Dvs två parallella system.
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,           
+                    AllowedScopes = { "API_Desert" },                           
                 },
 
-                new Client { //Denna klient har en user, dvs vi önskar identity token + access token
+                new Client { //This client has a user, ie we would like and identity + access token. 
                     ClientId = "client_mvc",
                     ClientSecrets = { new Secret("client_secret_mvc".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.Code,           //Flow. dvs "human" to machine
+                    AllowedGrantTypes = GrantTypes.Code,           //Flow. "human" to machine
                     RedirectUris = { "https://localhost:44345/signin-oidc" }, //MVC. We send the client back, so they can exchange the code for a token.
                     PostLogoutRedirectUris = { "https://localhost:44345/" }, //MVC. Redirect user back home
                     AllowedScopes = {
                         "APIGateway1",
                         "APIGateway2",
-                        IdentityServer4.IdentityServerConstants.StandardScopes.OpenId, //Gör så vi får identity token också. Lägger på open id lager.
-                        //IdentityServer4.IdentityServerConstants.StandardScopes.Profile, //Gör så vi får identity token också. Lägger på open id lager.
-                        "rc.scope",
+                        IdentityServer4.IdentityServerConstants.StandardScopes.OpenId, //Add open ID layer, and give user and id token.
+                        //IdentityServerConstants.StandardScopes.Profile,
+                        //"rc.scope",
+                    },             
 
-                    },             //program som får access till , notera att detta kompleteras med finmaskinare nät baserat på users via Core Identity. Dvs två parallella system.
-
-                    //put all the claims in the id token
-                    //AlwaysIncludeUserClaimsInIdToken = true,
+                    //AlwaysIncludeUserClaimsInIdToken = true, //put all the claims in the id token, possibly needed for local login in mvc client auth endpoints.
 
                     AllowOfflineAccess = true,
                     AccessTokenLifetime = 1, //The final time is 5min + this setting.
                     RequireConsent = false,
                     IdentityTokenLifetime = 1, //The final time is 5min + this setting.
                     AbsoluteRefreshTokenLifetime = 3600,
-                    AuthorizationCodeLifetime = 300, //Time to exchange code for tokens
+                    AuthorizationCodeLifetime = 300, //Time to exchange code for tokens befor code become invalid.
                 }
             };
     }

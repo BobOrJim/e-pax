@@ -16,8 +16,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using IDP.Repos;
-
-
 using Microsoft.OpenApi.Models;
 
 
@@ -33,22 +31,12 @@ namespace IDP
             Configuration = configuration;
         }
 
-
         public void ConfigureServices(IServiceCollection services)
         {
 
-            // Add EF services to the services container.
+            // Add EF services to the services container. IE user management with users/roles
             services.AddDbContext<ApplicationIdentityDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("IDPContextConnection")));
-
-
-
-
-            //Add the toolbox Core Identity. Infrastruktur för Users, password, Claims etc 
-            //services.AddDbContext<AppDbContext>(config =>
-            //{
-            //    config.UseInMemoryDatabase("Memory");
-            //});
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(config =>
             {
@@ -64,23 +52,21 @@ namespace IDP
             //Cookie settings
             services.ConfigureApplicationCookie(config =>
             {
-                config.Cookie.Name = ".AspNetCore.IDP_Cookie"; //This name must start with .AspNetCore. => This way the MCV project can find it, and delete it when logout.
+                config.Cookie.Name = ".AspNetCore.IDP_Cookie"; //This name must start with .AspNetCore. => This way the MCV project can find it and delete it when logout.
                 //config.Cookie.Name = "IDP.Cookie";
                 config.LoginPath = "/Auth/Login";
-                config.LogoutPath = "/api/V01/Logout/Logout"; //ToDo. Perhaps the first reroute must be to this service. double Reroute??
+                config.LogoutPath = "/api/V01/Logout/Logout"; 
             });
 
 
-            //Add the toolbox identityServer4. Infrastruktur för auth, open id connect, clients, apis, scopes
-            //Registrerar APIs och Clients, som tillåts accessa denna IDP
+            //Add the toolbox identityServer4. IE auth, open id connect, clients, apis, scopes
+            //Register APIs and Clients that are alowed to access this IDP
             services.AddIdentityServer()
-                .AddAspNetIdentity<ApplicationUser>()      //Detta limmar ihop is4 med core Identity.
+                .AddAspNetIdentity<ApplicationUser>()      //Glue is4 with core identity.
                 .AddInMemoryApiResources(IdentityResourcesInMemoryRepo.GetApis())
                 .AddInMemoryIdentityResources(IdentityResourcesInMemoryRepo.GetIdentityResources())
                 .AddInMemoryClients(IdentityResourcesInMemoryRepo.GetClients())
-                .AddDeveloperSigningCredential(); //Genererar certifikat för att signera tokens. Denna ersätter temporärt secretKey jag använde i det rena JWT projektet.
-
-            //services.AddControllersWithViews(); //Skall framöver bli services.AddControllers();
+                .AddDeveloperSigningCredential(); //Generate certificate to sign tokens. This replace the superSecretKey used in JWT-token projects.
 
             services.AddControllersWithViews();
 
@@ -101,17 +87,17 @@ namespace IDP
 
             app.UseStaticFiles(); //To Use bootstrap etc.
 
-            app.UseHttpsRedirection(); //JN
+            app.UseHttpsRedirection(); //
 
             app.UseRouting();
 
-            app.UseAuthorization(); //jim
+            app.UseAuthorization(); //
 
             app.UseIdentityServer(); //IdentityServer4 Nuget
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute(); //Add ... 
+                endpoints.MapDefaultControllerRoute(); // 
             });
         }
     }

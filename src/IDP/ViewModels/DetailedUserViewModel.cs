@@ -8,10 +8,9 @@ namespace IDP.ViewModels
 {
     public class DetailedUserViewModel
     {
-        public string Message { get; set; } = ""; //Any random DEV message we want to show in the View
+        public string Message { get; set; } = ""; 
         public string UserName { get; set; } = "";
-        //public List<string> AllRoles { get; set; } = new List<string>();
-        //public List<string> UsersRoles { get; set; } = new List<string>();
+
         public List<UsersRolesModel> UsersRoles { get; set; } = new List<UsersRolesModel>();
     }
 }

@@ -28,9 +28,8 @@ namespace IDP.Controllers.API.V01
 
 
         [HttpPost("AddRole")]
-        public async Task<IActionResult> AddRole([FromBody] RolesViewModel rolesViewModel)
+        public async Task<IActionResult> AddRole([FromBody] RolesDto rolesViewModel)
         {
-            //rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
             string guid = Guid.NewGuid().ToString();
             ApplicationRole applicationRole = new ApplicationRole
             {
@@ -39,7 +38,6 @@ namespace IDP.Controllers.API.V01
                 NormalizedName = rolesViewModel.NewRoleName.Normalize(),
             };
             var result = await _roleManager.CreateAsync(applicationRole);
-            //rolesViewModel.ListOfRoles.Add(new RoleModel { Id = applicationRole.Id, Name = applicationRole.Name });
             
             return Ok();
 

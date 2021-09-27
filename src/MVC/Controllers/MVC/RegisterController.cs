@@ -29,7 +29,6 @@ namespace MVC.Controllers
         }
 
 
-
         [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterViewModel vm)
         {
@@ -47,6 +46,4 @@ namespace MVC.Controllers
 
     }
 }
-
-
 

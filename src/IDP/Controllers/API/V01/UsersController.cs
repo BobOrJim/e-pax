@@ -15,6 +15,7 @@ namespace IDP.Controllers.API.V01
 {
     //[Authorize]
     [ApiController]
+    
     [Route("api/V01/[controller]")]
     public class UsersController : ControllerBase
     {
@@ -27,6 +28,7 @@ namespace IDP.Controllers.API.V01
 
 
         [HttpGet("Users")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Users()
         {
             IQueryable<ApplicationUser> usersList = _userManager.Users;
@@ -37,6 +39,7 @@ namespace IDP.Controllers.API.V01
 
 
         [HttpPost("RemoveUser")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveUser([FromBody] string Id)
         {
             ApplicationUser applicationUserToRemove = _userManager.FindByIdAsync(Id).GetAwaiter().GetResult();

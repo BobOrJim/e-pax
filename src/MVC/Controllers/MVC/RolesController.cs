@@ -98,7 +98,6 @@ namespace MVC.Controllers
         public async Task<IActionResult> SearchFilter(RolesViewModel rolesViewModel)
         {
             string searchPhrase = rolesViewModel.SearchPhrase;
-            //rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
             rolesViewModel = RolesViewModelFactoryWithRolesLoaded().GetAwaiter().GetResult();
             if (String.IsNullOrEmpty(searchPhrase))
             {
@@ -110,23 +109,19 @@ namespace MVC.Controllers
         }
 
 
-        public async Task<RolesViewModel> RolesViewModelFactoryWithRolesLoaded() //Good or bad or ugly?
+        public async Task<RolesViewModel> RolesViewModelFactoryWithRolesLoaded()
         {
-            var a = 1;
             var rolesViewModel = new RolesViewModel();
+
             var IDPClient = _httpClientFactory.CreateClient();
             IDPClient.BaseAddress = new Uri("https://localhost:44327/");
-            //IDPClient.SetBearerToken(TokenResponse.AccessToken);
+            IDPClient.SetBearerToken(await HttpContext.GetTokenAsync("access_token"));
+
             HttpResponseMessage SecretResponse = await IDPClient.GetAsync("api/V01/Roles/Roles");
-            var SecretMessage = await SecretResponse.Content.ReadAsAsync<List<RoleModel>>();
+            var rolesList = await SecretResponse.Content.ReadAsAsync<List<RoleModel>>();
 
-            //HttpResponseMessage response = await client.PostAsJsonAsync(
-            //    "api/products", product);
-
-            var b = 1;
-
-            var rolesList = SecretMessage;
-            foreach (var item in rolesList) //gör som anonymt objekt!!, och samma i UserController
+            //Building the viewModel
+            foreach (var item in rolesList) 
             {
                 RoleModel roleModel = new RoleModel();
                 roleModel.Id = item.Id;
@@ -136,6 +131,5 @@ namespace MVC.Controllers
             await Task.CompletedTask;
             return rolesViewModel;
         }
-
     }
 }

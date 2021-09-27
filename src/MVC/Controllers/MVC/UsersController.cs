@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +9,14 @@ using MVC.Models;
 using Microsoft.Extensions.Hosting;
 using System.Net.Http;
 using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Text.Json;
+using IdentityModel.Client;
+using Microsoft.AspNetCore.Authentication;
+using MVC.Extensions;
 
 namespace MVC.Controllers
 {
     [Route("[controller]")]
-    //[Authorize]
+    
     public class UsersController : Controller
     {
 
@@ -29,7 +29,9 @@ namespace MVC.Controllers
             _environment = environment;
         }
 
+
         [HttpGet("Users")]
+        //[Authorize]
         public async Task<IActionResult> Users()
         {
             UsersViewModel usersViewModel = await UsersViewModelFactoryWithUsersLoaded();
@@ -40,7 +42,6 @@ namespace MVC.Controllers
         [HttpPost("RemoveUser")]
         public async Task<IActionResult> RemoveUser(UsersViewModel usersViewModel, string Id)
         {
-
             var IDPClient = _httpClientFactory.CreateClient();
             IDPClient.BaseAddress = new Uri("https://localhost:44327/");
             HttpResponseMessage response = await IDPClient.PostAsJsonAsync("api/V01/Users/RemoveUser", Id);
@@ -83,40 +84,32 @@ namespace MVC.Controllers
         }
 
 
-        public async Task<UsersViewModel> UsersViewModelFactoryWithUsersLoaded() //Good or bad or ugly?
+        public async Task<UsersViewModel> UsersViewModelFactoryWithUsersLoaded()
         {
             var usersViewModel = new UsersViewModel();
-            var IDPClient = _httpClientFactory.CreateClient();
-            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
-            //IDPClient.SetBearerToken(TokenResponse.AccessToken);
-            HttpResponseMessage SecretResponse = await IDPClient.GetAsync("api/V01/Users/Users");
-            List<UserModel> UsersList2 = await SecretResponse.Content.ReadAsAsync<List<UserModel>>(); //OBS, här sker en "okontrollerad" default mappning. FIXA med automapper på alla ställen
-            
-            
-            //Kanske bra att ha när jag ger mig på automapper
-            //var UsersList = await SecretResponse.Content.ReadAsStringAsync();
-            //var response = await IDPClient.GetAsync($"api/V01/Users/Users");
-            //if (!response.IsSuccessStatusCode)
-            //{
-            //    Debug.WriteLine($" {response.ReasonPhrase}");
-            //}
-            //var dataAsString = await response.Content.ReadAsStringAsync();
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
+            HttpResponseMessage responseMessage = await IDPClient.GetAsync("api/V01/Users/Users");
 
-
-
-            var a = 10;
-
-            foreach (var item in UsersList2)
+            if (responseMessage.IsSuccessStatusCode)
             {
-                UserModel userModel = new UserModel();
-                userModel.Id = item.Id;
-                userModel.normalizedUserName = item.normalizedUserName;
-                usersViewModel.ListOfUsers.Add(userModel);
+                try
+                {
+                    List<UserModel> UsersList = await responseMessage.Content.ReadAsAsync<List<UserModel>>();
+                    foreach (var item in UsersList) //Building a userViewModel
+                    {
+                        UserModel userModel = new UserModel();
+                        userModel.Id = item.Id;
+                        userModel.normalizedUserName = item.normalizedUserName;
+                        usersViewModel.ListOfUsers.Add(userModel);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Exception in ConsoleUtilities/AskCLIForString. ExceptionType = {e.GetType().FullName} ExceptionMessage = {e.Message}");
+                }
             }
             return usersViewModel;
         }
-
-
     }
 }
 

@@ -14,6 +14,7 @@ using System.Diagnostics;
 namespace IDP.Controllers.API.V01
 {
     [ApiController]
+    //[Authorize]
     [Route("api/V01/[controller]")]
     public class DetailedUserController : ControllerBase
     {

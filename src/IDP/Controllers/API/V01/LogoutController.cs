@@ -19,7 +19,7 @@ namespace IDP.Controllers.API.V01
     {
         //This endpoint is only used by is4. Config in startup.cs under cookie-settings.
         //Hitting this endpoint "directly" will not result in a logout
-        //A correct logout in initiated when the "Logout" endpoint in the MVC project is used.
+        //A correct logout is initiated when the "Logout" endpoint in the MVC project is used.
 
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()

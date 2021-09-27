@@ -37,11 +37,17 @@ namespace IDP.Repos
         public static IEnumerable<ApiResource> GetApis() =>
             //Här anges tillåtna claims i AccessToken.
             new List<ApiResource>{
-                new ApiResource("apigateway1", new string[]{ "rc.api.garndma", "claimname", "role" }),
+                new ApiResource("apigateway1", new string[]{ "role" }),
                 new ApiResource("APIGateway2"),
-                new ApiResource("API_Forest", new string[]{ "rc.api.garndma", "claimname", "role" }),
-                new ApiResource("API_Mountain", new string[]{ "rc.api.garndma", "claimname", "role" }),
-                new ApiResource("API_Desert", new string[]{ "rc.api.garndma", "claimname", "role" }),
+                new ApiResource("API_Forest", new string[]{ "role" }), //Fortsätt här.
+                new ApiResource("API_Mountain", new string[]{ "role" }),
+                new ApiResource("API_Desert", new string[]{ "role" }),
+
+                //new ApiResource("apigateway1", new string[]{ "rc.api.garndma", "claimname", "role" }),
+                //new ApiResource("APIGateway2"),
+                //new ApiResource("API_Forest", new string[]{ "rc.api.garndma", "claimname", "role" }),
+                //new ApiResource("API_Mountain", new string[]{ "rc.api.garndma", "claimname", "role" }),
+                //new ApiResource("API_Desert", new string[]{ "rc.api.garndma", "claimname", "role" }),
 
             };
 

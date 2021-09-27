@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_Forest", "src\API_Fores
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_Mountain", "src\API_Mountain\API_Mountain.csproj", "{BCD4DD09-DF17-4F21-BC97-367D93A4F425}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_Desert", "API_Desert\API_Desert.csproj", "{D2F6053C-F85F-4D46-A2C9-9CD3612C2196}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_Desert", "src\API_Desert\API_Desert.csproj", "{D2F6053C-F85F-4D46-A2C9-9CD3612C2196}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

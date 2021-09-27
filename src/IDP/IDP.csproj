@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ModelsDto\**" />
+    <Compile Remove="Profiles\**" />
+    <Content Remove="ModelsDto\**" />
+    <Content Remove="Profiles\**" />
+    <EmbeddedResource Remove="ModelsDto\**" />
+    <EmbeddedResource Remove="Profiles\**" />
+    <None Remove="ModelsDto\**" />
+    <None Remove="Profiles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 	<PackageReference Include="IdentityServer4.AspNetIdentity" Version="3.0.2" />
 	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.0.0" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
@@ -16,11 +27,6 @@
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
 	<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ModelsDto\" />
-    <Folder Include="Profiles\" />
   </ItemGroup>
 
 </Project>

@@ -15,15 +15,6 @@ namespace IDP.Repos
             new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                //new IdentityResource
-                //{
-                //    Name = "rc.scope",
-                //    UserClaims =
-                //    {
-                //        "rc.garndma"
-                //    }
-                //}
-
             };
 
         public static IEnumerable<ApiResource> GetApis() =>
@@ -68,12 +59,8 @@ namespace IDP.Repos
                     AllowedScopes = {
                         "APIGateway1",
                         "APIGateway2",
-                        IdentityServer4.IdentityServerConstants.StandardScopes.OpenId, //Add open ID layer, and give user and id token.
-                        //IdentityServerConstants.StandardScopes.Profile,
-                        //"rc.scope",
-                    },             
-
-                    //AlwaysIncludeUserClaimsInIdToken = true, //put all the claims in the id token, possibly needed for local login in mvc client auth endpoints.
+                        IdentityServerConstants.StandardScopes.OpenId, //Add open ID layer, and give user and id token.
+                    },
 
                     AllowOfflineAccess = true,
                     AccessTokenLifetime = 1, //The final time is 5min + this setting.

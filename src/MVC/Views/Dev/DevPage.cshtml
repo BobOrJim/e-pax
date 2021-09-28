@@ -1,9 +1,9 @@
-﻿@{ViewData["Title"] = "";}
+﻿@model MVC.ViewModels.DevPageViewModel;
+
+@{ViewData["Title"] = "";}
 
 <br>
 <br>
-
-<a href="https://localhost:44345/Dev/TestButton" class="link-warning">/TestButton</a>
 <br>
 <br>
 
@@ -35,15 +35,29 @@
         </tr>
         <tr>
             <th>MVC</th>
-            <td><a href="https://localhost:44345/Users/Users" class="link-primary">/Users/Users</a></td>
+            @if (Model.UserHasAdminRole)
+            {
+                <td><a href="https://localhost:44345/Users/Users" class="link-primary">/Users/Users</a></td>
+            }
+            else 
+            {
+                <td>Link shown when UserHasAdminRole </td>
+            }
             <td>[Authorize]</td>
             <td>Will call an API in IDP</td>
         </tr>
         <tr>
             <th>MVC</th>
-            <td><a href="https://localhost:44345/Roles/Roles" class="link-primary">/Roles/Roles</a></td>
+            @if (Model.UserHasAdminRole)
+            {
+                <td><a href="https://localhost:44345/Roles/Roles" class="link-primary">/Roles/Roles</a></td>
+            }
+            else
+            {
+                <td>Link shown when UserHasAdminRole </td>
+            }
             <td>[Authorize]</td>
-            <td>Will call an API in IDP</td>
+            <td>Button invisible if not Role=Admin. Will call an API in IDP</td>
         </tr>
         <tr>
             <th>MVC</th>

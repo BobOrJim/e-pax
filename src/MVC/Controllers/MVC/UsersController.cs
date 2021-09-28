@@ -16,7 +16,7 @@ using MVC.Extensions;
 namespace MVC.Controllers
 {
     [Route("[controller]")]
-    
+    //Note, all Auth are done in the IDP, and no Auth in MVC. This is intentional.
     public class UsersController : Controller
     {
 
@@ -31,7 +31,6 @@ namespace MVC.Controllers
 
 
         [HttpGet("Users")]
-        //[Authorize]
         public async Task<IActionResult> Users()
         {
             UsersViewModel usersViewModel = await UsersViewModelFactoryWithUsersLoaded();
@@ -87,14 +86,33 @@ namespace MVC.Controllers
         public async Task<UsersViewModel> UsersViewModelFactoryWithUsersLoaded()
         {
             var usersViewModel = new UsersViewModel();
-            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
+            //var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
+            var IDPClient = _httpClientFactory.CreateClient();
+
+            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
+            var token = await HttpContext.GetTokenAsync("access_token");
+            IDPClient.SetBearerToken(token);
+
             HttpResponseMessage responseMessage = await IDPClient.GetAsync("api/V01/Users/Users");
+
+
+            //var IDPClient = _httpClientFactory.CreateClient();
+            //IDPClient.BaseAddress = new Uri("https://localhost:44327/");
+            //IDPClient.SetBearerToken(await HttpContext.GetTokenAsync("access_token"));
+
+            //HttpResponseMessage SecretResponse = await IDPClient.GetAsync("api/V01/Roles/Roles");
+            //var rolesList = await SecretResponse.Content.ReadAsAsync<List<RoleModel>>();
+
+
+            var a = 12;
 
             if (responseMessage.IsSuccessStatusCode)
             {
                 try
                 {
+                    var b = 12;
                     List<UserModel> UsersList = await responseMessage.Content.ReadAsAsync<List<UserModel>>();
+                    var live = 12;
                     foreach (var item in UsersList) //Building a userViewModel
                     {
                         UserModel userModel = new UserModel();
@@ -102,12 +120,15 @@ namespace MVC.Controllers
                         userModel.normalizedUserName = item.normalizedUserName;
                         usersViewModel.ListOfUsers.Add(userModel);
                     }
+                    var dim = 12;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine($"Exception in ConsoleUtilities/AskCLIForString. ExceptionType = {e.GetType().FullName} ExceptionMessage = {e.Message}");
                 }
             }
+            var c = 12;
+
             return usersViewModel;
         }
     }

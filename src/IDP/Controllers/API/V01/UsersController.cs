@@ -28,7 +28,9 @@ namespace IDP.Controllers.API.V01
 
 
         [HttpGet("Users")]
-        [Authorize(Roles = "Admin")]
+//        [Authorize(Roles = "Admin")]
+        [Authorize]
+
         public async Task<IActionResult> Users()
         {
             IQueryable<ApplicationUser> usersList = _userManager.Users;

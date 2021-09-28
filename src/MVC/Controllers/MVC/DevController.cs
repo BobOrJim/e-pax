@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Hosting;
 using MVC.Repos;
 using System.Web;
-
+using System.Security.Claims;
 
 namespace MVC.Controllers
 {
@@ -36,10 +36,17 @@ namespace MVC.Controllers
         [HttpGet("DevPage")]
         public async Task<IActionResult> Dev()
         {
+            DevPageViewModel devPageViewModel = new();
 
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            if (!string.IsNullOrEmpty(accessToken))
+            {
+                List<Claim> jwtAccessToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken).Claims.Where(a => a.Type == "role").ToList();
+                devPageViewModel.UserHasAdminRole = jwtAccessToken.Where(a => a.Value == "Admin").ToList().Any(); //We have a role with value = "Admin"
+            }
 
             await Task.CompletedTask;
-            return View("DevPage");
+            return View("DevPage", devPageViewModel);
         }
 
 
@@ -73,20 +80,6 @@ namespace MVC.Controllers
             secretMessageViewModel.SecretMessage = await secretMessageViewModel.httpResponseMessage.Content.ReadAsStringAsync();
             return View("SecretMessage", secretMessageViewModel);
         }
-
-
-        
-
-        [HttpGet("TestButton")]
-        [Authorize]
-        public async Task<IActionResult> TestButton()
-        {
-            //Dev test area, ready for anything.
-
-            await Task.CompletedTask;
-            return View("DevPage");
-        }
-
 
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()

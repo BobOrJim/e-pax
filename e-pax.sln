@@ -26,6 +26,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_Mountain", "src\API_Mou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_Desert", "src\API_Desert\API_Desert.csproj", "{D2F6053C-F85F-4D46-A2C9-9CD3612C2196}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logs", "Logs", "{3CA6515E-191E-4901-88F0-6466BC3F39BC}"
+	ProjectSection(SolutionItems) = preProject
+		src\Logs\IDP_Locallog_20210930.txt = src\Logs\IDP_Locallog_20210930.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

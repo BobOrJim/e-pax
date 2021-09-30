@@ -15,6 +15,18 @@ namespace IDP.Repos
             new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
+                //################# JN 210928
+                new IdentityResources.Profile(),
+                new IdentityResource
+                {
+                    Name = "rc.scope",
+                    UserClaims =
+                    {
+                        "rc.garndma"
+                    }
+                }
+                //#################
+
             };
 
         public static IEnumerable<ApiResource> GetApis() =>
@@ -25,6 +37,8 @@ namespace IDP.Repos
                 new ApiResource("API_Forest", new string[]{ "role" }),
                 new ApiResource("API_Mountain", new string[]{ "role" }),
                 new ApiResource("API_Desert", new string[]{ "role" }),
+                new ApiResource("IDP", new string[]{ "role" }), //JN
+
             };
 
         //For is4.1.x, laborera senare. Nu kör jag is3.xxx
@@ -59,8 +73,14 @@ namespace IDP.Repos
                     AllowedScopes = {
                         "APIGateway1",
                         "APIGateway2",
+                        "IDP", //JN
                         IdentityServerConstants.StandardScopes.OpenId, //Add open ID layer, and give user and id token.
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "rc.scope",
                     },
+
+                    // puts all the claims in the id token
+                    AlwaysIncludeUserClaimsInIdToken = true,
 
                     AllowOfflineAccess = true,
                     AccessTokenLifetime = 1, //The final time is 5min + this setting.

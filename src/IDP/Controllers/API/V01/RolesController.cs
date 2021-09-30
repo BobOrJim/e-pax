@@ -45,7 +45,9 @@ namespace IDP.Controllers.API.V01
 
 
         [HttpGet("Roles")]
-        [Authorize(Roles = "Admin, Masters_Degree_In_Mining")]
+        //[Authorize(Roles = "Admin, Masters_Degree_In_Mining")] //Access denied
+        //[Authorize] //Access denied
+
         public async Task<IActionResult> Roles()
         {
             IQueryable<ApplicationRole> rolesList = _roleManager.Roles;

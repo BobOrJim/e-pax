@@ -89,12 +89,21 @@ namespace MVC.Controllers
             //var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
             var IDPClient = _httpClientFactory.CreateClient();
 
-            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
-            var token = await HttpContext.GetTokenAsync("access_token");
-            IDPClient.SetBearerToken(token);
+            //IDPClient.BaseAddress = new Uri("https://localhost:44327/");
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var idToken = await HttpContext.GetTokenAsync("id_token");
 
-            HttpResponseMessage responseMessage = await IDPClient.GetAsync("api/V01/Users/Users");
+            IDPClient.SetBearerToken(idToken);
 
+            var responseMessage = await IDPClient.GetAsync("https://localhost:44327/api/V01/Users/Users");
+
+            //var httpClient = _httpClientFactory.CreateClient();
+            //httpClient.SetBearerToken(accessToken);
+            //return await httpClient.GetAsync(url);
+
+            //var httpClient = _httpClientFactory.CreateClient();
+            //httpClient.SetBearerToken(accessToken);
+            //return await httpClient.GetAsync(url);
 
             //var IDPClient = _httpClientFactory.CreateClient();
             //IDPClient.BaseAddress = new Uri("https://localhost:44327/");

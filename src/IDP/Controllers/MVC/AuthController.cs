@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using IDP.ViewModels.Auth;
 using IdentityServer4.Services;
+using Serilog;
 
 namespace IDP.Controllers.MVC
 {
@@ -24,6 +25,7 @@ namespace IDP.Controllers.MVC
         [HttpGet("Login")]
         public IActionResult Login(string returnUrl)
         {
+            Log.Information("Hello, from AuthController.cs in IDP");
             return View("Login", new LoginViewModel { ReturnUrl = returnUrl ?? "https://localhost:44327/" });
         }
 

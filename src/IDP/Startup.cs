@@ -17,8 +17,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Configuration;
 using IDP.Repos;
 using Microsoft.OpenApi.Models;
-
-
+using Serilog;
 
 namespace IDP
 {
@@ -33,6 +32,17 @@ namespace IDP
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //############## TRYING TO GET IDP TO REGISTER ITSELF AT A API RESORCE IN ITSELF.
+            //services.AddAuthentication("Bearer")
+            //.AddJwtBearer("Bearer", config =>
+            //{
+            //    //config.TokenValidationParameters.
+            //    config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
+            //    config.Audience = "IDP"; //APIGateway1 identifierar sig själv när vi validering av token.
+            //});
+            //#############
+
+
 
             // Add EF services to the services container. IE user management with users/roles
             services.AddDbContext<ApplicationIdentityDbContext>(options =>
@@ -74,6 +84,9 @@ namespace IDP
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "IDP", Version = "v1" });
             });
+
+
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -84,17 +97,33 @@ namespace IDP
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "IDP v1"));
             }
-
+            
             app.UseStaticFiles(); //To Use bootstrap etc.
 
+            app.Use(async (context, next) =>
+            {
+                Log.Information("IDP: UseHttpsRedirection, before next.Invoke() ");
+                await next.Invoke();
+                Log.Information("Hello, from startup.cs before  UseHttpsRedirection after next.Invoke() ");
+
+            });
+
+            Log.Information("Hello, from startup.cs before UseHttpsRedirection ");
             app.UseHttpsRedirection(); //
 
+            Log.Information("Hello, from startup.cs before UseRouting ");
             app.UseRouting();
 
+            Log.Information("Hello, from startup.cs before UseAuthentication ");
+            app.UseAuthentication(); //JN
+
+            Log.Information("Hello, from startup.cs before UseAuthorization ");
             app.UseAuthorization(); //
 
+            Log.Information("Hello, from startup.cs before UseIdentityServer ");
             app.UseIdentityServer(); //IdentityServer4 Nuget
 
+            Log.Information("Hello, from startup.cs before UseEndpoints ");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute(); // 

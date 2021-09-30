@@ -25,7 +25,7 @@ namespace IDP.Controllers.MVC
         [HttpGet("Login")]
         public IActionResult Login(string returnUrl)
         {
-            Log.Information("Hello, from AuthController.cs in IDP");
+            //Log.Information("Hello, from AuthController.cs in IDP");
             return View("Login", new LoginViewModel { ReturnUrl = returnUrl ?? "https://localhost:44327/" });
         }
 

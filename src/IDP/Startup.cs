@@ -97,37 +97,33 @@ namespace IDP
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "IDP v1"));
             }
-            
+
+
+
+
             app.UseStaticFiles(); //To Use bootstrap etc.
+            LogUtils.LogInMiddleware(app, "IDP", "UseStaticFiles", "UseHttpsRedirection");
 
-            app.Use(async (context, next) =>
-            {
-                Log.Information("IDP: UseHttpsRedirection, before next.Invoke() ");
-                await next.Invoke();
-                Log.Information("Hello, from startup.cs before  UseHttpsRedirection after next.Invoke() ");
+            app.UseHttpsRedirection();
+            LogUtils.LogInMiddleware(app, "IDP", "UseHttpsRedirection", "UseRouting");
 
-            });
-
-            Log.Information("Hello, from startup.cs before UseHttpsRedirection ");
-            app.UseHttpsRedirection(); //
-
-            Log.Information("Hello, from startup.cs before UseRouting ");
             app.UseRouting();
+            LogUtils.LogInMiddleware(app, "IDP", "UseRouting", "UseAuthentication");
 
-            Log.Information("Hello, from startup.cs before UseAuthentication ");
             app.UseAuthentication(); //JN
+            LogUtils.LogInMiddleware(app, "IDP", "UseAuthentication", "UseAuthorization");
 
-            Log.Information("Hello, from startup.cs before UseAuthorization ");
             app.UseAuthorization(); //
+            LogUtils.LogInMiddleware(app, "IDP", "UseAuthorization", "UseIdentityServer");
 
-            Log.Information("Hello, from startup.cs before UseIdentityServer ");
             app.UseIdentityServer(); //IdentityServer4 Nuget
 
-            Log.Information("Hello, from startup.cs before UseEndpoints ");
+            LogUtils.LogInMiddleware(app, "IDP", "UseIdentityServer", "UseEndpoints");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute(); // 
             });
+            LogUtils.LogInMiddleware(app, "IDP", "EndStation", "EndStation");
         }
     }
 }

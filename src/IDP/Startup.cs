@@ -99,8 +99,6 @@ namespace IDP
             }
 
 
-
-
             app.UseStaticFiles(); //To Use bootstrap etc.
             LogUtils.LogInMiddleware(app, "IDP", "UseStaticFiles", "UseHttpsRedirection");
 

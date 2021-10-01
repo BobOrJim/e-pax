@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace API_Forest.Controllers.V01
@@ -17,6 +18,7 @@ namespace API_Forest.Controllers.V01
         [Authorize]
         public async Task<IActionResult> SecretForestInEurope()
         {
+            var SecretMessage = await _callAPIEndpoint.CallEndpoint(API_Endpoint.SecretForestInEurope);
             await Task.CompletedTask;
             return Ok("Origin = API_Forest. A secret forest in eurpoe is Ardennes");
         }

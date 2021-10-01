@@ -7,7 +7,6 @@ namespace APIGateway1.Services
 {
     public class CallAPIEndpoint : ICallAPIEndpoint
     {
-
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ITokenFactory _tokenFactory;
 

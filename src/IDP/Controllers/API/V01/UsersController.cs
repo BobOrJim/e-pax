@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
-
 namespace IDP.Controllers.API.V01
 {
     //[Authorize]
@@ -26,9 +25,8 @@ namespace IDP.Controllers.API.V01
             _userManager = userManager;
         }
 
-
         [HttpGet("Users")]
-//        [Authorize(Roles = "Admin")]
+//      [Authorize(Roles = "Admin")]
         [Authorize]
 
         public async Task<IActionResult> Users()

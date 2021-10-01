@@ -14,9 +14,9 @@ namespace IDP
         {
             app.Use(async (context, next) =>
             {
-                Log.Information($"{project} : {aboveInCode} : {belowInCode} : HTTP-request moving IN  ");
+                Log.Information($"{project} : {aboveInCode}  -->  {belowInCode} ");
                 await next.Invoke();
-                Log.Information($"{project} : {aboveInCode} : {belowInCode} : HTTP-request moving OUT  ");
+                Log.Information($"{project} : {aboveInCode}  <--  {belowInCode} ");
             });
 
 

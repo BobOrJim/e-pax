@@ -16,17 +16,44 @@ namespace APIGateway1.Controllers.V01
     public class ForestController : ControllerBase
     {
         private readonly ICallAPIEndpoint _callAPIEndpoint;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public ForestController(ICallAPIEndpoint callAPIEndpoint)
+        public ForestController(ICallAPIEndpoint callAPIEndpoint, IHttpClientFactory httpClientFactory)
         {
             _callAPIEndpoint = callAPIEndpoint;
+            _httpClientFactory = httpClientFactory;
         }
 
         [HttpGet("GetSecretForestInEurope")]
         [Authorize(Roles = "Admin, Masters_Degree_In_Forestry")]
         public async Task<IActionResult> GetSecretForestInEurope()
         {
-            var SecretMessage = await _callAPIEndpoint.CallEndpoint(API_Endpoint.SecretForestInEurope);
+            //Test: Anslut till IDP via m2m och se om det fungerar.
+            //var CallIDPClient = _httpClientFactory.CreateClient();
+
+            //var token = await _tokenFactory.GetAccessToken();
+            //CallClient.SetBearerToken(token);
+            //var SecretResponse = await CallClient.GetAsync(url);
+            //var responseMessage = await SecretResponse.Content.ReadAsStringAsync();
+            //return responseMessage;
+
+            var test2 = await _callAPIEndpoint.CallEndpoint("https://localhost:44327/api/V01/Users/Users");
+
+
+            var CallIDPClient = _httpClientFactory.CreateClient();
+
+            //var token = await _tokenFactory.GetAccessToken();
+            //CallClient.SetBearerToken(token);
+            //var SecretResponse = await CallClient.GetAsync(url);
+            //var responseMessage = await SecretResponse.Content.ReadAsStringAsync();
+
+            var test = await _callAPIEndpoint.CallEndpoint("https://localhost:44327/api/V01/Forests/SecretForestInEurope");
+
+            //var SecretMessage = await _callAPIEndpoint.CallEndpoint(API_Endpoint.SecretForestInEurope); DONT TOUCH
+
+            var SecretMessage = "Haloj";
+            var a = 10;
+
             return Ok(SecretMessage);
         }
     }

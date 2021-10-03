@@ -50,10 +50,10 @@ namespace MVC
                     config.Scope.Add("openid");
                     config.Scope.Add("profile");
                     //IdentityServerConstants.StandardScopes.Profile
-                    config.Scope.Add("rc.scope");
+                    //config.Scope.Add("rc.scope");
                     config.Scope.Add("APIGateway1");
                     config.Scope.Add("APIGateway2");
-                    config.Scope.Add("IDP"); //JN
+                    //config.Scope.Add("IDP"); //JN
                     config.Scope.Add("offline_access"); //Token refresh
                 });
 

@@ -15,18 +15,7 @@ namespace IDP.Repos
             new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                //################# JN 210928
                 new IdentityResources.Profile(),
-                new IdentityResource
-                {
-                    Name = "rc.scope",
-                    UserClaims =
-                    {
-                        "rc.garndma"
-                    }
-                }
-                //#################
-
             };
 
         public static IEnumerable<ApiResource> GetApis() =>
@@ -53,8 +42,8 @@ namespace IDP.Repos
                  new Client {
                     ClientId = "client_APIGateway1",
                     ClientSecrets = { new Secret("APIGateway1_secret".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,           //Flow. Machine to Machine
-                    AllowedScopes = { "API_Forest", "API_Mountain" },           //client_APIGateway1 are allowed to acces these scopes.
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,                  //Flow. Machine to Machine
+                    AllowedScopes = { "API_Forest", "API_Mountain"},           //client_APIGateway1 are allowed to acces these scopes.
                 },
 
                  new Client {
@@ -73,10 +62,8 @@ namespace IDP.Repos
                     AllowedScopes = {
                         "APIGateway1",
                         "APIGateway2",
-                        "IDP", //JN
                         IdentityServerConstants.StandardScopes.OpenId, //Add open ID layer, and give user and id token.
                         IdentityServerConstants.StandardScopes.Profile,
-                        "rc.scope",
                     },
 
                     // puts all the claims in the id token

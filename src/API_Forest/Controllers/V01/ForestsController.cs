@@ -18,7 +18,6 @@ namespace API_Forest.Controllers.V01
         [Authorize]
         public async Task<IActionResult> SecretForestInEurope()
         {
-            var SecretMessage = await _callAPIEndpoint.CallEndpoint(API_Endpoint.SecretForestInEurope);
             await Task.CompletedTask;
             return Ok("Origin = API_Forest. A secret forest in eurpoe is Ardennes");
         }

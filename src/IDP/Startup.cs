@@ -34,12 +34,12 @@ namespace IDP
         {
             //############## TRYING TO GET IDP TO REGISTER ITSELF AT A API RESORCE IN ITSELF.
             //services.AddAuthentication("Bearer")
-            //.AddJwtBearer("Bearer", config =>
-            //{
-            //    //config.TokenValidationParameters.
-            //    config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
-            //    config.Audience = "IDP"; //APIGateway1 identifierar sig själv när vi validering av token.
-            //});
+            //    .AddJwtBearer("Bearer", config =>
+            //    {
+            //        //config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
+            //        config.Authority = "localhost"; //Hitt kan API skicka access tokens för att validera dem.
+            //        config.Audience = "IDP"; //API_Forest identifierar sig själv när vi validering av token.
+            //    });
             //#############
 
 

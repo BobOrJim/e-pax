@@ -33,6 +33,7 @@ namespace MVC.Controllers
         [HttpGet("Users")]
         public async Task<IActionResult> Users()
         {
+            var b = 10;
             UsersViewModel usersViewModel = await UsersViewModelFactoryWithUsersLoaded();
             return View("Users", usersViewModel);
         }
@@ -48,7 +49,6 @@ namespace MVC.Controllers
             usersViewModel = await UsersViewModelFactoryWithUsersLoaded();
             return View("Users", usersViewModel);
         }
-
 
         [HttpPost("Sort")]
         public async Task<IActionResult> Sort(UsersViewModel usersViewModel)
@@ -85,43 +85,26 @@ namespace MVC.Controllers
 
         public async Task<UsersViewModel> UsersViewModelFactoryWithUsersLoaded()
         {
+            var a = 12;
             var usersViewModel = new UsersViewModel();
             //var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
-            var IDPClient = _httpClientFactory.CreateClient();
 
-            //IDPClient.BaseAddress = new Uri("https://localhost:44327/");
+            var IDPClient = _httpClientFactory.CreateClient();
             var accessToken = await HttpContext.GetTokenAsync("access_token");
             var idToken = await HttpContext.GetTokenAsync("id_token");
 
-            IDPClient.SetBearerToken(idToken);
+            IDPClient.SetBearerToken(accessToken);
 
             var responseMessage = await IDPClient.GetAsync("https://localhost:44327/api/V01/Users/Users");
-
-            //var httpClient = _httpClientFactory.CreateClient();
-            //httpClient.SetBearerToken(accessToken);
-            //return await httpClient.GetAsync(url);
-
-            //var httpClient = _httpClientFactory.CreateClient();
-            //httpClient.SetBearerToken(accessToken);
-            //return await httpClient.GetAsync(url);
-
-            //var IDPClient = _httpClientFactory.CreateClient();
-            //IDPClient.BaseAddress = new Uri("https://localhost:44327/");
-            //IDPClient.SetBearerToken(await HttpContext.GetTokenAsync("access_token"));
-
-            //HttpResponseMessage SecretResponse = await IDPClient.GetAsync("api/V01/Roles/Roles");
-            //var rolesList = await SecretResponse.Content.ReadAsAsync<List<RoleModel>>();
+                                                            //https://localhost:44327/api/V01/Users/Users
 
 
-            var a = 12;
 
             if (responseMessage.IsSuccessStatusCode)
             {
                 try
                 {
-                    var b = 12;
                     List<UserModel> UsersList = await responseMessage.Content.ReadAsAsync<List<UserModel>>();
-                    var live = 12;
                     foreach (var item in UsersList) //Building a userViewModel
                     {
                         UserModel userModel = new UserModel();
@@ -129,15 +112,12 @@ namespace MVC.Controllers
                         userModel.normalizedUserName = item.normalizedUserName;
                         usersViewModel.ListOfUsers.Add(userModel);
                     }
-                    var dim = 12;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine($"Exception in ConsoleUtilities/AskCLIForString. ExceptionType = {e.GetType().FullName} ExceptionMessage = {e.Message}");
                 }
             }
-            var c = 12;
-
             return usersViewModel;
         }
     }

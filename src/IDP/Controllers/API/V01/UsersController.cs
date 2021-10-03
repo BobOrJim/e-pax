@@ -13,8 +13,9 @@ using System.Diagnostics;
 namespace IDP.Controllers.API.V01
 {
     //[Authorize]
+    //[Authorize(AuthenticationSchemes = "Bearer")]
+
     [ApiController]
-    
     [Route("api/V01/[controller]")]
     public class UsersController : ControllerBase
     {
@@ -27,8 +28,7 @@ namespace IDP.Controllers.API.V01
 
         [HttpGet("Users")]
 //      [Authorize(Roles = "Admin")]
-        [Authorize]
-
+//        [Authorize]
         public async Task<IActionResult> Users()
         {
             IQueryable<ApplicationUser> usersList = _userManager.Users;

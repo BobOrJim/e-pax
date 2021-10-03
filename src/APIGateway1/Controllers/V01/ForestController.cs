@@ -28,32 +28,7 @@ namespace APIGateway1.Controllers.V01
         [Authorize(Roles = "Admin, Masters_Degree_In_Forestry")]
         public async Task<IActionResult> GetSecretForestInEurope()
         {
-            //Test: Anslut till IDP via m2m och se om det fungerar.
-            //var CallIDPClient = _httpClientFactory.CreateClient();
-
-            //var token = await _tokenFactory.GetAccessToken();
-            //CallClient.SetBearerToken(token);
-            //var SecretResponse = await CallClient.GetAsync(url);
-            //var responseMessage = await SecretResponse.Content.ReadAsStringAsync();
-            //return responseMessage;
-
-            var test2 = await _callAPIEndpoint.CallEndpoint("https://localhost:44327/api/V01/Users/Users");
-
-
-            var CallIDPClient = _httpClientFactory.CreateClient();
-
-            //var token = await _tokenFactory.GetAccessToken();
-            //CallClient.SetBearerToken(token);
-            //var SecretResponse = await CallClient.GetAsync(url);
-            //var responseMessage = await SecretResponse.Content.ReadAsStringAsync();
-
-            var test = await _callAPIEndpoint.CallEndpoint("https://localhost:44327/api/V01/Forests/SecretForestInEurope");
-
-            //var SecretMessage = await _callAPIEndpoint.CallEndpoint(API_Endpoint.SecretForestInEurope); DONT TOUCH
-
-            var SecretMessage = "Haloj";
-            var a = 10;
-
+            var SecretMessage = await _callAPIEndpoint.CallEndpoint(API_Endpoint.SecretForestInEurope);
             return Ok(SecretMessage);
         }
     }

@@ -54,6 +54,7 @@ namespace MVC.Controllers
         [Authorize]
         public async Task<IActionResult> AskGateway1_GetSecretForestInEurope()
         {
+            var b = 10;
             SecretMessageViewModel secretMessageViewModel = new();
             secretMessageViewModel.httpResponseMessage = await CallURLWithAccessToken("https://localhost:44370/api/V01/Forest/GetSecretForestInEurope", await HttpContext.GetTokenAsync("access_token"));
             secretMessageViewModel.SecretMessage = await secretMessageViewModel.httpResponseMessage.Content.ReadAsStringAsync();

@@ -14,6 +14,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Hosting;
 using MVC.Models;
+using Common.Extensions;
 
 namespace MVC.Controllers
 {
@@ -22,28 +23,18 @@ namespace MVC.Controllers
     {
 
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IHostEnvironment _environment;
 
-        public RolesController(IHttpClientFactory httpClientFactory, IHostEnvironment environment)
+        public RolesController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _environment = environment;
         }
 
 
         [HttpPost("AddRole")]
         public async Task<IActionResult> AddRole(RolesViewModel rolesViewModel)
         {
-            //rolesViewModel.ListOfRoles = JsonConvert.DeserializeObject<List<RoleModel>>(rolesViewModel.jsonSerializeStringPlaceholder1);
-
-            var b = 2;
-
-
-            var IDPClient = _httpClientFactory.CreateClient();
-            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
             HttpResponseMessage response = await IDPClient.PostAsJsonAsync("api/V01/Roles/AddRole", rolesViewModel);
-
-            var a = 12;
 
             rolesViewModel = await RolesViewModelFactoryWithRolesLoaded();
             return View("Roles", rolesViewModel);
@@ -54,8 +45,6 @@ namespace MVC.Controllers
         [HttpGet("Roles")]
         public async Task<IActionResult> Roles()
         {
-            var test = 1;
-            
             RolesViewModel rolesViewModel = await RolesViewModelFactoryWithRolesLoaded();
             return View("Roles", rolesViewModel);
         }
@@ -64,13 +53,9 @@ namespace MVC.Controllers
         [HttpPost("RemoveRole")]
         public async Task<IActionResult> RemoveRole(RolesViewModel rolesViewModel, string Id)
         {
-            var IDPClient = _httpClientFactory.CreateClient();
-            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
             HttpResponseMessage response = await IDPClient.PostAsJsonAsync("api/V01/Roles/RemoveRole", Id);
 
-            var b = 1;
-
-            await Task.CompletedTask;
             rolesViewModel = await RolesViewModelFactoryWithRolesLoaded();
             return View("Roles", rolesViewModel);
         }
@@ -113,10 +98,7 @@ namespace MVC.Controllers
         {
             var rolesViewModel = new RolesViewModel();
 
-            var IDPClient = _httpClientFactory.CreateClient();
-            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
-            IDPClient.SetBearerToken(await HttpContext.GetTokenAsync("access_token"));
-
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
             HttpResponseMessage SecretResponse = await IDPClient.GetAsync("api/V01/Roles/Roles");
             var rolesList = await SecretResponse.Content.ReadAsAsync<List<RoleModel>>();
 

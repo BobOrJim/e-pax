@@ -11,7 +11,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
-using MVC.Extensions;
+using Common.Extensions;
 
 namespace MVC.Controllers
 {
@@ -21,19 +21,16 @@ namespace MVC.Controllers
     {
 
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IHostEnvironment _environment;
 
-        public UsersController(IHttpClientFactory httpClientFactory, IHostEnvironment environment)
+        public UsersController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _environment = environment;
         }
 
 
         [HttpGet("Users")]
         public async Task<IActionResult> Users()
         {
-            var b = 10;
             UsersViewModel usersViewModel = await UsersViewModelFactoryWithUsersLoaded();
             return View("Users", usersViewModel);
         }
@@ -42,13 +39,13 @@ namespace MVC.Controllers
         [HttpPost("RemoveUser")]
         public async Task<IActionResult> RemoveUser(UsersViewModel usersViewModel, string Id)
         {
-            var IDPClient = _httpClientFactory.CreateClient();
-            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
-            HttpResponseMessage response = await IDPClient.PostAsJsonAsync("api/V01/Users/RemoveUser", Id);
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
+            await IDPClient.PostAsJsonAsync("api/V01/Users/RemoveUser", Id);
 
             usersViewModel = await UsersViewModelFactoryWithUsersLoaded();
             return View("Users", usersViewModel);
         }
+
 
         [HttpPost("Sort")]
         public async Task<IActionResult> Sort(UsersViewModel usersViewModel)
@@ -85,20 +82,10 @@ namespace MVC.Controllers
 
         public async Task<UsersViewModel> UsersViewModelFactoryWithUsersLoaded()
         {
-            var a = 12;
             var usersViewModel = new UsersViewModel();
-            //var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
 
-            var IDPClient = _httpClientFactory.CreateClient();
-            var accessToken = await HttpContext.GetTokenAsync("access_token");
-            var idToken = await HttpContext.GetTokenAsync("id_token");
-
-            IDPClient.SetBearerToken(accessToken);
-
-            var responseMessage = await IDPClient.GetAsync("https://localhost:44327/api/V01/Users/Users");
-                                                            //https://localhost:44327/api/V01/Users/Users
-
-
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
+            var responseMessage = await IDPClient.GetAsync("api/V01/Users/Users");
 
             if (responseMessage.IsSuccessStatusCode)
             {

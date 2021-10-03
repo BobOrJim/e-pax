@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ModelDto\" />
-    <Folder Include="Extensions\" />
+    <Compile Remove="Extensions\**" />
+    <Compile Remove="ModelDto\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <EmbeddedResource Remove="ModelDto\**" />
+    <None Remove="Extensions\**" />
+    <None Remove="ModelDto\**" />
   </ItemGroup>
 
 </Project>

@@ -5,12 +5,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MVC.Extensions
+namespace Common.Extensions
 {
 
     public static class HttpClientExtensions
     {
-        //HttpClient httpClient = new();
         public static HttpClient HttpClientPrep(this HttpClient httpClient, string uri, string accessToken)
         {
             httpClient.BaseAddress = new Uri(uri);

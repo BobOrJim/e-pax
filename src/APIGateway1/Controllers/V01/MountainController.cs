@@ -27,11 +27,8 @@ namespace APIGateway1.Controllers.V01
         public async Task<IActionResult> GetSecretMountainInEurope()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            var a = 12;
-            var API_MountainClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.API_Mountain, _tokenFactory.GetAccessToken().GetAwaiter().GetResult());
-            var b = 12;
+            var API_MountainClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.API_Mountain, await _tokenFactory.GetAccessToken());
             var SecretResponse = await API_MountainClient.GetAsync("api/V01/Mountains/SecretMountainInEurope");
-            var c = 11;
             return Ok(await SecretResponse.Content.ReadAsStringAsync());
 
         }

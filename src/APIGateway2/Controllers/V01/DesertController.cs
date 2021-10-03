@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IdentityModel.Client;
 using APIGateway2.Services;
-using APIGateway2.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Common.Extensions;
 using Microsoft.AspNetCore.Authentication;
@@ -31,7 +30,7 @@ namespace APIGateway2.Controllers.V01
         [Authorize(Roles = "Admin, Desert_Master")]
         public async Task<IActionResult> GetSecretDesertInEurope()
         {
-            var API_DesertClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.IDP, await HttpContext.GetTokenAsync("access_token"));
+            var API_DesertClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.API_Desert, _tokenFactory.GetAccessToken().GetAwaiter().GetResult());
             var SecretResponse = await API_DesertClient.GetAsync("api/V01/Deserts/SecretDesertInEurope");
 
             return Ok(await SecretResponse.Content.ReadAsStringAsync());

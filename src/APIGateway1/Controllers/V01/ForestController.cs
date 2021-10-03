@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using IdentityModel.Client;
 using APIGateway1.Services;
-using APIGateway1.Constants;
 using Microsoft.AspNetCore.Authorization;
+using Common;
+using Common.Extensions;
 
 namespace APIGateway1.Controllers.V01
 {
@@ -15,21 +12,22 @@ namespace APIGateway1.Controllers.V01
     [Route("api/V01/[controller]")]
     public class ForestController : ControllerBase
     {
-        private readonly ICallAPIEndpoint _callAPIEndpoint;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ITokenFactory _tokenFactory;
 
-        public ForestController(ICallAPIEndpoint callAPIEndpoint, IHttpClientFactory httpClientFactory)
+        public ForestController(IHttpClientFactory httpClientFactory, ITokenFactory tokenFactory)
         {
-            _callAPIEndpoint = callAPIEndpoint;
             _httpClientFactory = httpClientFactory;
+            _tokenFactory = tokenFactory;
         }
 
         [HttpGet("GetSecretForestInEurope")]
         [Authorize(Roles = "Admin, Masters_Degree_In_Forestry")]
         public async Task<IActionResult> GetSecretForestInEurope()
         {
-            var SecretMessage = await _callAPIEndpoint.CallEndpoint(API_Endpoint.SecretForestInEurope);
-            return Ok(SecretMessage);
+            var API_ForestClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.API_Forest, _tokenFactory.GetAccessToken().GetAwaiter().GetResult());
+            var SecretResponse = await API_ForestClient.GetAsync("api/V01/Forests/SecretForestInEurope");
+            return Ok(await SecretResponse.Content.ReadAsStringAsync());
         }
     }
 }

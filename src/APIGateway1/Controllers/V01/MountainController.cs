@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using IdentityModel.Client;
 using APIGateway1.Services;
-using APIGateway1.Constants;
 using Microsoft.AspNetCore.Authorization;
+using Common;
+using Common.Extensions;
+using System.Net;
 
 namespace APIGateway1.Controllers.V01
 {
@@ -15,19 +13,27 @@ namespace APIGateway1.Controllers.V01
     [Route("api/V01/[controller]")]
     public class MountainController : ControllerBase
     {
-        private readonly ICallAPIEndpoint _callAPIEndpoint;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ITokenFactory _tokenFactory;
 
-        public MountainController(ICallAPIEndpoint callAPIEndpoint)
+        public MountainController(IHttpClientFactory httpClientFactory, ITokenFactory tokenFactory)
         {
-            _callAPIEndpoint = callAPIEndpoint;
+            _httpClientFactory = httpClientFactory;
+            _tokenFactory = tokenFactory;
         }
 
         [HttpGet("GetSecretMountainInEurope")]
         [Authorize(Roles = "Admin, Masters_Degree_In_Mining")]
         public async Task<IActionResult> GetSecretMountainInEurope()
         {
-            var SecretMessage = await _callAPIEndpoint.CallEndpoint(API_Endpoint.SecretMountainInEurope);
-            return Ok(SecretMessage);
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            var a = 12;
+            var API_MountainClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.API_Mountain, _tokenFactory.GetAccessToken().GetAwaiter().GetResult());
+            var b = 12;
+            var SecretResponse = await API_MountainClient.GetAsync("api/V01/Mountains/SecretMountainInEurope");
+            var c = 11;
+            return Ok(await SecretResponse.Content.ReadAsStringAsync());
+
         }
     }
 }

@@ -11,6 +11,10 @@ namespace Common
         public static string IDP { get; } = "https://localhost:44327/";
         public static string API_Desert { get; } = "https://localhost:44361/";
 
+        public static string API_Forest { get; } = "https://localhost:44380/";
+
+        public static string API_Mountain { get; } = "http://localhost:22111/";
+
 
     }
 }

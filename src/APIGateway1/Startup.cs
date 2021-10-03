@@ -39,9 +39,7 @@ namespace Gateway1
 
             services.AddControllers();
 
-            services.AddScoped<ICallAPIEndpoint, CallAPIEndpoint>(); //Scoped objects are the same within a request, but different across different requests :)
-
-            services.AddScoped<ITokenFactory, TokenFactory>();
+            services.AddScoped<ITokenFactory, TokenFactory>(); //Scoped objects are the same within a request, but different across different requests :)
 
             services.AddSwaggerGen(c =>
             {

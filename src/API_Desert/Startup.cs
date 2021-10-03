@@ -1,3 +1,4 @@
+using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,7 +30,7 @@ namespace API_Desert
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", config =>
                 {
-                    config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
+                    config.Authority = uri.IDP; //Hitt kan API skicka access tokens för att validera dem.
                     config.Audience = "API_Desert"; //API_Forest identifierar sig själv när vi validering av token.
                 });
 

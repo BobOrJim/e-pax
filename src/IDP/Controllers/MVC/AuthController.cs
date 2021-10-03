@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using IDP.ViewModels.Auth;
 using IdentityServer4.Services;
 using Serilog;
+using Common;
 
 namespace IDP.Controllers.MVC
 {
@@ -26,7 +27,7 @@ namespace IDP.Controllers.MVC
         public IActionResult Login(string returnUrl)
         {
             //Log.Information("Hello, from AuthController.cs in IDP");
-            return View("Login", new LoginViewModel { ReturnUrl = returnUrl ?? "https://localhost:44327/" });
+            return View("Login", new LoginViewModel { ReturnUrl = returnUrl ?? uri.IDP });
         }
 
 
@@ -42,9 +43,9 @@ namespace IDP.Controllers.MVC
 
             if (result.Succeeded)
             {
-                return Redirect(vm.ReturnUrl ?? "https://localhost:44327/");
+                return Redirect(vm.ReturnUrl ?? uri.IDP);
             }
-            return View("Login", new LoginViewModel { ReturnUrl = vm.ReturnUrl ?? "https://localhost:44327/" });
+            return View("Login", new LoginViewModel { ReturnUrl = vm.ReturnUrl ?? uri.IDP });
         }
     }
 }

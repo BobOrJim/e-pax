@@ -1,4 +1,5 @@
-﻿using IdentityModel.Client;
+﻿using Common;
+using IdentityModel.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace APIGateway1.Services
         public async Task<string> GetAccessToken()
         {
             var IDPClient = _httpClientFactory.CreateClient();
-            var discoveryDocument = await IDPClient.GetDiscoveryDocumentAsync("https://localhost:44327/");
+            var discoveryDocument = await IDPClient.GetDiscoveryDocumentAsync(uri.IDP);
 
             var TokenResponse = await IDPClient.RequestClientCredentialsTokenAsync(
                 new ClientCredentialsTokenRequest //Flow = ClientCredentials, aka machine to machine

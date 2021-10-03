@@ -1,4 +1,5 @@
 using APIGateway2.Services;
+using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,15 +31,13 @@ namespace Gateway2
             services.AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", config =>
             {
-                config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
+                config.Authority = uri.IDP; //Hitt kan API skicka access tokens för att validera dem.
                 config.Audience = "APIGateway2"; //APIGateway2 identifierar sig själv när vi validering av token.
             });
 
             services.AddHttpClient();
 
             services.AddControllers();
-
-            services.AddScoped<ICallAPIEndpoint, CallAPIEndpoint>(); //Scoped objects are the same within a request, but different across different requests :)
 
             services.AddScoped<ITokenFactory, TokenFactory>();
 

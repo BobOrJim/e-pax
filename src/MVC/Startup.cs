@@ -1,3 +1,4 @@
+using Common;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,7 @@ namespace MVC
                 .AddCookie("IDP_Cookie") //JN trying to remove this cookie when logout
                 .AddCookie("mvc_client_cookie")
                 .AddOpenIdConnect("oidc", config => { //denna accessar discovery document. 
-                    config.Authority = "https://localhost:44327/";
+                    config.Authority = uri.IDP;
                     config.ClientId = "client_mvc";
                     config.ClientSecret = "client_secret_mvc";
                     config.SaveTokens = true;

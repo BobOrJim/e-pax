@@ -1,4 +1,5 @@
 using APIGateway1.Services;
+using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,7 +31,7 @@ namespace Gateway1
             services.AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", config =>
             {
-                config.Authority = "https://localhost:44327/"; //Hitt kan API skicka access tokens för att validera dem.
+                config.Authority = uri.IDP; //Hitt kan API skicka access tokens för att validera dem.
                 config.Audience = "APIGateway1"; //APIGateway1 identifierar sig själv när vi validering av token.
             });
 

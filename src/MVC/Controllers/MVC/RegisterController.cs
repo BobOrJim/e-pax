@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Common;
+using Common.Extensions;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using MVC.ViewModels;
 using System;
@@ -13,12 +16,10 @@ namespace MVC.Controllers
     {
 
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IHostEnvironment _environment;
 
-        public RegisterController(IHttpClientFactory httpClientFactory, IHostEnvironment environment)
+        public RegisterController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _environment = environment;
         }
 
 
@@ -37,8 +38,7 @@ namespace MVC.Controllers
                 return View("Register", vm);
             }
 
-            var IDPClient = _httpClientFactory.CreateClient();
-            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.IDP, await HttpContext.GetTokenAsync("access_token"));
             await IDPClient.PostAsJsonAsync("api/V01/Register/Register", vm);
 
             return Redirect("https://localhost:44345/Dev/Devpage");

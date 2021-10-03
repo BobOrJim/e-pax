@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.Hosting;
 using MVC.Models;
 using Common.Extensions;
+using Common;
 
 namespace MVC.Controllers
 {
@@ -30,10 +31,11 @@ namespace MVC.Controllers
         }
 
 
+
         [HttpPost("AddRole")]
         public async Task<IActionResult> AddRole(RolesViewModel rolesViewModel)
         {
-            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.IDP, await HttpContext.GetTokenAsync("access_token"));
             HttpResponseMessage response = await IDPClient.PostAsJsonAsync("api/V01/Roles/AddRole", rolesViewModel);
 
             rolesViewModel = await RolesViewModelFactoryWithRolesLoaded();
@@ -53,7 +55,7 @@ namespace MVC.Controllers
         [HttpPost("RemoveRole")]
         public async Task<IActionResult> RemoveRole(RolesViewModel rolesViewModel, string Id)
         {
-            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.IDP, await HttpContext.GetTokenAsync("access_token"));
             HttpResponseMessage response = await IDPClient.PostAsJsonAsync("api/V01/Roles/RemoveRole", Id);
 
             rolesViewModel = await RolesViewModelFactoryWithRolesLoaded();
@@ -98,7 +100,7 @@ namespace MVC.Controllers
         {
             var rolesViewModel = new RolesViewModel();
 
-            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.IDP, await HttpContext.GetTokenAsync("access_token"));
             HttpResponseMessage SecretResponse = await IDPClient.GetAsync("api/V01/Roles/Roles");
             var rolesList = await SecretResponse.Content.ReadAsAsync<List<RoleModel>>();
 

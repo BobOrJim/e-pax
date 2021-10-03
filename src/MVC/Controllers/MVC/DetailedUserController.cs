@@ -11,6 +11,9 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net.Http;
 using Microsoft.Extensions.Hosting;
+using Common.Extensions;
+using Microsoft.AspNetCore.Authentication;
+using Common;
 
 namespace MVC.Controllers
 {
@@ -18,12 +21,10 @@ namespace MVC.Controllers
     public class DetailedUserController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IHostEnvironment _environment;
 
-        public DetailedUserController(IHttpClientFactory httpClientFactory, IHostEnvironment environment)
+        public DetailedUserController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
-            _environment = environment;
         }
 
         [HttpPost("DetailedUser")]
@@ -31,12 +32,10 @@ namespace MVC.Controllers
         {
             DetailedUserViewModel detailedUserViewModel = new DetailedUserViewModel();
 
-            //Call 1 to get UserName from Id
-            var IDPClient = _httpClientFactory.CreateClient();
-            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
-            //IDPClient.SetBearerToken(TokenResponse.AccessToken);
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.IDP, await HttpContext.GetTokenAsync("access_token"));
+
             HttpResponseMessage response = await IDPClient.PostAsJsonAsync("api/V01/DetailedUser/UserNameWithUserId", Id);
-            string test = await response.Content.ReadAsStringAsync(); //ful mappad...fixa senare...
+            string test = await response.Content.ReadAsStringAsync(); 
             detailedUserViewModel.UserName = test;
 
             //Call 2 to get allRoles
@@ -61,9 +60,7 @@ namespace MVC.Controllers
         [HttpPost("WriteRolesToUser")]
         public async Task<IActionResult> WriteRolesToUser(DetailedUserViewModel detailedUserViewModel)
         {
-            var IDPClient = _httpClientFactory.CreateClient();
-            IDPClient.BaseAddress = new Uri("https://localhost:44327/");
-            //IDPClient.SetBearerToken(TokenResponse.AccessToken);
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.IDP, await HttpContext.GetTokenAsync("access_token"));
             await IDPClient.PostAsJsonAsync("api/V01/DetailedUser/WriteRolesToUser", detailedUserViewModel);
             return LocalRedirect("/Users/Users");
         }

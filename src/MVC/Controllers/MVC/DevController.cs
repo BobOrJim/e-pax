@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using MVC.Repos;
 using System.Web;
 using System.Security.Claims;
+using Common;
 
 namespace MVC.Controllers
 {
@@ -37,7 +38,6 @@ namespace MVC.Controllers
         public async Task<IActionResult> Dev()
         {
             DevPageViewModel devPageViewModel = new();
-
             var accessToken = await HttpContext.GetTokenAsync("access_token");
             if (!string.IsNullOrEmpty(accessToken))
             {
@@ -85,7 +85,6 @@ namespace MVC.Controllers
         [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
-            
             await Task.CompletedTask;
             return SignOut("mvc_client_cookie", "mvc_client_cookieC1", "mvc_client_cookieC2", "IDP_Cookie", "oidc");
         }
@@ -109,8 +108,6 @@ namespace MVC.Controllers
         [Authorize]
         public async Task<IActionResult> MVCSecret()
         {
-            //UpdateInMemoryTokenRepo();
-            //await CheckIfRefreshTokenShouldBeUsed();
             await Task.CompletedTask;
             return Ok("This is a secret message, from MVC");
         }
@@ -132,7 +129,7 @@ namespace MVC.Controllers
             if (InMemoryTokenRepo.AccessTokenLifeLeftPercent < 0.85)
             {
                 var serverClient = _httpClientFactory.CreateClient();
-                var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync("https://localhost:44327/");
+                var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync(uri.IDP);
 
                 var accessToken = HttpContext.GetTokenAsync("access_token").GetAwaiter().GetResult();
                 var idToken = await HttpContext.GetTokenAsync("id_token");

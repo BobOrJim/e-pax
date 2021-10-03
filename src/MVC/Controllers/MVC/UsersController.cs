@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Common.Extensions;
+using Common;
 
 namespace MVC.Controllers
 {
@@ -39,7 +40,7 @@ namespace MVC.Controllers
         [HttpPost("RemoveUser")]
         public async Task<IActionResult> RemoveUser(UsersViewModel usersViewModel, string Id)
         {
-            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.IDP, await HttpContext.GetTokenAsync("access_token"));
             await IDPClient.PostAsJsonAsync("api/V01/Users/RemoveUser", Id);
 
             usersViewModel = await UsersViewModelFactoryWithUsersLoaded();
@@ -84,7 +85,7 @@ namespace MVC.Controllers
         {
             var usersViewModel = new UsersViewModel();
 
-            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep("https://localhost:44327/", await HttpContext.GetTokenAsync("access_token"));
+            var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.IDP, await HttpContext.GetTokenAsync("access_token"));
             var responseMessage = await IDPClient.GetAsync("api/V01/Users/Users");
 
             if (responseMessage.IsSuccessStatusCode)

@@ -86,6 +86,8 @@ namespace MVC.Controllers
             var usersViewModel = new UsersViewModel();
 
             var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.IDP, await HttpContext.GetTokenAsync("access_token"));
+            //var IDPClient = _httpClientFactory.CreateClient().HttpClientPrep(uri.IDP, await HttpContext.GetTokenAsync("id_token"));
+
             var responseMessage = await IDPClient.GetAsync("api/V01/Users/Users");
 
             if (responseMessage.IsSuccessStatusCode)

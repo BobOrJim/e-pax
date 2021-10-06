@@ -18,6 +18,8 @@ using Microsoft.Extensions.Configuration;
 using IDP.Repos;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Common;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IDP
 {
@@ -33,13 +35,14 @@ namespace IDP
         public void ConfigureServices(IServiceCollection services)
         {
             //############## TRYING TO GET IDP TO REGISTER ITSELF AT A API RESORCE IN ITSELF.
-            //services.AddAuthentication("Bearer")
-            //    .AddJwtBearer("Bearer", config =>
-            //    {
-            //        //config.Authority = uri.IDP; //Hitt kan API skicka access tokens för att validera dem.
-            //        config.Authority = "localhost"; //Hitt kan API skicka access tokens för att validera dem.
-            //        config.Audience = "IDP"; //API_Forest identifierar sig själv när vi validering av token.
-            //    });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiScope", policy =>
+                {
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireClaim("role", "Admin");
+                });
+            });
             //#############
 
 
@@ -77,6 +80,8 @@ namespace IDP
                 .AddInMemoryIdentityResources(IdentityResourcesInMemoryRepo.GetIdentityResources())
                 .AddInMemoryClients(IdentityResourcesInMemoryRepo.GetClients())
                 .AddDeveloperSigningCredential(); //Generate certificate to sign tokens. This replace the superSecretKey used in JWT-token projects.
+
+
 
             services.AddControllersWithViews();
 

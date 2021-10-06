@@ -36,11 +36,6 @@ namespace IDP.Controllers.API.V01
             return Ok();
         }
 
-
-
-
-
-
     }
 }
 

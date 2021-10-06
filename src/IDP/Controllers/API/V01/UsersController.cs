@@ -27,7 +27,7 @@ namespace IDP.Controllers.API.V01
         }
 
         [HttpGet("Users")]
-//      [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
 //        [Authorize]
         public async Task<IActionResult> Users()
         {
@@ -39,7 +39,7 @@ namespace IDP.Controllers.API.V01
 
 
         [HttpPost("RemoveUser")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveUser([FromBody] string Id)
         {
             ApplicationUser applicationUserToRemove = _userManager.FindByIdAsync(Id).GetAwaiter().GetResult();
